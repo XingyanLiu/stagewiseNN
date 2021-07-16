@@ -1,0 +1,16 @@
+.idea/
+.DS_Store
+.ipynb_checkpoints
+
+__pycache__
+*.pyc
+
+/sample_data/
+!/sample_dara/merged_B-L0-0.2.rar
+
+/_temp/
+
+/notebooks/_tmp*
+/notebooks/.ipynb_checkpoints
+
+_tmp*

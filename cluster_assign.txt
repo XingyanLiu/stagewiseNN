@@ -1,0 +1,38 @@
+cluster_root,cell type,lineage
+G3_0,Epithelial ectoderm,Epithelial ectoderm
+N3_0,Epithelial ectoderm,Epithelial ectoderm
+L0_2,Epithelial ectoderm,Epithelial ectoderm
+G3_3,Notochord,Notochord
+N3_13,Notochord,Notochord
+N3_10,Notochord,Notochord
+L0_11,Notochord,Notochord
+L0_13,Notochord,Notochord
+N3_7,Posterior neural precursor,Neural ectoderm
+N3_4,Anteriorneural precursor,Neural ectoderm
+N3_12,Differentiated neurons,Neural ectoderm
+L0_6,Posterior neural precursor,Neural ectoderm
+L0_9,Anteriorneural precursor,Neural ectoderm
+L0_10,Differentiated neurons,Neural ectoderm
+G6_1,Ventral mesoderm posteriorto-pharynx,Mesoderm
+N3_9,Ventral mesoderm posteriorto-pharynx,Mesoderm
+N3_3,Ventral mesoderm posteriorto-pharynx,Mesoderm
+N3_8,Ventral mesoderm posteriorto-pharynx,Mesoderm
+L0_4,Ventral mesoderm posteriorto-pharynx,Mesoderm
+L0_12,Ventral mesoderm posteriorto-pharynx,Mesoderm
+L0_14,Ventral mesoderm posteriorto-pharynx,Mesoderm
+N3_6,Pharyngeal mesoderm,Mesoderm
+L0_16,Pharyngeal mesoderm,Mesoderm
+L0_1,Pharyngeal mesoderm,Mesoderm
+N3_5,Tail bud mesoderm,Mesoderm
+L0_17,Tail bud mesoderm,Mesoderm
+N3_2,Unassigned,Unassigned
+L0_7,Unassigned,Unassigned
+N3_1,Endoderm,Endoderm
+L0_8,Mid-gut,Endoderm
+L0_3,Fore-gut,Endoderm
+L0_5,Fore-gut,Endoderm
+L0_0,Hind-gut,Endoderm
+N3_11,Pharynx,Endoderm
+L0_15,Pharynx,Endoderm
+L0_18,Primordial germ cells,Primordial germ cells
+N3_14,Primordial germ cells,Primordial germ cells

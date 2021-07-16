@@ -1,0 +1,380 @@
+# -*- coding: utf-8 -*-
+"""
+Created on Thu Jun  4 22:30:27 2020
+
+@author: Administrator
+"""
+
+
+import numpy as np
+import pandas as pd
+from scipy import sparse
+from sklearn.preprocessing import label_binarize
+
+def adaptiveTree(adj_max, group_lbs, stage_lbs=None, stage_ord=None,
+                 ignore_pa = [],
+                 ext_sep='_', ):
+    '''
+    
+    === example ===
+    edgedf, group_lbs = adaptiveTree(adj_max, group_lbs, stage_ord=stages)
+    
+    === inputs ===
+    adj_max:
+        sparse.csc_matrix, shape = (n_points, n_points)
+        adjacent matrix of single points (cells)
+    group_lbs:
+        np.array, shape = (n_points,)
+        group labels specifying each cluster in each stage
+    stage_lbs:
+        np.array, shape = (n_points,)
+        stage labels, if None, this will be extracted from `group_lbs`
+    stage_ord:
+        np.array, shape = (n_stages,)
+        order of stages, better provided by user; if None, it will be decided 
+        automatically.
+        
+    === returns ===
+    edgedf, group_lbs, stg_grp_dict
+    edgedf: 
+        a DataFrame with each row representing an edge, columns are 
+        ['node', 'parent', 'prop'], where 'prop' is the proportion of nodes
+        that vote for the current parent.
+    group_lbs:
+        refined group-labels
+    
+    '''
+    group_lbs = np.asarray(group_lbs).copy()
+    if stage_lbs is None:
+        stage_lbs = _extract_field(group_lbs, sep=ext_sep, i=0)
+    if stage_ord is None:
+        print('stage orders are decided automatically:')
+        stage_ord = pd.unique(stage_lbs)
+        print(stage_ord)
+        
+    stg_grp_dict = make_stage_group_dict(group_lbs, stage_lbs=stage_lbs)
+    
+    adj_max = sparse.csc_matrix(adj_max)
+    edgedfs = []
+    for i, stg0 in enumerate(stage_ord[: -1]):
+        
+        groups0 = stg_grp_dict[stg0]
+        if len(groups0) < 2:
+            continue
+        
+        stg1 = stage_ord[i + 1]
+        inds0 = np.flatnonzero(stage_lbs == stg0)
+        inds1 = np.flatnonzero(stage_lbs == stg1)
+        adj_sub = adj_max[:, inds1][inds0, :]
+        group_lbs0 = group_lbs[inds0]
+        group_lbs1 = group_lbs[inds1]
+#        groups1 = stg_grp_dict[stg1]
+        print(f'connecting stage {stg0} and {stg1}')
+        
+        edgedf_sub, new_group_lbs1, new_groups1 = connect_near_stages(\
+                adj_sub, 
+                group_lbs0, group_lbs1, 
+                groups0=groups0, groups1=stg_grp_dict[stg1],
+#                stg0=stg0, stg1=stg1,
+                df2edges = True,
+                ignore_pa = ignore_pa,
+                )
+        group_lbs[inds1] = new_group_lbs1
+        stg_grp_dict[stg1] = new_groups1
+        edgedfs.append(edgedf_sub)
+        print()
+        
+    edgedf = pd.concat(edgedfs, axis=0, ignore_index=True)
+    
+    return edgedf, group_lbs#, stg_grp_dict
+
+    
+
+def connect_near_stages(adj_max, 
+                        group_lbs0, group_lbs1, 
+                        groups0=None, groups1=None,
+#                        stg0=None, stg1=None,
+                        ignore_pa = [],
+                        df2edges = True):
+    '''
+    === inputs ====
+
+    adj_max:
+        csc_sparse matrix, adjacent matrix of samples (cells), 
+        shape (n_samples, n_samples)
+    group_lbs0:
+        group labels of the parent stage
+    group_lbs1:
+        group labels of the descendent stage
+    
+    === returns ===
+    
+    edgedf: 
+        a DataFrame with each row representing an edge, columns are 
+        ['node', 'parent', 'prop'], where 'prop' is the proportion of nodes
+        that vote for the current parent.
+    new_group_lbs1:
+        np.array, refined group labels
+    new_groups1:
+        unique group names from `new_group_lbs1`
+    
+    '''
+    adj_max = sparse.csc_matrix(adj_max)
+    groups0 = pd.unique(group_lbs0) if groups0 is None else groups0
+    groups1 = pd.unique(group_lbs1) if groups1 is None else groups1
+    # each column normalized to unit sum
+#    group_conn = agg_group_edges(adj_max, group_lbs0, group_lbs1, 
+#                                 groups0=groups0, groups1=groups1,)
+#    print(group_conn)
+    voting_props = agg_group_edge_props(adj_max, group_lbs0, group_lbs1, 
+                                 groups0=groups0, groups1=groups1, axis=0)
+    
+    winner_pas = voting_props.idxmax(axis=0) # a series
+#    print(winner_pas.values)
+#    print(groups0)
+    single_pas = [x for x in groups0 if x not in winner_pas.values]
+    print('parent nodes that had no descendent:', single_pas)
+    for p in ignore_pa:
+        if p in single_pas:
+            print(f'ignore single parent node {p}')
+            single_pas.remove(p)
+    
+            
+    # modify the groups labels in group1
+    is_strlbs = isinstance(group_lbs1[0], str)
+    if is_strlbs:
+        sep = '_'
+        stg1 = groups1[0].split(sep)[0]
+        new_group_lbs1 = _extract_field(group_lbs1, sep=sep, i=-1).astype(int)
+    else: # integer labels
+        new_group_lbs1 = group_lbs1.copy()
+    max_num = new_group_lbs1.max()
+
+    print('Taking descendent-points from other nodes (groups)')
+#    adj_max = max_connection(adj_max, axis=0)
+    for i, pa in enumerate(single_pas):
+
+        parent_ids = group_lbs0 == pa
+        sub_adj = adj_max[parent_ids, :] #sns.heatmap(sub_adj.toarray())
+        rows, cols = sub_adj.nonzero() # `cols` is the indices of son-nodes
+        new_name = max_num + 1 + i
+        new_group_lbs1[cols] = new_name
+    
+    new_groups1 = np.unique(new_group_lbs1)
+    if is_strlbs:
+        print('pasting stage labels')
+        new_groups1 = [f'{stg1}{sep}{x}' for x in new_groups1]
+        new_group_lbs1 = np.array(list(map(lambda x: f'{stg1}{sep}{x}', new_group_lbs1)))
+    
+    # ========= new voting proportions ============
+    voting_props = agg_group_edge_props(adj_max, group_lbs0, new_group_lbs1, 
+                                 groups0=groups0, groups1=new_groups1, 
+                                 axis=0, verbose=True)
+    
+    edgedf = max_connection(voting_props, axis=0, df2edges=df2edges)
+    return edgedf, new_group_lbs1, new_groups1
+    
+    
+
+def agg_group_edge_props(adj, group_lbs0, group_lbs1=None, 
+                    groups0=None, groups1=None, 
+#                    asdf = True,
+                    axis=0, verbose=True):
+    
+    group_conn = agg_group_edges(adj, group_lbs0, group_lbs1=group_lbs1, 
+                                 groups0=groups0, groups1=groups1, asdf=True,
+                                 verbose=verbose)
+    # normalize each column to unit sum
+    voting_props = group_conn.apply(lambda x: x / x.sum(), axis=axis)
+    return voting_props
+
+#def 
+
+def agg_group_edges(adj, group_lbs0, group_lbs1=None, 
+                    groups0=None, groups1=None, asdf = True, verbose=True):
+    '''
+    adj: 
+        adjacent matrix of shape (N0, N1), if `group_lbs1` is None, then set N0=N1.
+    group_lbs0:
+        a list or a np.array of shape (N0,)
+    group_lbs1:
+        a list or a np.array of shape (N1,)    
+    
+    return
+    ======
+    group_conn: summation of connected edges between given groups
+    '''
+#    if sparse.issparse(adj):
+    adj = sparse.csc_matrix(adj)
+        
+    groups0 = pd.unique(group_lbs0) if groups0 is None else groups0
+    lb1hot0 = label_binarize_each(group_lbs0, classes=groups0, sparse_out=True)
+    if group_lbs1 is None:
+        lb1hot1 = lb1hot0
+        groups1 =groups0
+    else:
+        groups1 = pd.unique(group_lbs1) if groups1 is not None else groups1
+        lb1hot1 = label_binarize_each(group_lbs1, classes=groups1, sparse_out=True)
+    if verbose:
+        print('---> aggregating edges...')
+        print('unique labels of rows:', groups0)
+        print('unique labels of columns:', groups1)
+        print('grouping elements (edges)')
+        print('shape of the one-hot-labels:', lb1hot0.shape, lb1hot1.shape)
+    group_conn = lb1hot0.T.dot(adj).dot(lb1hot1)
+#    print(group_conn.shape)
+    if asdf:
+        group_conn = pd.DataFrame(group_conn.toarray(), 
+                                  index=groups0, columns=groups1)
+        
+    return group_conn
+
+def max_connection(adj, axis=0, df2edges=False):
+    '''
+    keep only max element (connection) for each column (axis=0), and remove 
+    the other elements (connections)
+    '''
+    if isinstance(adj, pd.DataFrame):
+        def keep_max(x):
+            cut = x.max()
+            x[x < cut] = 0
+            return x
+        adj_max = adj.apply(keep_max, axis=axis)
+        if df2edges:
+            adj_max = make_edgedf(adj_max, col_key='node', row_key='parent',
+                                  data_key='prop', )
+    else:
+        adj = sparse.csc_matrix(adj)
+        shape = adj.shape
+        vmaxs = adj.max(axis=0).A[0] # .A[0] for csc matrix
+        idxmax = adj.argmax(axis=axis).A[0]# .A[0] for csc matrix
+        adj_max = sparse.coo_matrix(
+                    (vmaxs, 
+                    (idxmax, np.arange(shape[1]))),
+                     shape=shape)
+    return adj_max
+#    pass
+# In[]
+'''     helper functions
+===================================
+'''
+def make_edgedf(df, col_key='node', row_key='parent',
+                data_key='prop', ):
+    
+    coo_data = sparse.coo_matrix(df.values)
+    edgedf = pd.DataFrame({
+            col_key: df.columns.take(coo_data.col),
+            row_key: df.index.take(coo_data.row),                
+            data_key: coo_data.data,
+            })
+    
+    return edgedf
+
+
+
+def make_stage_group_dict(group_lbs, stage_lbs=None):
+    if stage_lbs is None:
+        stage_lbs = _extract_field(group_lbs, sep='_', i=0)
+    
+    stages = pd.unique(stage_lbs)
+    group_lbs = np.asarray(group_lbs)
+    dct = {}
+    for stg in stages:
+        dct[stg] = pd.unique(group_lbs[stage_lbs == stg])
+    return dct
+
+
+def label_binarize_each(labels, classes, sparse_out = True):
+    lb1hot = label_binarize(labels, classes=classes, sparse_output=sparse_out)
+    if len(classes) == 2:
+        lb1hot = lb1hot.toarray()
+        lb1hot = np.c_[1 - lb1hot, lb1hot]
+        if sparse_out:
+            lb1hot = sparse.csc_matrix(lb1hot)
+    return lb1hot
+
+
+
+def find_parents(node, parent_list, n=5, with_self = False):
+    pass
+    
+
+def find_sons(nodes, son_dict: dict, n = 100, with_self=True):
+    '''
+    nodes: better a list of node(s) to be looked up
+    son_dict: dict; parent -> son
+    n: number of iteration
+    '''
+    if isinstance(nodes, (int, str)):
+        nodes = [nodes]
+    has_sons = [nd in son_dict.keys() for nd in nodes]
+    has_any_sons = any(has_sons)
+    if not has_any_sons:
+        return []
+    if n < 1: return []
+    
+    sons = []
+    for i, nd in enumerate(nodes):
+        if has_sons[i]:
+            sons += son_dict[nd]
+    
+    n -= 1
+    sons = sons + find_sons(sons, son_dict, with_self=False)
+#    if None in sons:
+#        print('removing NoneType')
+#        sons.remove(None)
+    return sons
+
+
+def make_son_dict(df_tree, column_pa='parent', column_son='node'):
+    ''' making a dict for looking up descendants 
+    '''
+    son_dict = df_tree.groupby(column_pa)[column_son].apply(lambda x: list(x))
+    return son_dict.to_dict()
+
+
+def reverse_dict(d: dict, ):
+    '''
+    the values of the dict must be list-like type
+    '''
+    d_rev = {}
+    for k in d.keys():
+        vals = d[k]
+        _d = dict.fromkeys(vals, k)
+        d_rev.update(_d)
+    return d_rev
+
+
+def _extract_field(labels, sep='_', i=0):
+    return np.array(list(map(lambda x: x.split(sep)[i], labels)))
+
+
+
+
+if __name__ == '__main__':
+    
+    import seaborn as sns
+    np.random.seed(6051)
+    N0, N1 = 4, 6
+    _n = 3 # repeats
+    adj = np.random.rand(N0 * _n, N1 * _n)
+    adj[adj < 0.8] = 0
+    group_lbs0 = np.repeat(np.arange(N0), _n)
+    group_lbs1 = np.repeat(np.arange(N1), _n)
+#    sns.heatmap(adj)
+    adjm = max_connection(adj)    
+    voting_props = agg_group_edge_props(adjm, group_lbs0, group_lbs1)
+#    sns.heatmap(voting_props, annot=True)
+#    sns.heatmap(max_connection(voting_props), annot=True)
+    
+    
+    edgedf, new_group_lbs1, new_groups1 = \
+        connect_near_stages(adjm, group_lbs0, group_lbs1, df2edges=False)
+    sns.heatmap(edgedf, annot=True)
+
+    tmp = make_edgedf(edgedf)
+    pd.concat([tmp,tmp], axis=0, ignore_index=True)
+
+
+
+
