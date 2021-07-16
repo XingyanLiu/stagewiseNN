@@ -5,8 +5,8 @@
 __pycache__
 *.pyc
 
-/sample_data/
-!/sample_dara/merged_B-L0-0.2.rar
+/sample_data/merged_adults-19624.rar
+
 
 /_temp/
 
