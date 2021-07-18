@@ -1,0 +1,158 @@
+AnnData object with n_obs × n_vars = 29775 × 24410
+    obs: 'stage', 'primer', 'n_genes', 'n_counts', 'stage_primer', 'stg_leiden', 'stage_stg_leiden', 'refined_group', 'leiden_new', 'parent_bcd', 'lineage', 'stage_name'
+-----------------stage------------------
+Value counts:
+E11    4992
+E10    4775
+E13    4448
+E12    4399
+E9     4098
+E14    2164
+E7     1826
+E6     1596
+E8     1477
+Name: stage, dtype: int64
+-----------------primer-----------------
+Value counts:
+polyT     19991
+random     9784
+Name: primer, dtype: int64
+----------------n_genes-----------------
+Numerical summary:
+count    29775.000000
+mean       498.283157
+std        379.302827
+min         99.000000
+25%        247.000000
+50%        398.000000
+75%        598.000000
+max       2994.000000
+Name: n_genes, dtype: float64
+----------------n_counts----------------
+Header lines:
+index
+CAGATCCGGATTGCATCATTCCCCTCTATC     822.0
+CTTGTAAAGGTACATGAAGAGATGGCTTCA     366.0
+CCGTCCAGTACAAGTCTTCACAAATCCGTC    1122.0
+TAGCTTAACCGAGACCGTGAGACGAACTTA     241.0
+AGTCAAAACGCTTAAGCACCTCCACTTCGA    1682.0
+Name: n_counts, dtype: float32
+--------------stage_primer--------------
+Value counts:
+E10_polyT     4775
+E11_random    2602
+E13_polyT     2447
+E11_polyT     2390
+E12_polyT     2360
+E9_polyT      2078
+E12_random    2039
+E9_random     2020
+E13_random    2001
+E7_polyT      1826
+E6_polyT      1596
+E8_polyT      1477
+E14_random    1122
+E14_polyT     1042
+Name: stage_primer, dtype: int64
+---------------stg_leiden---------------
+Value counts:
+0     7302
+1     5085
+2     3262
+3     2436
+4     2330
+5     2228
+6     1878
+7     1566
+8     1280
+9      943
+10     659
+11     392
+12     160
+13     131
+14      73
+15      31
+16      19
+Name: stg_leiden, dtype: int64
+------------stage_stg_leiden------------
+Header lines:
+index
+CAGATCCGGATTGCATCATTCCCCTCTATC    E13_0
+CTTGTAAAGGTACATGAAGAGATGGCTTCA     E9_2
+CCGTCCAGTACAAGTCTTCACAAATCCGTC    E10_1
+TAGCTTAACCGAGACCGTGAGACGAACTTA    E13_0
+AGTCAAAACGCTTAAGCACCTCCACTTCGA    E12_4
+Name: stage_stg_leiden, dtype: category
+Categories (101, object): ['E10_0', 'E10_1', 'E10_10', 'E10_2', ..., 'E9_5', 'E9_6', 'E9_7', 'E9_8']
+-------------refined_group--------------
+Value counts:
+G5_0     1631
+G6_3     1395
+B_0      1375
+N0_0     1256
+N3_0     1254
+         ... 
+L0_18      13
+G4_6       10
+B_2         9
+G3_6        4
+G5_9        2
+Name: refined_group, Length: 93, dtype: int64
+---------------leiden_new---------------
+Value counts:
+0     8705
+1     4487
+2     3186
+3     2954
+4     2191
+6     1885
+5     1792
+7     1529
+8     1219
+9      768
+10     302
+12     248
+11     243
+13     189
+15      31
+14      27
+16      19
+Name: leiden_new, dtype: int64
+---------------parent_bcd---------------
+Header lines:
+index
+CAGATCCGGATTGCATCATTCCCCTCTATC    ATCACGTTCACGCACCTCTATCAGGCTAAC
+CTTGTAAAGGTACATGAAGAGATGGCTTCA    TGACCACCGACAACCAAGACTATCTTCACA
+CCGTCCAGTACAAGTCTTCACAAATCCGTC    TGACCAGAATCTGAGTACGCAAACCTCCAA
+TAGCTTAACCGAGACCGTGAGACGAACTTA    CTTGTACCATCCTCTATCAGCAAGGCTAAC
+AGTCAAAACGCTTAAGCACCTCCACTTCGA    ATCACGCCGACAACCGAACTTAATTGAGGA
+Name: parent_bcd, dtype: category
+Categories (18634, object): ['ACAGTGAAACATCGAATGTTGCTCTTCACA', 'ACAGTGAAACATCGACAGCAGAGTCTGTCA',
+                             'ACAGTGAAACATCGCATCAAGTCACCTTAC', 'ACAGTGAAACATCGCGAACTTAAATCCGTC', ...,
+                             'TTAGGCTTCACGCAGAACAGGCAGCACCTC', 'TTAGGCTTCACGCATGGAACAAGACTAGTA',
+                             'TTAGGCTTCACGCATGGCTTCACCTCTATC', 'TTAGGCTTCACGCATGGTGGTAACACAGAA']
+----------------lineage-----------------
+Value counts:
+Epithelial ectoderm      8109
+Mesoderm                 6937
+Endoderm                 6810
+Neural ectoderm          3068
+Notochord                2161
+B_0                      1375
+Tail bud stem cells       943
+B_1                       212
+Primordial germ cells     160
+Name: lineage, dtype: int64
+---------------stage_name---------------
+Value counts:
+N0    4992
+G6    4775
+N3    4448
+N1    4399
+G5    4098
+L0    2164
+G3    1826
+B     1596
+G4    1477
+Name: stage_name, dtype: int64
+Total of %d HVGs are used. 3569
