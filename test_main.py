@@ -45,23 +45,37 @@ def formulate_adata(adata, save_path=None):
     adata.obs['stage_primer'] = adata.obs[['stage_name', 'primer']].apply(
         lambda x: '_'.join(x), axis=1
     )
+    adata.obs['stagewise_cluster'] = adata.obs[['stage_name', 'leiden_new']].apply(
+        lambda x: '_'.join(x), axis=1
+    )
+    adata.obs['stagewise_cluster'] = change_names(
+        adata.obs['stagewise_cluster'],
+        {'B_1': 'B_0', 'B_2': 'B_1', 'B_3': 'B_2'}
+    )
+
     if save_path is not None:
         adata.write(save_path)
     return adata
 
 
-def main(resdir: Union[str, Path] = '_temp',
-         log_file=None):
+def _inspect_data(log_file=None):
+    adata = get_adata()
+    adata = formulate_adata(adata)
+    print(adata, file=log_file)
+    describe_dataframe(adata.obs, file=log_file)
+    # TODO: additional markers of prior knowledge
+    hvgs = get_high_freq_hvgs()
+    print('Total of %d HVGs are used.', len(hvgs), file=log_file)
+
+
+def main(resdir: Union[str, Path] = '_temp'):
     resdir = Path(resdir)
     swnn.check_dirs(resdir)
 
     adata0 = get_adata()
     adata0 = formulate_adata(adata0)
-    print(adata0, file=log_file)
-    # describe_dataframe(adata.obs, file=log_file)
     # TODO: additional markers of prior knowledge
     hvgs = get_high_freq_hvgs()
-    print('Total of %d HVGs are used.', len(hvgs), file=log_file)
     adata = swnn.quick_preprocess_raw(
         adata0, hvgs=hvgs, copy=True, batch_key='stage_primer')
 
@@ -97,10 +111,11 @@ def main(resdir: Union[str, Path] = '_temp',
 
     from scipy import sparse
     obs = adata.obs
-    group_lbs = obs['stage_stg_leiden'].values
+    group_lbs = obs['stagewise_cluster'].values
     stage_lbs = obs['stage_name'].values
-    KEY_TREE_NODE = 'stg_groups_new'
+    KEY_TREE_NODE = 'tree_node'
 
+    # graph to tree
     conn_upper = sparse.triu(connect).tocsc()
     adj_max = swnn.max_connection(conn_upper)
     edgedf, new_group_lbs = swnn.adaptive_tree(
@@ -123,10 +138,10 @@ def main(resdir: Union[str, Path] = '_temp',
 def __test__():
     # TODO: additional markers of prior knowledge
     filename_log = None
-    filename_log = 'data_description-formed.txt'
+    # filename_log = 'data_description-formed.txt'
     if isinstance(filename_log, str):
         with open(filename_log, 'w') as f:
-            main(log_file=f)
+            _inspect_data(log_file=f)
     else:
         main()
 

@@ -58,7 +58,7 @@ def adaptive_tree(adj_max, group_lbs, stage_lbs=None, stage_ord=None,
         stage_ord = pd.unique(stage_lbs)
         print(stage_ord)
 
-    stg_grp_dict = _make_stage_group_dict(group_lbs, stage_lbs=stage_lbs)
+    stg_grp_dict = make_stage_group_dict(group_lbs, stage_lbs=stage_lbs)
 
     adj_max = sparse.csc_matrix(adj_max)
     edgedfs = []
@@ -273,7 +273,7 @@ def _make_edgedf(df, col_key='node', row_key='parent',
     return edgedf
 
 
-def _make_stage_group_dict(group_lbs, stage_lbs=None):
+def make_stage_group_dict(group_lbs, stage_lbs=None):
     if stage_lbs is None:
         stage_lbs = _extract_field(group_lbs, sep='_', i=0)
 
