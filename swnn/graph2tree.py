@@ -14,6 +14,7 @@ import pandas as pd
 import numpy as np
 from scipy import sparse
 from sklearn.preprocessing import label_binarize
+from .utils import label_binarize_each
 
 
 def adaptive_tree(adj_max, group_lbs, stage_lbs=None, stage_ord=None,
@@ -57,7 +58,7 @@ def adaptive_tree(adj_max, group_lbs, stage_lbs=None, stage_ord=None,
         stage_ord = pd.unique(stage_lbs)
         print(stage_ord)
 
-    stg_grp_dict = make_stage_group_dict(group_lbs, stage_lbs=stage_lbs)
+    stg_grp_dict = _make_stage_group_dict(group_lbs, stage_lbs=stage_lbs)
 
     adj_max = sparse.csc_matrix(adj_max)
     edgedfs = []
@@ -246,8 +247,8 @@ def max_connection(adj, axis=0, df2edges=False):
 
         adj_max = adj.apply(keep_max, axis=axis)
         if df2edges:
-            adj_max = make_edgedf(adj_max, col_key='node', row_key='parent',
-                                  data_key='prop', )
+            adj_max = _make_edgedf(adj_max, col_key='node', row_key='parent',
+                                   data_key='prop', )
     else:
         adj = sparse.csc_matrix(adj)
         shape = adj.shape
@@ -260,8 +261,8 @@ def max_connection(adj, axis=0, df2edges=False):
     return adj_max
 
 
-def make_edgedf(df, col_key='node', row_key='parent',
-                data_key='prop', ):
+def _make_edgedf(df, col_key='node', row_key='parent',
+                 data_key='prop', ):
     coo_data = sparse.coo_matrix(df.values)
     edgedf = pd.DataFrame({
         col_key: df.columns.take(coo_data.col),
@@ -272,7 +273,7 @@ def make_edgedf(df, col_key='node', row_key='parent',
     return edgedf
 
 
-def make_stage_group_dict(group_lbs, stage_lbs=None):
+def _make_stage_group_dict(group_lbs, stage_lbs=None):
     if stage_lbs is None:
         stage_lbs = _extract_field(group_lbs, sep='_', i=0)
 
@@ -284,21 +285,7 @@ def make_stage_group_dict(group_lbs, stage_lbs=None):
     return dct
 
 
-def label_binarize_each(labels, classes, sparse_out=True):
-    lb1hot = label_binarize(labels, classes=classes, sparse_output=sparse_out)
-    if len(classes) == 2:
-        lb1hot = lb1hot.toarray()
-        lb1hot = np.c_[1 - lb1hot, lb1hot]
-        if sparse_out:
-            lb1hot = sparse.csc_matrix(lb1hot)
-    return lb1hot
-
-
-# def find_parents(node, parent_list, n=5, with_self=False):
-#     pass
-
-
-def find_childrens(nodes, children_dict: dict, n=100, with_self=True):
+def find_children(nodes, children_dict: dict, n=100, with_self=True):
     """
     nodes: better a list of node(s) to be looked up
     children_dict: dict; parent -> children
@@ -306,23 +293,23 @@ def find_childrens(nodes, children_dict: dict, n=100, with_self=True):
     """
     if isinstance(nodes, (int, str)):
         nodes = [nodes]
-    has_childrens = [nd in children_dict.keys() for nd in nodes]
-    has_any_childrens = any(has_childrens)
-    if not has_any_childrens:
+    has_children = [nd in children_dict.keys() for nd in nodes]
+    has_any_children = any(has_children)
+    if not has_any_children:
         return []
-    if n < 1: return []
+    if n < 1:
+        return []
 
-    childrens = []
+    children = []
     for i, nd in enumerate(nodes):
-        if has_childrens[i]:
-            childrens += children_dict[nd]
+        if has_children[i]:
+            children += children_dict[nd]
 
     n -= 1
-    childrens = childrens + find_childrens(childrens, children_dict, with_self=False)
-    #    if None in childrens:
-    #        print('removing NoneType')
-    #        childrens.remove(None)
-    return childrens
+    children = children + find_children(children, children_dict, with_self=False)
+    #    if None in children:
+    #        children.remove(None)
+    return children
 
 
 def make_children_dict(df_tree, column_pa='parent', column_ch='node'):
@@ -330,18 +317,6 @@ def make_children_dict(df_tree, column_pa='parent', column_ch='node'):
     """
     children_dict = df_tree.groupby(column_pa)[column_ch].apply(lambda x: list(x))
     return children_dict.to_dict()
-
-
-def reverse_dict(d: dict, ):
-    """
-    the values of the dict must be list-like type
-    """
-    d_rev = {}
-    for k in d.keys():
-        vals = d[k]
-        _d = dict.fromkeys(vals, k)
-        d_rev.update(_d)
-    return d_rev
 
 
 def _extract_field(labels, sep='_', i=0):

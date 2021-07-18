@@ -26,6 +26,18 @@ def check_dirs(path):
         print('a new directory made:\n\t%s' % path)
 
 
+def reverse_dict(d: dict, ):
+    """
+    the values of the dict must be list-like type
+    """
+    d_rev = {}
+    for k in d.keys():
+        vals = d[k]
+        _d = dict.fromkeys(vals, k)
+        d_rev.update(_d)
+    return d_rev
+
+
 def describe_dataframe(df: pd.DataFrame, **kwargs):
     for c in df.columns:
         print(c.center(40, '-'), **kwargs)

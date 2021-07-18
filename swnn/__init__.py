@@ -8,7 +8,12 @@
 
 from .utils import *
 from .multipartite_graph import *
-from .graph2tree import adaptive_tree, max_connection
+from .graph2tree import (
+    adaptive_tree,
+    max_connection,
+    make_children_dict,
+    find_children,
+)
 
 
 
