@@ -13,6 +13,8 @@ import logging
 import pandas as pd
 import numpy as np
 import scanpy as sc
+from scipy import sparse
+from sklearn.preprocessing import label_binarize
 from ._scale import wrapper_scale
 
 
@@ -49,6 +51,12 @@ def describe_series(
         return f'{desc_type}:\n{result}'
     else:
         return result, desc_type
+
+
+def make_binary(mat):
+    mat_bin = mat.copy()
+    mat_bin[mat_bin > 0] = 1
+    return mat_bin
 
 
 def set_adata_hvgs(
@@ -201,6 +209,112 @@ def quick_preprocess_raw(
     # 3: z-score
     wrapper_scale(_adata, groupby=batch_key)
     return _adata
+
+
+def label_binarize_each(labels, classes, sparse_out=True):
+    lb1hot = label_binarize(labels, classes=classes, sparse_output=sparse_out)
+    if len(classes) == 2:
+        lb1hot = lb1hot.toarray()
+        lb1hot = np.c_[1 - lb1hot, lb1hot]
+        if sparse_out:
+            lb1hot = sparse.csc_matrix(lb1hot)
+    return lb1hot
+
+
+def group_mean(X, labels,
+               binary=False, classes=None, features=None,
+               print_groups=True):
+    """
+    This function may work with more efficiency than `df.groupby().mean()`
+    when handling sparse matrix. (obviously~)
+    ---
+    X: shape (n_samples, n_features)
+    labels: shape (n_samples, )
+    classes: optional, names of groups
+    features: optional, names of features
+
+    """
+    classes = np.unique(labels, ) if classes is None else classes
+    if binary:
+        X = (X > 0)  # .astype('float')
+        print('Binarized...the results will be the expression proportions.')
+
+    if len(classes) == 1:
+        grp_mean = X.mean(axis=0).T
+    else:
+        lb1hot = label_binarize_each(labels, classes=classes, sparse_out=True)
+        print(f'Calculating feature averages for {len(classes)} groups')
+        if print_groups:
+            print(classes)
+        grp_mean = X.T.dot(lb1hot) / lb1hot.sum(axis=0)
+    grp_mean = pd.DataFrame(grp_mean, columns=classes, index=features)
+    return grp_mean
+
+
+def group_mean_dense(
+        X, labels, binary=False,
+        index_name='group',
+        classes=None,
+):
+    classes = np.unique(labels, ) if classes is None else classes
+    if binary:
+        X = (X > 0)  # .astype('float')
+        logging.info('Binarized...the results will be the expression '
+                     'proportions.')
+    tmp = pd.DataFrame(X)
+    tmp[index_name] = list(labels)
+    avgs = tmp.groupby(index_name).mean()
+    # print(avgs.shape)
+    return avgs.T  # each column as a group
+
+
+def group_median_dense(
+        X, labels, binary=False,
+        index_name='group',
+        classes=None,
+):
+    classes = np.unique(labels, ) if classes is None else classes
+    if binary:
+        X = (X > 0)  # .astype('float')
+        print('Binarized...the results will be the expression proportions.')
+    tmp = pd.DataFrame(X)
+    tmp[index_name] = list(labels)
+    avgs = tmp.groupby(index_name).median()
+    print(avgs.shape)
+    return avgs.T  # each column as a group
+
+
+def group_mean_adata(adata: sc.AnnData,
+                     groupby: str,
+                     features=None, binary=False, use_raw=False):
+    """
+    groupby: a column name in adata.obs
+    features: a subset of names in adata.var_names (or adata.raw.var_names)
+
+    return
+    ------
+    a pd.DataFrame with features as index and groups as columns
+    """
+    labels = adata.obs[groupby]
+    logging.debug(f'Computing averages grouped by {groupby}')
+    if use_raw and adata.raw is not None:
+        if features is not None:
+            features = [f for f in features if f in adata.raw.var_names]
+            X = adata.raw[:, features].X
+        else:
+            features = adata.raw.var_names
+            X = adata.raw.X
+    else:
+        if features is not None:
+            features = [f for f in features if f in adata.var_names]
+            X = adata[:, features].X
+        else:
+            features = adata.var_names
+            X = adata.X
+    if sparse.issparse(X):
+        return group_mean(X, labels, binary=binary, features=features)
+    else:
+        return group_mean_dense(X, labels, binary=binary, )
 
 
 def __test__():

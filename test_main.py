@@ -77,14 +77,47 @@ def main(resdir: Union[str, Path] = '_temp',
         leaf_size=1, # 1 for brute-force KNN
         pca_base_on='stacked',
         n_pcs=n_pcs,
-        binary_edge=True,
+        binary_edge=False,
         )
-    swnn.set_precomputed_neighbors(adata, distmat, connect, )
-    sc.tl.umap(adata, min_dist=0.1)
-    sc.settings.figdir = resdir
-    sc.set_figure_params(fontsize=14)
-    sc.pl.umap(adata, color='lineage', ncols=1, save='_lineage.pdf')
-    sc.pl.umap(adata, color='stage_name', palette='plasma_r', save='_stage.pdf')
+    connect_bin = swnn.make_binary(connect)
+    swnn.set_precomputed_neighbors(adata, distmat, connect_bin, )
+
+    ######################################
+    # sc.tl.umap(adata, min_dist=0.1)
+    # sc.settings.figdir = resdir
+    # sc.set_figure_params(fontsize=14)
+    #
+    # lin_colors = pd.read_csv(
+    #     'sample_data/lineage_colors.csv', index_col=0).iloc[:, 0]
+    # adata.obs['lineage'] = pd.Categorical(
+    #     adata.obs['lineage'], categories=lin_colors.index)
+    # adata.uns['lineage_colors'] = lin_colors.tolist()
+    # sc.pl.umap(adata, color='lineage', ncols=1, save='_lineage.pdf')
+    # sc.pl.umap(adata, color='stage_name', palette='plasma_r', save='_stage.pdf')
+
+    from scipy import sparse
+    obs = adata.obs
+    group_lbs = obs['stage_stg_leiden'].values
+    stage_lbs = obs['stage_name'].values
+    KEY_TREE_NODE = 'stg_groups_new'
+
+    conn_upper = sparse.triu(connect).tocsc()
+    adj_max = swnn.max_connection(conn_upper)
+    edgedf, new_group_lbs = swnn.adaptive_tree(
+        adj_max, group_lbs, stage_lbs=stage_lbs, stage_ord=stage_order)
+
+    obs[KEY_TREE_NODE] = new_group_lbs
+    edgedf.prop.hist() # voting proportions
+    logging.info("edgedf = %s", edgedf)
+
+    df_tree = edgedf[['node', 'parent']].copy()
+    df_tree['label'] = df_tree['node'].copy()
+    df_tree['stage'] = df_tree['node'].apply(lambda x: x.split('_')[0])
+    groupby = KEY_TREE_NODE
+    props_all = swnn.group_mean_adata(adata, groupby, use_raw=True, binary=True)
+    means_all = swnn.group_mean_adata(adata, groupby, use_raw=True, )
+    props_all.to_csv(resdir / f'expr_prop_all.csv', index=True, header=True)
+    means_all.to_csv(resdir / f'avg_expr_all.csv', index=True, header=True)
 
 
 def __test__():
