@@ -7,7 +7,7 @@
 """
 
 from .utils import *
-from .graph import *
+from .multipartite_graph import *
 from .graph2tree import *
 
 
