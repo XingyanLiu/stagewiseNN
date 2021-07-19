@@ -238,13 +238,18 @@ def group_mean(X, labels,
                print_groups=True):
     """
     This function may work with more efficiency than `df.groupby().mean()`
-    when handling sparse matrix. (obviously~)
-    ---
+    when handling sparse matrix.
+
+    Parameters
+    ----------
     X: shape (n_samples, n_features)
     labels: shape (n_samples, )
-    classes: optional, names of groups
-    features: optional, names of features
-
+    classes: optional
+        names of groups
+    features: optional
+        names of features
+    print_groups: bool
+        whether to inspect the groups
     """
     classes = np.unique(labels, ) if classes is None else classes
     if binary:
@@ -300,11 +305,13 @@ def group_mean_adata(adata: sc.AnnData,
                      groupby: str,
                      features=None, binary=False, use_raw=False):
     """
+    Parameters
+    ----------
     groupby: a column name in adata.obs
     features: a subset of names in adata.var_names (or adata.raw.var_names)
 
-    return
-    ------
+    Returns
+    -------
     a pd.DataFrame with features as index and groups as columns
     """
     labels = adata.obs[groupby]

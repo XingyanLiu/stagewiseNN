@@ -1,14 +1,13 @@
 # -*- coding: UTF-8 -*-
-"""
-@CreateDate: 2020/07/18
-@Author: Xingyan Liu
-@File: graph2tree.py
-@Project: stagewiseNN
-"""
+# @CreateDate: 2020/07/18
+# @Author: Xingyan Liu
+# @File: graph2tree.py
+# @Project: stagewiseNN
+
 import os
 import sys
 from pathlib import Path
-from typing import Sequence, Mapping, Optional, Union, Callable
+from typing import Sequence, Mapping, Optional, Union, Callable, Any
 import logging
 import pandas as pd
 import numpy as np
@@ -17,37 +16,48 @@ from sklearn.preprocessing import label_binarize
 from .utils import label_binarize_each
 
 
-def adaptive_tree(adj_max, group_lbs, stage_lbs=None, stage_ord=None,
-                 ignore_pa=[],
-                 ext_sep='_', ):
+def adaptive_tree(adj_max: sparse.spmatrix,
+                  group_lbs: Sequence,
+                  stage_lbs: Optional[Sequence] = None,
+                  stage_ord: Optional[Sequence] = None,
+                  ignore_pa: Sequence = (),
+                  ext_sep: str = '_',
+                  ):
     """
 
-    === example ===
-    edgedf, group_lbs = adaptiveTree(adj_max, group_lbs, stage_ord=stages)
-
-    === inputs ===
+    Parameters
+    ----------
     adj_max:
         sparse.csc_matrix, shape = (n_points, n_points)
         adjacent matrix of single points (cells)
     group_lbs:
         np.array, shape = (n_points,)
-        group labels specifying each cluster in each stage
+        group labels specifying each cluster in each stage.
+        e.g. 'stage1_1' specifies the cluster 1 in stage1.
     stage_lbs:
         np.array, shape = (n_points,)
-        stage labels, if None, this will be extracted from `group_lbs`
+        stage labels, better be explicitly assigned. If None, this will be
+        extracted from `group_lbs`, and may cause unexpected results.
     stage_ord:
         np.array, shape = (n_stages,)
         order of stages, better provided by user; if None, it will be decided
         automatically.
-
-    === returns ===
-    edgedf, group_lbs, stg_grp_dict
+    ignore_pa:
+        parent nodes to be ignored; empty tuple by default.
+    ext_sep:
+        parse string for automatically extract the stage-labels from `group_lbs`
+    Returns
+    -------
     edgedf:
         a DataFrame with each row representing an edge, columns are
         ['node', 'parent', 'prop'], where 'prop' is the proportion of nodes
         that vote for the current parent.
     group_lbs:
         refined group-labels
+
+    Examples
+    --------
+    >>> edgedf, group_lbs = adaptiveTree(adj_max, group_lbs, stage_ord=stages)
 
     """
     group_lbs = np.asarray(group_lbs).copy()
@@ -99,13 +109,13 @@ def connect_near_stages(adj_max,
                         group_lbs0, group_lbs1,
                         groups0=None, groups1=None,
                         # stg0=None, stg1=None,
-                        ignore_pa=[],
-                        df2edges=True,
+                        ignore_pa: Sequence = (),
+                        df2edges: bool = True,
                         sep: str = '_',
                         ):
     """
-    inputs
-    ------
+    Parameters
+    ----------
     adj_max:
         csc_sparse matrix, adjacent matrix of samples (cells),
         shape (n_samples, n_samples)
@@ -114,7 +124,7 @@ def connect_near_stages(adj_max,
     group_lbs1:
         group labels of the descendent stage
 
-    returns
+    Returns
     -------
     edgedf:
         a DataFrame with each row representing an edge, columns are
@@ -138,8 +148,6 @@ def connect_near_stages(adj_max,
                                         axis=0)
 
     winner_pas = voting_props.idxmax(axis=0)  # a series
-    #    print(winner_pas.values)
-    #    print(groups0)
     single_pas = [x for x in groups0 if x not in winner_pas.values]
     print('parent nodes that had no descendent:', single_pas)
     for p in ignore_pa:
@@ -156,7 +164,7 @@ def connect_near_stages(adj_max,
         new_group_lbs1 = group_lbs1.copy()
     max_num = new_group_lbs1.max()
 
-    print('Taking descendent-points from other nodes (groups)')
+    print('Taking descendant-points from other nodes (groups)')
     #    adj_max = max_connection(adj_max, axis=0)
     for i, pa in enumerate(single_pas):
         parent_ids = group_lbs0 == pa
@@ -196,6 +204,8 @@ def agg_group_edge_props(adj, group_lbs0, group_lbs1=None,
 def agg_group_edges(adj, group_lbs0, group_lbs1=None,
                     groups0=None, groups1=None, asdf=True, verbose=True):
     """
+    Parameters
+    ----------
     adj:
         adjacent matrix of shape (N0, N1), if `group_lbs1` is None, then set N0=N1.
     group_lbs0:
@@ -203,8 +213,8 @@ def agg_group_edges(adj, group_lbs0, group_lbs1=None,
     group_lbs1:
         a list or a np.array of shape (N1,)
 
-    return
-    ======
+    Returns
+    -------
     group_conn: summation of connected edges between given groups
     """
     #    if sparse.issparse(adj):
@@ -285,11 +295,19 @@ def make_stage_group_dict(group_lbs, stage_lbs=None):
     return dct
 
 
-def find_children(nodes, children_dict: dict, n=100, with_self=True):
+def find_children(
+        nodes: Sequence,
+        children_dict: Mapping[Any, Sequence],
+        n: int = 100):
     """
-    nodes: better a list of node(s) to be looked up
-    children_dict: dict; parent -> children
-    n: number of iteration
+    Parameters
+    ----------
+    nodes:
+        better a list of node(s) to be looked up
+    children_dict: dict
+        parent (key) -> children (value)
+    n:
+        max number of iterations
     """
     if isinstance(nodes, (int, str)):
         nodes = [nodes]
@@ -306,7 +324,7 @@ def find_children(nodes, children_dict: dict, n=100, with_self=True):
             children += children_dict[nd]
 
     n -= 1
-    children = children + find_children(children, children_dict, with_self=False)
+    children = children + find_children(children, children_dict, n=n)
     #    if None in children:
     #        children.remove(None)
     return children

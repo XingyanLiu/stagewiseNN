@@ -1,10 +1,9 @@
 # -*- coding: UTF-8 -*-
-"""
-@CreateDate: 2020/07/18
-@Author: Xingyan Liu
-@File: multipartite_graph.py
-@Project: stagewiseNN
-"""
+# @CreateDate: 2020/07/18
+# @Author: Xingyan Liu
+# @File: multipartite_graph.py
+# @Project: stagewiseNN
+
 import os
 import sys
 from pathlib import Path
@@ -176,7 +175,10 @@ def approx_knn(
         **kwargs
 ):
     """
-    algorithm : {'auto', 'ball_tree', 'kd_tree', 'brute'}, default='auto'
+    Parameters
+    ----------
+    algorithm : {'auto', 'ball_tree', 'kd_tree', 'brute'}
+        default='auto'
     leaf_size : int, default=30
         Leaf size passed to BallTree or KDTree.
     """
