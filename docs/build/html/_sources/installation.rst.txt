@@ -4,16 +4,21 @@ Installation
 PyPI
 ~~~~
 
-Install stagewiseNN with PyPI, run::
+Install stagewiseNN with PyPI, run:
 
-    pip install stagewisenn
+.. code-block:: PowerShell
+
+   pip install stagewisenn
+
 
 GitHub
 ~~~~~~
 
-Or fetch from GitHub and manually install::
+Or fetch from GitHub and manually install:
 
-    git clone XXX
+.. code-block:: PowerShell
+
+    git clone https://github.com/XingyanLiu/stagewiseNN.git
     cd stagewiseNN
     python setup.py
 
