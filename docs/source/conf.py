@@ -12,13 +12,17 @@
 
 import os
 import sys
+from datetime import datetime
+
 sys.path.insert(0, os.path.abspath('.'))
 sys.path.insert(0, os.path.abspath(f'{os.path.dirname(__file__)}/../..'))
-
+# import swnn
 # -- Project information -----------------------------------------------------
 
 project = 'stagewiseNN'
-copyright = '2021, Xingyan Liu'
+_copyright = 'Academy of Mathematics and Systems Science, CAS'
+copyright = f'{datetime.now():%Y}, {_copyright}.'
+
 author = 'Xingyan Liu'
 
 # The full version, including alpha/beta/rc tags
@@ -32,6 +36,7 @@ release = '0.1'
 # ones.
 extensions = [
     'sphinx.ext.autodoc',
+    'sphinx.ext.autosummary',
     'sphinx.ext.napoleon',  # different doc-styles (Google, Numpy)
     # 'myst_parser',  # use Markdown using MyST
     'sphinx.ext.doctest',
@@ -41,6 +46,8 @@ extensions = [
     'sphinx.ext.mathjax',
     'sphinx.ext.githubpages'  # enable github-pages
 ]
+
+autosummary_generate = True
 
 # Add any paths that contain templates here, relative to this directory.
 templates_path = ['_templates']
