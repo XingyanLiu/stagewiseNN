@@ -33,6 +33,7 @@ release = '0.1'
 extensions = [
     'sphinx.ext.autodoc',
     'sphinx.ext.napoleon', # different doc-styles (Google, Numpy)
+    'myst_parser', # use Markdown using MyST
     'sphinx.ext.doctest',
     'sphinx.ext.intersphinx',
     'sphinx.ext.todo',

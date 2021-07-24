@@ -1,4 +1,4 @@
-swnn.utils package
+swnn.utils
 ==================
 
 Submodules
