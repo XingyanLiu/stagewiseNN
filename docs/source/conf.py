@@ -12,7 +12,7 @@
 
 import os
 import sys
-# sys.path.insert(0, os.path.abspath('../..'))
+sys.path.insert(0, os.path.abspath('.'))
 sys.path.insert(0, os.path.abspath(f'{os.path.dirname(__file__)}/../..'))
 
 # -- Project information -----------------------------------------------------
@@ -32,13 +32,14 @@ release = '0.1'
 # ones.
 extensions = [
     'sphinx.ext.autodoc',
-    'sphinx.ext.napoleon', # different doc-styles (Google, Numpy)
-    'myst_parser', # use Markdown using MyST
+    'sphinx.ext.napoleon',  # different doc-styles (Google, Numpy)
+    # 'myst_parser',  # use Markdown using MyST
     'sphinx.ext.doctest',
     'sphinx.ext.intersphinx',
     'sphinx.ext.todo',
     'sphinx.ext.coverage',
-    'sphinx.ext.mathjax'
+    'sphinx.ext.mathjax',
+    'sphinx.ext.githubpages'  # enable github-pages
 ]
 
 # Add any paths that contain templates here, relative to this directory.

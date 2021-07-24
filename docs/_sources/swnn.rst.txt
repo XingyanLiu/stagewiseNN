@@ -1,5 +1,5 @@
-swnn package
-============
+stagewiseNN (swnn)
+==================
 
 Subpackages
 -----------
