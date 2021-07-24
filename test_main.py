@@ -14,10 +14,10 @@ import pandas as pd
 import numpy as np
 import scanpy as sc
 
-ROOT = Path('.') # os.path.dirname(__file__)
+ROOT = Path('.')  # os.path.dirname(__file__)
 sys.path.append(str(ROOT))
 import swnn
-from swnn import describe_dataframe, set_adata_hvgs, change_names
+from swnn.utils.process import describe_dataframe, set_adata_hvgs, change_names
 
 DATADIR = ROOT / 'sample_data'
 

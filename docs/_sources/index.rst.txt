@@ -7,15 +7,16 @@ Welcome to stagewiseNN's documentation!
 =======================================
 
 .. toctree::
-   :maxdepth: 2
-   :caption: API
+   :maxdepth: 1
 
-   swnn.rst
+   installation
+   tutorials
+   api
+   citation
 
 
 Indices and tables
 ==================
 
 * :ref:`genindex`
-* :ref:`modindex`
 * :ref:`search`
