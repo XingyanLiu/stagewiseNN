@@ -1,0 +1,330 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <title>swnn.builder module &mdash; stagewiseNN 0.1 documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+
+  
+  
+
+  
+  
+
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/doctools.js"></script>
+    
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> stagewiseNN
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption" role="heading"><span class="caption-text">Contents</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorials.html">Tutorials</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../api.html">API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../citation.html">Citation</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">stagewiseNN</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+      <li>swnn.builder module</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="../_sources/apidoc/swnn.builder.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="module-swnn.builder">
+<span id="swnn-builder-module"></span><h1>swnn.builder module<a class="headerlink" href="#module-swnn.builder" title="Permalink to this headline">¶</a></h1>
+<p>&#64;CreateDate: 2021/07/25
+&#64;Author: Xingyan Liu
+&#64;File: builder.py
+&#64;Project: stagewiseNN</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="swnn.builder.BuilderParams">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">swnn.builder.</span></span><span class="sig-name descname"><span class="pre">BuilderParams</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#swnn.builder.BuilderParams" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="swnn.builder.BuilderParams.update">
+<span class="sig-name descname"><span class="pre">update</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#swnn.builder.BuilderParams.update" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="swnn.builder.BuilderParams.keys">
+<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">keys</span></span><a class="headerlink" href="#swnn.builder.BuilderParams.keys" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="swnn.builder.Builder">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">swnn.builder.</span></span><span class="sig-name descname"><span class="pre">Builder</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">stage_order</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Sequence</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">build_params</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#swnn.builder.Builder" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<dl class="py property">
+<dt class="sig sig-object py" id="swnn.builder.Builder.stage_lbs">
+<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">stage_lbs</span></span><a class="headerlink" href="#swnn.builder.Builder.stage_lbs" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="swnn.builder.Builder.group_lbs">
+<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">group_lbs</span></span><a class="headerlink" href="#swnn.builder.Builder.group_lbs" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="swnn.builder.Builder.distmat">
+<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">distmat</span></span><a class="headerlink" href="#swnn.builder.Builder.distmat" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="swnn.builder.Builder.connect">
+<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">connect</span></span><a class="headerlink" href="#swnn.builder.Builder.connect" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="swnn.builder.Builder.connect_bin">
+<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">connect_bin</span></span><a class="headerlink" href="#swnn.builder.Builder.connect_bin" title="Permalink to this definition">¶</a></dt>
+<dd><p>binarized edges</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="swnn.builder.Builder.edgedf">
+<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">edgedf</span></span><a class="headerlink" href="#swnn.builder.Builder.edgedf" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="swnn.builder.Builder.refined_group_lbs">
+<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">refined_group_lbs</span></span><a class="headerlink" href="#swnn.builder.Builder.refined_group_lbs" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="swnn.builder.Builder.build_graph">
+<span class="sig-name descname"><span class="pre">build_graph</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">stage_lbs</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">binary_edge</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">bool</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ks</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">Sequence</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span> </span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">10</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_pcs</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">Sequence</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span> </span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">10</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pca_base_on</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">'stacked'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">leaf_size</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">int</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">5</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#swnn.builder.Builder.build_graph" title="Permalink to this definition">¶</a></dt>
+<dd><p>Build multipartite KNN-graph stage-by-stage.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>X</strong> (<em>np.ndarray</em><em> or </em><em>sparse matrix</em>) – data matrix, of shape (n_samples, n_features)</p></li>
+<li><p><strong>stage_lbs</strong> (<em>Sequence</em>) – stage labels for each sample (nodes in <cite>build_graph</cite>)</p></li>
+<li><p><strong>binary_edge</strong> (<em>bool</em><em> (</em><em>default=True</em><em>)</em>) – whether to use the binarized edges. Set as True may cause some
+information loss but a more robust result.</p></li>
+<li><p><strong>ks</strong> – the number of nearest neighbors to be calculated.</p></li>
+<li><p><strong>n_pcs</strong> – The number of principal components after PCA reduction.
+If <cite>pca_base_on</cite> is None, this will be ignored.</p></li>
+<li><p><strong>pca_base_on</strong> (<em>str {'x1'</em><em>, </em><em>'x2'</em><em>, </em><em>'stacked'</em><em>, </em><em>None}</em><em> (</em><em>default='stacked'</em><em>)</em>) – if None, perform KNN on the original data space.</p></li>
+<li><p><strong>leaf_size</strong> (<em>int</em><em> (</em><em>default=5</em><em>)</em>) – Leaf size passed to BallTree or KDTree, for adjusting the
+approximation level. The higher the faster, while of
+less promises to find the exact nearest neighbors.
+Setting as 1 for brute-force (exact) KNN.</p></li>
+<li><p><strong>kwargs</strong> – other parameters for <cite>stagewise_knn</cite></p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><ul class="simple">
+<li><p><strong>distmat</strong> (<em>sparse.csr_matrix</em>) – the distance matrix, of shape (n_samples, n_samples)</p></li>
+<li><p><strong>connect</strong> (<em>sparse.csr_matrix</em>) – the connectivities matrix, of shape (n_samples, n_samples)</p></li>
+</ul>
+</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="swnn.builder.Builder.build_tree">
+<span class="sig-name descname"><span class="pre">build_tree</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">group_lbs</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Sequence</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">stage_lbs</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">Sequence</span><span class="p"><span class="pre">]</span></span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ignore_pa</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">()</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ext_sep</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">str</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">'_'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#swnn.builder.Builder.build_tree" title="Permalink to this definition">¶</a></dt>
+<dd><p>Adaptatively build the developmental tree from the stagewise-KNN graph.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>group_lbs</strong> (<em>Sequence</em>) – group labels for each sample (nodes in <cite>build_graph</cite>)</p></li>
+<li><p><strong>stage_lbs</strong> (<em>Sequence</em>) – stage labels for each sample (nodes in <cite>build_graph</cite>)</p></li>
+<li><p><strong>ignore_pa</strong> (<em>list</em><em> or </em><em>set</em>) – parent nodes to be ignored; empty tuple by default.</p></li>
+<li><p><strong>ext_sep</strong> (<em>str</em>) – parse string for automatically extract the stage-labels from
+<cite>group_lbs</cite></p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><ul class="simple">
+<li><p><strong>edgedf</strong> (<em>pd.DataFrame</em>) – pd.DataFrame of columns {‘node’, ‘parent’, ‘prop’},
+and of the same number of rows as number of total stage-clusters.
+the column ‘prop’ is the proportion of nodes that have votes for
+the current parent.</p></li>
+<li><p><em>refined_group_lbs</em> – refined group labels for each sample (e.g. single-cell)</p></li>
+</ul>
+</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &#169; Copyright 2021, Xingyan Liu.
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

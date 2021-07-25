@@ -49,6 +49,11 @@ extensions = [
 ]
 
 autosummary_generate = True
+autodoc_member_order = 'bysource'
+napoleon_include_init_with_doc = False
+napoleon_use_rtype = True  # having a separate entry generally helps readability
+napoleon_use_param = True
+todo_include_todos = False
 
 # Add any paths that contain templates here, relative to this directory.
 templates_path = ['_templates']

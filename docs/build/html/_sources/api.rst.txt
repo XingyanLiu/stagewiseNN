@@ -18,9 +18,11 @@ Import stagewiseNN as:
 Object for Management
 ---------------------
 
+See :doc:`apidoc/swnn.builder` for detailed information.
+
 .. autosummary::
-   :toctree: generated/
    :recursive:
+   :toctree: generated/
 
    Builder
 

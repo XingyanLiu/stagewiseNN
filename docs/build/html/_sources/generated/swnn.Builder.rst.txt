@@ -1,4 +1,4 @@
-﻿swnn.Builder
+swnn.Builder
 ============
 
 .. currentmodule:: swnn

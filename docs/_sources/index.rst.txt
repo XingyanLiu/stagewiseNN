@@ -3,10 +3,11 @@
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
-Welcome to stagewiseNN's documentation!
-=======================================
+stagewiseNN - Building developmental tree from scRNA-seq data
+=============================================================
 
 .. toctree::
+   :caption: Contents
    :maxdepth: 1
 
    installation
