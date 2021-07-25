@@ -1,0 +1,334 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <title>API &mdash; stagewiseNN 0.1 documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+
+  
+  
+
+  
+  
+
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="swnn.Builder" href="generated/swnn.Builder.html" />
+    <link rel="prev" title="Tutorial for using stagewiseNN" href="tutorial/getting_started.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="index.html" class="icon icon-home"> stagewiseNN
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tutorials.html">Tutorials</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">API</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#object-for-management">Object for Management</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="generated/swnn.Builder.html">swnn.Builder</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#data-processing">Data Processing</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="generated/swnn.quick_preprocess_raw.html">swnn.quick_preprocess_raw</a></li>
+<li class="toctree-l3"><a class="reference internal" href="generated/swnn.normalize_default.html">swnn.normalize_default</a></li>
+<li class="toctree-l3"><a class="reference internal" href="generated/swnn.set_adata_hvgs.html">swnn.set_adata_hvgs</a></li>
+<li class="toctree-l3"><a class="reference internal" href="generated/swnn.change_names.html">swnn.change_names</a></li>
+<li class="toctree-l3"><a class="reference internal" href="generated/swnn.group_mean.html">swnn.group_mean</a></li>
+<li class="toctree-l3"><a class="reference internal" href="generated/swnn.group_mean_adata.html">swnn.group_mean_adata</a></li>
+<li class="toctree-l3"><a class="reference internal" href="generated/swnn.wrapper_scale.html">swnn.wrapper_scale</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#make-graph">Make Graph</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="generated/swnn.stagewise_knn.html">swnn.stagewise_knn</a></li>
+<li class="toctree-l3"><a class="reference internal" href="generated/swnn.adaptive_tree.html">swnn.adaptive_tree</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#others">Others</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="generated/swnn.check_dirs.html">swnn.check_dirs</a></li>
+<li class="toctree-l3"><a class="reference internal" href="generated/swnn.set_precomputed_neighbors.html">swnn.set_precomputed_neighbors</a></li>
+<li class="toctree-l3"><a class="reference internal" href="generated/swnn.describe_dataframe.html">swnn.describe_dataframe</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="citation.html">Citation</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">stagewiseNN</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
+        
+      <li>API</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="_sources/api.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <span class="target" id="module-swnn"></span><p>Construction of developmental tree from single-cell RNA-seq data using
+StagewiseNN</p>
+<div class="section" id="api">
+<h1>API<a class="headerlink" href="#api" title="Permalink to this headline">¶</a></h1>
+<p>Import stagewiseNN as:</p>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">swnn</span>
+</pre></div>
+</div>
+<div class="section" id="object-for-management">
+<h2>Object for Management<a class="headerlink" href="#object-for-management" title="Permalink to this headline">¶</a></h2>
+<table class="longtable docutils align-default">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="generated/swnn.Builder.html#swnn.Builder" title="swnn.Builder"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Builder</span></code></a>(stage_order, **build_params)</p></td>
+<td><p></p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="data-processing">
+<h2>Data Processing<a class="headerlink" href="#data-processing" title="Permalink to this headline">¶</a></h2>
+<table class="longtable docutils align-default">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="generated/swnn.quick_preprocess_raw.html#swnn.quick_preprocess_raw" title="swnn.quick_preprocess_raw"><code class="xref py py-obj docutils literal notranslate"><span class="pre">quick_preprocess_raw</span></code></a>(adata[, target_sum, …])</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="generated/swnn.normalize_default.html#swnn.normalize_default" title="swnn.normalize_default"><code class="xref py py-obj docutils literal notranslate"><span class="pre">normalize_default</span></code></a>(adata[, target_sum, copy, …])</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="generated/swnn.set_adata_hvgs.html#swnn.set_adata_hvgs" title="swnn.set_adata_hvgs"><code class="xref py py-obj docutils literal notranslate"><span class="pre">set_adata_hvgs</span></code></a>(adata[, gene_list, …])</p></td>
+<td><p>Setting the given (may be pre-computed) set of genes as highly variable, if <cite>copy</cite> is False, changes will be made to the input adata.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="generated/swnn.change_names.html#swnn.change_names" title="swnn.change_names"><code class="xref py py-obj docutils literal notranslate"><span class="pre">change_names</span></code></a>(seq[, mapping])</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="generated/swnn.group_mean.html#swnn.group_mean" title="swnn.group_mean"><code class="xref py py-obj docutils literal notranslate"><span class="pre">group_mean</span></code></a>(X, labels[, binary, classes, …])</p></td>
+<td><p>This function may work with more efficiency than <cite>df.groupby().mean()</cite> when handling sparse matrix.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="generated/swnn.group_mean_adata.html#swnn.group_mean_adata" title="swnn.group_mean_adata"><code class="xref py py-obj docutils literal notranslate"><span class="pre">group_mean_adata</span></code></a>(adata, groupby[, features, …])</p></td>
+<td><p><dl class="field-list simple">
+<dt class="field-odd">param groupby</dt>
+<dd class="field-odd"><p></p></dd>
+</dl>
+</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="generated/swnn.wrapper_scale.html#swnn.wrapper_scale" title="swnn.wrapper_scale"><code class="xref py py-obj docutils literal notranslate"><span class="pre">wrapper_scale</span></code></a>(adata[, zero_center, …])</p></td>
+<td><p>Wrapper function for centering and scaling data matrix <cite>X</cite> in sc.AnnData, extended for within-batch cprocessing.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="make-graph">
+<h2>Make Graph<a class="headerlink" href="#make-graph" title="Permalink to this headline">¶</a></h2>
+<table class="longtable docutils align-default">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="generated/swnn.stagewise_knn.html#swnn.stagewise_knn" title="swnn.stagewise_knn"><code class="xref py py-obj docutils literal notranslate"><span class="pre">stagewise_knn</span></code></a>(X, stage_lbs, stage_order[, …])</p></td>
+<td><p>Build multipartite KNN-graph stage-by-stage.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="generated/swnn.adaptive_tree.html#swnn.adaptive_tree" title="swnn.adaptive_tree"><code class="xref py py-obj docutils literal notranslate"><span class="pre">adaptive_tree</span></code></a>(adj_max, group_lbs[, …])</p></td>
+<td><p>Adaptatively build the developmental tree from the stagewise-KNN graph.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="others">
+<h2>Others<a class="headerlink" href="#others" title="Permalink to this headline">¶</a></h2>
+<table class="longtable docutils align-default">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="generated/swnn.check_dirs.html#swnn.check_dirs" title="swnn.check_dirs"><code class="xref py py-obj docutils literal notranslate"><span class="pre">check_dirs</span></code></a>(path)</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="generated/swnn.set_precomputed_neighbors.html#swnn.set_precomputed_neighbors" title="swnn.set_precomputed_neighbors"><code class="xref py py-obj docutils literal notranslate"><span class="pre">set_precomputed_neighbors</span></code></a>(adata, distances)</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="generated/swnn.describe_dataframe.html#swnn.describe_dataframe" title="swnn.describe_dataframe"><code class="xref py py-obj docutils literal notranslate"><span class="pre">describe_dataframe</span></code></a>(df, **kwargs)</p></td>
+<td><p></p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+        <a href="generated/swnn.Builder.html" class="btn btn-neutral float-right" title="swnn.Builder" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="tutorial/getting_started.html" class="btn btn-neutral float-left" title="Tutorial for using stagewiseNN" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &#169; Copyright 2021, Xingyan Liu.
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

@@ -1,0 +1,520 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <title>Tutorial for using stagewiseNN &mdash; stagewiseNN 0.1 documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+
+  
+  
+
+  
+  
+
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/doctools.js"></script>
+    
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="API" href="../api.html" />
+    <link rel="prev" title="Tutorials" href="../tutorials.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> stagewiseNN
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../installation.html">Installation</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../tutorials.html">Tutorials</a><ul class="current">
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Tutorial for using stagewiseNN</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../api.html">API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../citation.html">Citation</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">stagewiseNN</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+          <li><a href="../tutorials.html">Tutorials</a> &raquo;</li>
+        
+      <li>Tutorial for using stagewiseNN</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="../_sources/tutorial/getting_started.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="tutorial-for-using-stagewisenn">
+<h1>Tutorial for using stagewiseNN<a class="headerlink" href="#tutorial-for-using-stagewisenn" title="Permalink to this headline">¶</a></h1>
+<p>TODO: Add some descriptions</p>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">sys</span>
+<span class="kn">from</span> <span class="nn">pathlib</span> <span class="kn">import</span> <span class="n">Path</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Sequence</span><span class="p">,</span> <span class="n">Mapping</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Union</span><span class="p">,</span> <span class="n">Callable</span>
+<span class="kn">import</span> <span class="nn">logging</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">scanpy</span> <span class="k">as</span> <span class="nn">sc</span>
+
+<span class="n">ROOT</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="s1">&#39;../&#39;</span><span class="p">)</span>
+<span class="n">sys</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">ROOT</span><span class="p">))</span>
+
+<span class="kn">import</span> <span class="nn">swnn</span>
+<span class="kn">from</span> <span class="nn">swnn.utils.process</span> <span class="kn">import</span> <span class="n">describe_dataframe</span><span class="p">,</span> <span class="n">set_adata_hvgs</span><span class="p">,</span> <span class="n">change_names</span>
+
+<span class="n">DATADIR</span> <span class="o">=</span> <span class="n">ROOT</span> <span class="o">/</span> <span class="s1">&#39;sample_data&#39;</span>
+</pre></div>
+</div>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">get_adata</span><span class="p">(</span><span class="n">datadir</span><span class="o">=</span><span class="n">DATADIR</span><span class="p">,</span> <span class="p">):</span>
+    <span class="n">path</span> <span class="o">=</span> <span class="n">datadir</span> <span class="o">/</span> <span class="s1">&#39;merged_B-L0-0.2.h5ad&#39;</span>
+    <span class="n">adata</span> <span class="o">=</span> <span class="n">sc</span><span class="o">.</span><span class="n">read_h5ad</span><span class="p">(</span><span class="n">path</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">adata</span>
+
+
+<span class="k">def</span> <span class="nf">get_high_freq_hvgs</span><span class="p">(</span><span class="n">min_freq</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">datadir</span><span class="o">=</span><span class="n">DATADIR</span><span class="p">):</span>
+    <span class="n">hvg_freq</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span>
+        <span class="n">datadir</span> <span class="o">/</span> <span class="s1">&#39;hvg_frequencies.csv&#39;</span><span class="p">,</span> <span class="n">index_col</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">header</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+    <span class="n">hvg_freq</span> <span class="o">=</span> <span class="n">hvg_freq</span><span class="o">.</span><span class="n">iloc</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">]</span>
+    <span class="k">return</span> <span class="n">hvg_freq</span><span class="p">[</span><span class="n">hvg_freq</span> <span class="o">&gt;=</span> <span class="n">min_freq</span><span class="p">]</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
+
+
+<span class="k">def</span> <span class="nf">formulate_adata</span><span class="p">(</span><span class="n">adata</span><span class="p">,</span> <span class="n">save_path</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="n">adata</span><span class="o">.</span><span class="n">obs</span><span class="o">.</span><span class="n">columns</span> <span class="o">=</span> <span class="n">change_names</span><span class="p">(</span>
+        <span class="n">adata</span><span class="o">.</span><span class="n">obs</span><span class="o">.</span><span class="n">columns</span><span class="p">,</span> <span class="n">stage</span><span class="o">=</span><span class="s1">&#39;stage_id&#39;</span><span class="p">,</span> <span class="p">)</span>
+    <span class="n">adata</span><span class="o">.</span><span class="n">obs</span><span class="p">[</span><span class="s1">&#39;lineage&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">change_names</span><span class="p">(</span>
+        <span class="n">adata</span><span class="o">.</span><span class="n">obs</span><span class="p">[</span><span class="s1">&#39;lineage&#39;</span><span class="p">],</span>
+        <span class="p">{</span><span class="s1">&#39;Tail bud stem cells&#39;</span><span class="p">:</span> <span class="s1">&#39;Unassigned&#39;</span><span class="p">}</span>
+    <span class="p">)</span>
+    <span class="n">adata</span><span class="o">.</span><span class="n">obs</span><span class="p">[</span><span class="s1">&#39;stage_primer&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">adata</span><span class="o">.</span><span class="n">obs</span><span class="p">[[</span><span class="s1">&#39;stage_name&#39;</span><span class="p">,</span> <span class="s1">&#39;primer&#39;</span><span class="p">]]</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span>
+        <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="s1">&#39;_&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">x</span><span class="p">),</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span>
+    <span class="p">)</span>
+    <span class="n">adata</span><span class="o">.</span><span class="n">obs</span><span class="p">[</span><span class="s1">&#39;stagewise_cluster&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">adata</span><span class="o">.</span><span class="n">obs</span><span class="p">[[</span><span class="s1">&#39;stage_name&#39;</span><span class="p">,</span> <span class="s1">&#39;leiden_new&#39;</span><span class="p">]]</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span>
+        <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="s1">&#39;_&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">x</span><span class="p">),</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span>
+    <span class="p">)</span>
+    <span class="n">adata</span><span class="o">.</span><span class="n">obs</span><span class="p">[</span><span class="s1">&#39;stagewise_cluster&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">change_names</span><span class="p">(</span>
+        <span class="n">adata</span><span class="o">.</span><span class="n">obs</span><span class="p">[</span><span class="s1">&#39;stagewise_cluster&#39;</span><span class="p">],</span>
+        <span class="p">{</span><span class="s1">&#39;B_1&#39;</span><span class="p">:</span> <span class="s1">&#39;B_0&#39;</span><span class="p">,</span> <span class="s1">&#39;B_2&#39;</span><span class="p">:</span> <span class="s1">&#39;B_1&#39;</span><span class="p">,</span> <span class="s1">&#39;B_3&#39;</span><span class="p">:</span> <span class="s1">&#39;B_2&#39;</span><span class="p">}</span>
+    <span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">save_path</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">adata</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">save_path</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">adata</span>
+
+
+<span class="k">def</span> <span class="nf">_inspect_data</span><span class="p">(</span><span class="n">log_file</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="n">adata</span> <span class="o">=</span> <span class="n">get_adata</span><span class="p">()</span>
+    <span class="n">adata</span> <span class="o">=</span> <span class="n">formulate_adata</span><span class="p">(</span><span class="n">adata</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">adata</span><span class="p">,</span> <span class="n">file</span><span class="o">=</span><span class="n">log_file</span><span class="p">)</span>
+    <span class="n">describe_dataframe</span><span class="p">(</span><span class="n">adata</span><span class="o">.</span><span class="n">obs</span><span class="p">,</span> <span class="n">file</span><span class="o">=</span><span class="n">log_file</span><span class="p">)</span>
+    <span class="c1"># TODO: additional markers of prior knowledge</span>
+    <span class="n">hvgs</span> <span class="o">=</span> <span class="n">get_high_freq_hvgs</span><span class="p">()</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Total of </span><span class="si">%d</span><span class="s1"> HVGs are used.&#39;</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">hvgs</span><span class="p">),</span> <span class="n">file</span><span class="o">=</span><span class="n">log_file</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">resdir</span> <span class="o">=</span> <span class="n">ROOT</span> <span class="o">/</span> <span class="s1">&#39;_temp&#39;</span>
+<span class="n">swnn</span><span class="o">.</span><span class="n">check_dirs</span><span class="p">(</span><span class="n">resdir</span><span class="p">)</span>
+
+<span class="n">adata0</span> <span class="o">=</span> <span class="n">get_adata</span><span class="p">()</span>
+<span class="n">adata0</span> <span class="o">=</span> <span class="n">formulate_adata</span><span class="p">(</span><span class="n">adata0</span><span class="p">)</span>
+<span class="c1"># TODO: additional markers of prior knowledge</span>
+<span class="n">hvgs</span> <span class="o">=</span> <span class="n">get_high_freq_hvgs</span><span class="p">()</span>
+<span class="n">adata</span> <span class="o">=</span> <span class="n">swnn</span><span class="o">.</span><span class="n">quick_preprocess_raw</span><span class="p">(</span>
+    <span class="n">adata0</span><span class="p">,</span> <span class="n">hvgs</span><span class="o">=</span><span class="n">hvgs</span><span class="p">,</span> <span class="n">copy</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">batch_key</span><span class="o">=</span><span class="s1">&#39;stage_primer&#39;</span><span class="p">)</span>
+
+<span class="n">X</span> <span class="o">=</span> <span class="n">adata</span><span class="o">.</span><span class="n">X</span>
+<span class="n">stage_lbs</span> <span class="o">=</span> <span class="n">adata</span><span class="o">.</span><span class="n">obs</span><span class="p">[</span><span class="s1">&#39;stage_name&#39;</span><span class="p">]</span>
+<span class="n">stage_order</span> <span class="o">=</span> <span class="p">(</span><span class="s2">&quot;B&quot;</span><span class="p">,</span> <span class="s2">&quot;G3&quot;</span><span class="p">,</span> <span class="s2">&quot;G4&quot;</span><span class="p">,</span> <span class="s2">&quot;G5&quot;</span><span class="p">,</span> <span class="s2">&quot;G6&quot;</span><span class="p">,</span> <span class="s2">&quot;N0&quot;</span><span class="p">,</span> <span class="s2">&quot;N1&quot;</span><span class="p">,</span> <span class="s2">&quot;N3&quot;</span><span class="p">,</span> <span class="s2">&quot;L0&quot;</span><span class="p">)</span>
+<span class="n">ks</span> <span class="o">=</span> <span class="p">[</span><span class="mi">10</span><span class="p">]</span> <span class="o">*</span> <span class="mi">7</span> <span class="o">+</span> <span class="p">[</span><span class="mi">5</span><span class="p">]</span> <span class="o">+</span> <span class="p">[</span><span class="mi">3</span><span class="p">]</span>
+<span class="n">n_pcs</span> <span class="o">=</span> <span class="p">[</span><span class="mi">30</span><span class="p">]</span> <span class="o">*</span> <span class="mi">5</span> <span class="o">+</span> <span class="p">[</span><span class="mi">50</span><span class="p">]</span> <span class="o">*</span> <span class="mi">4</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">already</span> <span class="n">exists</span><span class="p">:</span>
+    <span class="o">../</span><span class="n">_temp</span>
+</pre></div>
+</div>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">distmat</span><span class="p">,</span> <span class="n">connect</span> <span class="o">=</span> <span class="n">swnn</span><span class="o">.</span><span class="n">stagewise_knn</span><span class="p">(</span>
+    <span class="n">X</span><span class="p">,</span> <span class="n">stage_lbs</span><span class="p">,</span> <span class="n">stage_order</span><span class="p">,</span>
+    <span class="n">k</span><span class="o">=</span><span class="n">ks</span><span class="p">,</span>
+    <span class="n">leaf_size</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="c1"># 1 for brute-force KNN</span>
+    <span class="n">pca_base_on</span><span class="o">=</span><span class="s1">&#39;stacked&#39;</span><span class="p">,</span>
+    <span class="n">n_pcs</span><span class="o">=</span><span class="n">n_pcs</span><span class="p">,</span>
+    <span class="n">binary_edge</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+    <span class="p">)</span>
+<span class="n">connect_bin</span> <span class="o">=</span> <span class="n">swnn</span><span class="o">.</span><span class="n">make_binary</span><span class="p">(</span><span class="n">connect</span><span class="p">)</span>
+<span class="n">swnn</span><span class="o">.</span><span class="n">set_precomputed_neighbors</span><span class="p">(</span><span class="n">adata</span><span class="p">,</span> <span class="n">distmat</span><span class="p">,</span> <span class="n">connect_bin</span><span class="p">,</span> <span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>AnnData object with n_obs × n_vars = 29775 × 3569
+    obs: &#39;stage_id&#39;, &#39;primer&#39;, &#39;n_genes&#39;, &#39;n_counts&#39;, &#39;stage_primer&#39;, &#39;stg_leiden&#39;, &#39;stage_stg_leiden&#39;, &#39;refined_group&#39;, &#39;leiden_new&#39;, &#39;parent_bcd&#39;, &#39;lineage&#39;, &#39;stage_name&#39;, &#39;stagewise_cluster&#39;
+    var: &#39;highly_variable&#39;
+    uns: &#39;log1p&#39;, &#39;neighbors&#39;
+    obsp: &#39;distances&#39;, &#39;connectivities&#39;
+</pre></div>
+</div>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># sc.tl.umap(adata, min_dist=0.1)</span>
+<span class="c1"># sc.settings.figdir = resdir</span>
+<span class="c1"># sc.set_figure_params(fontsize=14)</span>
+<span class="c1">#</span>
+<span class="c1"># lin_colors = pd.read_csv(</span>
+<span class="c1">#     &#39;sample_data/lineage_colors.csv&#39;, index_col=0).iloc[:, 0]</span>
+<span class="c1"># adata.obs[&#39;lineage&#39;] = pd.Categorical(</span>
+<span class="c1">#     adata.obs[&#39;lineage&#39;], categories=lin_colors.index)</span>
+<span class="c1"># adata.uns[&#39;lineage_colors&#39;] = lin_colors.tolist()</span>
+<span class="c1"># sc.pl.umap(adata, color=&#39;lineage&#39;, ncols=1, save=&#39;_lineage.pdf&#39;)</span>
+<span class="c1"># sc.pl.umap(adata, color=&#39;stage_name&#39;, palette=&#39;plasma_r&#39;, save=&#39;_stage.pdf&#39;)</span>
+</pre></div>
+</div>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">scipy</span> <span class="kn">import</span> <span class="n">sparse</span>
+<span class="n">obs</span> <span class="o">=</span> <span class="n">adata</span><span class="o">.</span><span class="n">obs</span>
+<span class="n">group_lbs</span> <span class="o">=</span> <span class="n">obs</span><span class="p">[</span><span class="s1">&#39;stagewise_cluster&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span>
+<span class="n">stage_lbs</span> <span class="o">=</span> <span class="n">obs</span><span class="p">[</span><span class="s1">&#39;stage_name&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span>
+<span class="n">KEY_TREE_NODE</span> <span class="o">=</span> <span class="s1">&#39;tree_node&#39;</span>
+
+<span class="c1"># graph to tree</span>
+<span class="n">conn_upper</span> <span class="o">=</span> <span class="n">sparse</span><span class="o">.</span><span class="n">triu</span><span class="p">(</span><span class="n">connect</span><span class="p">)</span><span class="o">.</span><span class="n">tocsc</span><span class="p">()</span>
+<span class="n">adj_max</span> <span class="o">=</span> <span class="n">swnn</span><span class="o">.</span><span class="n">max_connection</span><span class="p">(</span><span class="n">conn_upper</span><span class="p">)</span>
+<span class="n">edgedf</span><span class="p">,</span> <span class="n">new_group_lbs</span> <span class="o">=</span> <span class="n">swnn</span><span class="o">.</span><span class="n">adaptive_tree</span><span class="p">(</span>
+    <span class="n">adj_max</span><span class="p">,</span> <span class="n">group_lbs</span><span class="p">,</span> <span class="n">stage_lbs</span><span class="o">=</span><span class="n">stage_lbs</span><span class="p">,</span> <span class="n">stage_ord</span><span class="o">=</span><span class="n">stage_order</span><span class="p">)</span>
+
+<span class="n">obs</span><span class="p">[</span><span class="n">KEY_TREE_NODE</span><span class="p">]</span> <span class="o">=</span> <span class="n">new_group_lbs</span>
+<span class="n">edgedf</span><span class="o">.</span><span class="n">prop</span><span class="o">.</span><span class="n">hist</span><span class="p">()</span> <span class="c1"># voting proportions</span>
+<span class="n">logging</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;edgedf = </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">edgedf</span><span class="p">)</span>
+
+<span class="n">df_tree</span> <span class="o">=</span> <span class="n">edgedf</span><span class="p">[[</span><span class="s1">&#39;node&#39;</span><span class="p">,</span> <span class="s1">&#39;parent&#39;</span><span class="p">]]</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+<span class="n">df_tree</span><span class="p">[</span><span class="s1">&#39;label&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df_tree</span><span class="p">[</span><span class="s1">&#39;node&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+<span class="n">df_tree</span><span class="p">[</span><span class="s1">&#39;stage&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df_tree</span><span class="p">[</span><span class="s1">&#39;node&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;_&#39;</span><span class="p">)[</span><span class="mi">0</span><span class="p">])</span>
+<span class="n">groupby</span> <span class="o">=</span> <span class="n">KEY_TREE_NODE</span>
+<span class="n">props_all</span> <span class="o">=</span> <span class="n">swnn</span><span class="o">.</span><span class="n">group_mean_adata</span><span class="p">(</span><span class="n">adata</span><span class="p">,</span> <span class="n">groupby</span><span class="p">,</span> <span class="n">use_raw</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">binary</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">means_all</span> <span class="o">=</span> <span class="n">swnn</span><span class="o">.</span><span class="n">group_mean_adata</span><span class="p">(</span><span class="n">adata</span><span class="p">,</span> <span class="n">groupby</span><span class="p">,</span> <span class="n">use_raw</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">connecting</span> <span class="n">stage</span> <span class="n">B</span> <span class="ow">and</span> <span class="n">G3</span>
+<span class="o">---&gt;</span> <span class="n">aggregating</span> <span class="n">edges</span><span class="o">...</span>
+<span class="n">unique</span> <span class="n">labels</span> <span class="n">of</span> <span class="n">rows</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;B_1&#39;</span> <span class="s1">&#39;B_0&#39;</span> <span class="s1">&#39;B_2&#39;</span><span class="p">]</span>
+<span class="n">unique</span> <span class="n">labels</span> <span class="n">of</span> <span class="n">columns</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;G3_1&#39;</span> <span class="s1">&#39;G3_0&#39;</span> <span class="s1">&#39;G3_3&#39;</span> <span class="s1">&#39;G3_4&#39;</span> <span class="s1">&#39;G3_2&#39;</span> <span class="s1">&#39;G3_5&#39;</span><span class="p">]</span>
+<span class="n">grouping</span> <span class="n">elements</span> <span class="p">(</span><span class="n">edges</span><span class="p">)</span>
+<span class="n">shape</span> <span class="n">of</span> <span class="n">the</span> <span class="n">one</span><span class="o">-</span><span class="n">hot</span><span class="o">-</span><span class="n">labels</span><span class="p">:</span> <span class="p">(</span><span class="mi">1596</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span> <span class="p">(</span><span class="mi">1826</span><span class="p">,</span> <span class="mi">6</span><span class="p">)</span>
+<span class="n">parent</span> <span class="n">nodes</span> <span class="n">that</span> <span class="n">had</span> <span class="n">no</span> <span class="n">descendent</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;B_2&#39;</span><span class="p">]</span>
+<span class="n">Taking</span> <span class="n">descendant</span><span class="o">-</span><span class="n">points</span> <span class="kn">from</span> <span class="nn">other</span> <span class="n">nodes</span> <span class="p">(</span><span class="n">groups</span><span class="p">)</span>
+<span class="n">pasting</span> <span class="n">stage</span> <span class="n">labels</span>
+<span class="o">---&gt;</span> <span class="n">aggregating</span> <span class="n">edges</span><span class="o">...</span>
+<span class="n">unique</span> <span class="n">labels</span> <span class="n">of</span> <span class="n">rows</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;B_1&#39;</span> <span class="s1">&#39;B_0&#39;</span> <span class="s1">&#39;B_2&#39;</span><span class="p">]</span>
+<span class="n">unique</span> <span class="n">labels</span> <span class="n">of</span> <span class="n">columns</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;G3_1&#39;</span> <span class="s1">&#39;G3_0&#39;</span> <span class="s1">&#39;G3_3&#39;</span> <span class="s1">&#39;G3_4&#39;</span> <span class="s1">&#39;G3_2&#39;</span> <span class="s1">&#39;G3_5&#39;</span> <span class="s1">&#39;G3_6&#39;</span><span class="p">]</span>
+<span class="n">grouping</span> <span class="n">elements</span> <span class="p">(</span><span class="n">edges</span><span class="p">)</span>
+<span class="n">shape</span> <span class="n">of</span> <span class="n">the</span> <span class="n">one</span><span class="o">-</span><span class="n">hot</span><span class="o">-</span><span class="n">labels</span><span class="p">:</span> <span class="p">(</span><span class="mi">1596</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span> <span class="p">(</span><span class="mi">1826</span><span class="p">,</span> <span class="mi">7</span><span class="p">)</span>
+
+<span class="n">connecting</span> <span class="n">stage</span> <span class="n">G3</span> <span class="ow">and</span> <span class="n">G4</span>
+<span class="o">---&gt;</span> <span class="n">aggregating</span> <span class="n">edges</span><span class="o">...</span>
+<span class="n">unique</span> <span class="n">labels</span> <span class="n">of</span> <span class="n">rows</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;G3_0&#39;</span><span class="p">,</span> <span class="s1">&#39;G3_1&#39;</span><span class="p">,</span> <span class="s1">&#39;G3_2&#39;</span><span class="p">,</span> <span class="s1">&#39;G3_3&#39;</span><span class="p">,</span> <span class="s1">&#39;G3_4&#39;</span><span class="p">,</span> <span class="s1">&#39;G3_5&#39;</span><span class="p">,</span> <span class="s1">&#39;G3_6&#39;</span><span class="p">]</span>
+<span class="n">unique</span> <span class="n">labels</span> <span class="n">of</span> <span class="n">columns</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;G4_0&#39;</span> <span class="s1">&#39;G4_4&#39;</span> <span class="s1">&#39;G4_2&#39;</span> <span class="s1">&#39;G4_3&#39;</span> <span class="s1">&#39;G4_1&#39;</span><span class="p">]</span>
+<span class="n">grouping</span> <span class="n">elements</span> <span class="p">(</span><span class="n">edges</span><span class="p">)</span>
+<span class="n">shape</span> <span class="n">of</span> <span class="n">the</span> <span class="n">one</span><span class="o">-</span><span class="n">hot</span><span class="o">-</span><span class="n">labels</span><span class="p">:</span> <span class="p">(</span><span class="mi">1826</span><span class="p">,</span> <span class="mi">7</span><span class="p">)</span> <span class="p">(</span><span class="mi">1477</span><span class="p">,</span> <span class="mi">5</span><span class="p">)</span>
+<span class="n">parent</span> <span class="n">nodes</span> <span class="n">that</span> <span class="n">had</span> <span class="n">no</span> <span class="n">descendent</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;G3_3&#39;</span><span class="p">,</span> <span class="s1">&#39;G3_6&#39;</span><span class="p">]</span>
+<span class="n">Taking</span> <span class="n">descendant</span><span class="o">-</span><span class="n">points</span> <span class="kn">from</span> <span class="nn">other</span> <span class="n">nodes</span> <span class="p">(</span><span class="n">groups</span><span class="p">)</span>
+<span class="n">pasting</span> <span class="n">stage</span> <span class="n">labels</span>
+<span class="o">---&gt;</span> <span class="n">aggregating</span> <span class="n">edges</span><span class="o">...</span>
+<span class="n">unique</span> <span class="n">labels</span> <span class="n">of</span> <span class="n">rows</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;G3_0&#39;</span><span class="p">,</span> <span class="s1">&#39;G3_1&#39;</span><span class="p">,</span> <span class="s1">&#39;G3_2&#39;</span><span class="p">,</span> <span class="s1">&#39;G3_3&#39;</span><span class="p">,</span> <span class="s1">&#39;G3_4&#39;</span><span class="p">,</span> <span class="s1">&#39;G3_5&#39;</span><span class="p">,</span> <span class="s1">&#39;G3_6&#39;</span><span class="p">]</span>
+<span class="n">unique</span> <span class="n">labels</span> <span class="n">of</span> <span class="n">columns</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;G4_0&#39;</span> <span class="s1">&#39;G4_4&#39;</span> <span class="s1">&#39;G4_2&#39;</span> <span class="s1">&#39;G4_3&#39;</span> <span class="s1">&#39;G4_5&#39;</span> <span class="s1">&#39;G4_1&#39;</span> <span class="s1">&#39;G4_6&#39;</span><span class="p">]</span>
+<span class="n">grouping</span> <span class="n">elements</span> <span class="p">(</span><span class="n">edges</span><span class="p">)</span>
+<span class="n">shape</span> <span class="n">of</span> <span class="n">the</span> <span class="n">one</span><span class="o">-</span><span class="n">hot</span><span class="o">-</span><span class="n">labels</span><span class="p">:</span> <span class="p">(</span><span class="mi">1826</span><span class="p">,</span> <span class="mi">7</span><span class="p">)</span> <span class="p">(</span><span class="mi">1477</span><span class="p">,</span> <span class="mi">7</span><span class="p">)</span>
+
+<span class="n">connecting</span> <span class="n">stage</span> <span class="n">G4</span> <span class="ow">and</span> <span class="n">G5</span>
+<span class="o">---&gt;</span> <span class="n">aggregating</span> <span class="n">edges</span><span class="o">...</span>
+<span class="n">unique</span> <span class="n">labels</span> <span class="n">of</span> <span class="n">rows</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;G4_0&#39;</span><span class="p">,</span> <span class="s1">&#39;G4_1&#39;</span><span class="p">,</span> <span class="s1">&#39;G4_2&#39;</span><span class="p">,</span> <span class="s1">&#39;G4_3&#39;</span><span class="p">,</span> <span class="s1">&#39;G4_4&#39;</span><span class="p">,</span> <span class="s1">&#39;G4_5&#39;</span><span class="p">,</span> <span class="s1">&#39;G4_6&#39;</span><span class="p">]</span>
+<span class="n">unique</span> <span class="n">labels</span> <span class="n">of</span> <span class="n">columns</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;G5_2&#39;</span> <span class="s1">&#39;G5_0&#39;</span> <span class="s1">&#39;G5_3&#39;</span> <span class="s1">&#39;G5_1&#39;</span> <span class="s1">&#39;G5_5&#39;</span> <span class="s1">&#39;G5_8&#39;</span> <span class="s1">&#39;G5_6&#39;</span> <span class="s1">&#39;G5_4&#39;</span> <span class="s1">&#39;G5_7&#39;</span><span class="p">]</span>
+<span class="n">grouping</span> <span class="n">elements</span> <span class="p">(</span><span class="n">edges</span><span class="p">)</span>
+<span class="n">shape</span> <span class="n">of</span> <span class="n">the</span> <span class="n">one</span><span class="o">-</span><span class="n">hot</span><span class="o">-</span><span class="n">labels</span><span class="p">:</span> <span class="p">(</span><span class="mi">1477</span><span class="p">,</span> <span class="mi">7</span><span class="p">)</span> <span class="p">(</span><span class="mi">4098</span><span class="p">,</span> <span class="mi">9</span><span class="p">)</span>
+<span class="n">parent</span> <span class="n">nodes</span> <span class="n">that</span> <span class="n">had</span> <span class="n">no</span> <span class="n">descendent</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;G4_5&#39;</span><span class="p">,</span> <span class="s1">&#39;G4_6&#39;</span><span class="p">]</span>
+<span class="n">Taking</span> <span class="n">descendant</span><span class="o">-</span><span class="n">points</span> <span class="kn">from</span> <span class="nn">other</span> <span class="n">nodes</span> <span class="p">(</span><span class="n">groups</span><span class="p">)</span>
+<span class="n">pasting</span> <span class="n">stage</span> <span class="n">labels</span>
+<span class="o">---&gt;</span> <span class="n">aggregating</span> <span class="n">edges</span><span class="o">...</span>
+<span class="n">unique</span> <span class="n">labels</span> <span class="n">of</span> <span class="n">rows</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;G4_0&#39;</span><span class="p">,</span> <span class="s1">&#39;G4_1&#39;</span><span class="p">,</span> <span class="s1">&#39;G4_2&#39;</span><span class="p">,</span> <span class="s1">&#39;G4_3&#39;</span><span class="p">,</span> <span class="s1">&#39;G4_4&#39;</span><span class="p">,</span> <span class="s1">&#39;G4_5&#39;</span><span class="p">,</span> <span class="s1">&#39;G4_6&#39;</span><span class="p">]</span>
+<span class="n">unique</span> <span class="n">labels</span> <span class="n">of</span> <span class="n">columns</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;G5_2&#39;</span> <span class="s1">&#39;G5_0&#39;</span> <span class="s1">&#39;G5_3&#39;</span> <span class="s1">&#39;G5_1&#39;</span> <span class="s1">&#39;G5_5&#39;</span> <span class="s1">&#39;G5_8&#39;</span> <span class="s1">&#39;G5_6&#39;</span> <span class="s1">&#39;G5_4&#39;</span> <span class="s1">&#39;G5_7&#39;</span> <span class="s1">&#39;G5_9&#39;</span>
+ <span class="s1">&#39;G5_10&#39;</span><span class="p">]</span>
+<span class="n">grouping</span> <span class="n">elements</span> <span class="p">(</span><span class="n">edges</span><span class="p">)</span>
+<span class="n">shape</span> <span class="n">of</span> <span class="n">the</span> <span class="n">one</span><span class="o">-</span><span class="n">hot</span><span class="o">-</span><span class="n">labels</span><span class="p">:</span> <span class="p">(</span><span class="mi">1477</span><span class="p">,</span> <span class="mi">7</span><span class="p">)</span> <span class="p">(</span><span class="mi">4098</span><span class="p">,</span> <span class="mi">11</span><span class="p">)</span>
+
+<span class="n">connecting</span> <span class="n">stage</span> <span class="n">G5</span> <span class="ow">and</span> <span class="n">G6</span>
+<span class="o">---&gt;</span> <span class="n">aggregating</span> <span class="n">edges</span><span class="o">...</span>
+<span class="n">unique</span> <span class="n">labels</span> <span class="n">of</span> <span class="n">rows</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;G5_0&#39;</span><span class="p">,</span> <span class="s1">&#39;G5_1&#39;</span><span class="p">,</span> <span class="s1">&#39;G5_2&#39;</span><span class="p">,</span> <span class="s1">&#39;G5_3&#39;</span><span class="p">,</span> <span class="s1">&#39;G5_4&#39;</span><span class="p">,</span> <span class="s1">&#39;G5_5&#39;</span><span class="p">,</span> <span class="s1">&#39;G5_6&#39;</span><span class="p">,</span> <span class="s1">&#39;G5_7&#39;</span><span class="p">,</span> <span class="s1">&#39;G5_8&#39;</span><span class="p">,</span> <span class="s1">&#39;G5_9&#39;</span><span class="p">,</span> <span class="s1">&#39;G5_10&#39;</span><span class="p">]</span>
+<span class="n">unique</span> <span class="n">labels</span> <span class="n">of</span> <span class="n">columns</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;G6_1&#39;</span> <span class="s1">&#39;G6_0&#39;</span> <span class="s1">&#39;G6_3&#39;</span> <span class="s1">&#39;G6_4&#39;</span> <span class="s1">&#39;G6_8&#39;</span> <span class="s1">&#39;G6_7&#39;</span> <span class="s1">&#39;G6_5&#39;</span> <span class="s1">&#39;G6_6&#39;</span> <span class="s1">&#39;G6_2&#39;</span><span class="p">]</span>
+<span class="n">grouping</span> <span class="n">elements</span> <span class="p">(</span><span class="n">edges</span><span class="p">)</span>
+<span class="n">shape</span> <span class="n">of</span> <span class="n">the</span> <span class="n">one</span><span class="o">-</span><span class="n">hot</span><span class="o">-</span><span class="n">labels</span><span class="p">:</span> <span class="p">(</span><span class="mi">4098</span><span class="p">,</span> <span class="mi">11</span><span class="p">)</span> <span class="p">(</span><span class="mi">4775</span><span class="p">,</span> <span class="mi">9</span><span class="p">)</span>
+<span class="n">parent</span> <span class="n">nodes</span> <span class="n">that</span> <span class="n">had</span> <span class="n">no</span> <span class="n">descendent</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;G5_8&#39;</span><span class="p">,</span> <span class="s1">&#39;G5_9&#39;</span><span class="p">,</span> <span class="s1">&#39;G5_10&#39;</span><span class="p">]</span>
+<span class="n">Taking</span> <span class="n">descendant</span><span class="o">-</span><span class="n">points</span> <span class="kn">from</span> <span class="nn">other</span> <span class="n">nodes</span> <span class="p">(</span><span class="n">groups</span><span class="p">)</span>
+<span class="n">pasting</span> <span class="n">stage</span> <span class="n">labels</span>
+<span class="o">---&gt;</span> <span class="n">aggregating</span> <span class="n">edges</span><span class="o">...</span>
+<span class="n">unique</span> <span class="n">labels</span> <span class="n">of</span> <span class="n">rows</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;G5_0&#39;</span><span class="p">,</span> <span class="s1">&#39;G5_1&#39;</span><span class="p">,</span> <span class="s1">&#39;G5_2&#39;</span><span class="p">,</span> <span class="s1">&#39;G5_3&#39;</span><span class="p">,</span> <span class="s1">&#39;G5_4&#39;</span><span class="p">,</span> <span class="s1">&#39;G5_5&#39;</span><span class="p">,</span> <span class="s1">&#39;G5_6&#39;</span><span class="p">,</span> <span class="s1">&#39;G5_7&#39;</span><span class="p">,</span> <span class="s1">&#39;G5_8&#39;</span><span class="p">,</span> <span class="s1">&#39;G5_9&#39;</span><span class="p">,</span> <span class="s1">&#39;G5_10&#39;</span><span class="p">]</span>
+<span class="n">unique</span> <span class="n">labels</span> <span class="n">of</span> <span class="n">columns</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;G6_1&#39;</span> <span class="s1">&#39;G6_0&#39;</span> <span class="s1">&#39;G6_3&#39;</span> <span class="s1">&#39;G6_4&#39;</span> <span class="s1">&#39;G6_8&#39;</span> <span class="s1">&#39;G6_7&#39;</span> <span class="s1">&#39;G6_5&#39;</span> <span class="s1">&#39;G6_6&#39;</span> <span class="s1">&#39;G6_2&#39;</span> <span class="s1">&#39;G6_10&#39;</span>
+ <span class="s1">&#39;G6_9&#39;</span><span class="p">]</span>
+<span class="n">grouping</span> <span class="n">elements</span> <span class="p">(</span><span class="n">edges</span><span class="p">)</span>
+<span class="n">shape</span> <span class="n">of</span> <span class="n">the</span> <span class="n">one</span><span class="o">-</span><span class="n">hot</span><span class="o">-</span><span class="n">labels</span><span class="p">:</span> <span class="p">(</span><span class="mi">4098</span><span class="p">,</span> <span class="mi">11</span><span class="p">)</span> <span class="p">(</span><span class="mi">4775</span><span class="p">,</span> <span class="mi">11</span><span class="p">)</span>
+
+<span class="n">connecting</span> <span class="n">stage</span> <span class="n">G6</span> <span class="ow">and</span> <span class="n">N0</span>
+<span class="o">---&gt;</span> <span class="n">aggregating</span> <span class="n">edges</span><span class="o">...</span>
+<span class="n">unique</span> <span class="n">labels</span> <span class="n">of</span> <span class="n">rows</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;G6_0&#39;</span><span class="p">,</span> <span class="s1">&#39;G6_1&#39;</span><span class="p">,</span> <span class="s1">&#39;G6_2&#39;</span><span class="p">,</span> <span class="s1">&#39;G6_3&#39;</span><span class="p">,</span> <span class="s1">&#39;G6_4&#39;</span><span class="p">,</span> <span class="s1">&#39;G6_5&#39;</span><span class="p">,</span> <span class="s1">&#39;G6_6&#39;</span><span class="p">,</span> <span class="s1">&#39;G6_7&#39;</span><span class="p">,</span> <span class="s1">&#39;G6_8&#39;</span><span class="p">,</span> <span class="s1">&#39;G6_9&#39;</span><span class="p">,</span> <span class="s1">&#39;G6_10&#39;</span><span class="p">]</span>
+<span class="n">unique</span> <span class="n">labels</span> <span class="n">of</span> <span class="n">columns</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;N0_6&#39;</span> <span class="s1">&#39;N0_2&#39;</span> <span class="s1">&#39;N0_8&#39;</span> <span class="s1">&#39;N0_5&#39;</span> <span class="s1">&#39;N0_4&#39;</span> <span class="s1">&#39;N0_3&#39;</span> <span class="s1">&#39;N0_1&#39;</span> <span class="s1">&#39;N0_0&#39;</span> <span class="s1">&#39;N0_9&#39;</span> <span class="s1">&#39;N0_7&#39;</span><span class="p">]</span>
+<span class="n">grouping</span> <span class="n">elements</span> <span class="p">(</span><span class="n">edges</span><span class="p">)</span>
+<span class="n">shape</span> <span class="n">of</span> <span class="n">the</span> <span class="n">one</span><span class="o">-</span><span class="n">hot</span><span class="o">-</span><span class="n">labels</span><span class="p">:</span> <span class="p">(</span><span class="mi">4775</span><span class="p">,</span> <span class="mi">11</span><span class="p">)</span> <span class="p">(</span><span class="mi">4992</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span>
+<span class="n">parent</span> <span class="n">nodes</span> <span class="n">that</span> <span class="n">had</span> <span class="n">no</span> <span class="n">descendent</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;G6_9&#39;</span><span class="p">,</span> <span class="s1">&#39;G6_10&#39;</span><span class="p">]</span>
+<span class="n">Taking</span> <span class="n">descendant</span><span class="o">-</span><span class="n">points</span> <span class="kn">from</span> <span class="nn">other</span> <span class="n">nodes</span> <span class="p">(</span><span class="n">groups</span><span class="p">)</span>
+<span class="n">pasting</span> <span class="n">stage</span> <span class="n">labels</span>
+<span class="o">---&gt;</span> <span class="n">aggregating</span> <span class="n">edges</span><span class="o">...</span>
+<span class="n">unique</span> <span class="n">labels</span> <span class="n">of</span> <span class="n">rows</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;G6_0&#39;</span><span class="p">,</span> <span class="s1">&#39;G6_1&#39;</span><span class="p">,</span> <span class="s1">&#39;G6_2&#39;</span><span class="p">,</span> <span class="s1">&#39;G6_3&#39;</span><span class="p">,</span> <span class="s1">&#39;G6_4&#39;</span><span class="p">,</span> <span class="s1">&#39;G6_5&#39;</span><span class="p">,</span> <span class="s1">&#39;G6_6&#39;</span><span class="p">,</span> <span class="s1">&#39;G6_7&#39;</span><span class="p">,</span> <span class="s1">&#39;G6_8&#39;</span><span class="p">,</span> <span class="s1">&#39;G6_9&#39;</span><span class="p">,</span> <span class="s1">&#39;G6_10&#39;</span><span class="p">]</span>
+<span class="n">unique</span> <span class="n">labels</span> <span class="n">of</span> <span class="n">columns</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;N0_6&#39;</span> <span class="s1">&#39;N0_2&#39;</span> <span class="s1">&#39;N0_8&#39;</span> <span class="s1">&#39;N0_5&#39;</span> <span class="s1">&#39;N0_4&#39;</span> <span class="s1">&#39;N0_3&#39;</span> <span class="s1">&#39;N0_1&#39;</span> <span class="s1">&#39;N0_0&#39;</span> <span class="s1">&#39;N0_9&#39;</span> <span class="s1">&#39;N0_7&#39;</span>
+ <span class="s1">&#39;N0_11&#39;</span><span class="p">]</span>
+<span class="n">grouping</span> <span class="n">elements</span> <span class="p">(</span><span class="n">edges</span><span class="p">)</span>
+<span class="n">shape</span> <span class="n">of</span> <span class="n">the</span> <span class="n">one</span><span class="o">-</span><span class="n">hot</span><span class="o">-</span><span class="n">labels</span><span class="p">:</span> <span class="p">(</span><span class="mi">4775</span><span class="p">,</span> <span class="mi">11</span><span class="p">)</span> <span class="p">(</span><span class="mi">4992</span><span class="p">,</span> <span class="mi">11</span><span class="p">)</span>
+
+<span class="n">connecting</span> <span class="n">stage</span> <span class="n">N0</span> <span class="ow">and</span> <span class="n">N1</span>
+<span class="o">---&gt;</span> <span class="n">aggregating</span> <span class="n">edges</span><span class="o">...</span>
+<span class="n">unique</span> <span class="n">labels</span> <span class="n">of</span> <span class="n">rows</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;N0_0&#39;</span><span class="p">,</span> <span class="s1">&#39;N0_1&#39;</span><span class="p">,</span> <span class="s1">&#39;N0_2&#39;</span><span class="p">,</span> <span class="s1">&#39;N0_3&#39;</span><span class="p">,</span> <span class="s1">&#39;N0_4&#39;</span><span class="p">,</span> <span class="s1">&#39;N0_5&#39;</span><span class="p">,</span> <span class="s1">&#39;N0_6&#39;</span><span class="p">,</span> <span class="s1">&#39;N0_7&#39;</span><span class="p">,</span> <span class="s1">&#39;N0_8&#39;</span><span class="p">,</span> <span class="s1">&#39;N0_9&#39;</span><span class="p">,</span> <span class="s1">&#39;N0_11&#39;</span><span class="p">]</span>
+<span class="n">unique</span> <span class="n">labels</span> <span class="n">of</span> <span class="n">columns</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;N1_4&#39;</span> <span class="s1">&#39;N1_3&#39;</span> <span class="s1">&#39;N1_2&#39;</span> <span class="s1">&#39;N1_0&#39;</span> <span class="s1">&#39;N1_7&#39;</span> <span class="s1">&#39;N1_6&#39;</span> <span class="s1">&#39;N1_5&#39;</span> <span class="s1">&#39;N1_8&#39;</span> <span class="s1">&#39;N1_1&#39;</span> <span class="s1">&#39;N1_9&#39;</span><span class="p">]</span>
+<span class="n">grouping</span> <span class="n">elements</span> <span class="p">(</span><span class="n">edges</span><span class="p">)</span>
+<span class="n">shape</span> <span class="n">of</span> <span class="n">the</span> <span class="n">one</span><span class="o">-</span><span class="n">hot</span><span class="o">-</span><span class="n">labels</span><span class="p">:</span> <span class="p">(</span><span class="mi">4992</span><span class="p">,</span> <span class="mi">11</span><span class="p">)</span> <span class="p">(</span><span class="mi">4399</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span>
+<span class="n">parent</span> <span class="n">nodes</span> <span class="n">that</span> <span class="n">had</span> <span class="n">no</span> <span class="n">descendent</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;N0_11&#39;</span><span class="p">]</span>
+<span class="n">Taking</span> <span class="n">descendant</span><span class="o">-</span><span class="n">points</span> <span class="kn">from</span> <span class="nn">other</span> <span class="n">nodes</span> <span class="p">(</span><span class="n">groups</span><span class="p">)</span>
+<span class="n">pasting</span> <span class="n">stage</span> <span class="n">labels</span>
+<span class="o">---&gt;</span> <span class="n">aggregating</span> <span class="n">edges</span><span class="o">...</span>
+<span class="n">unique</span> <span class="n">labels</span> <span class="n">of</span> <span class="n">rows</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;N0_0&#39;</span><span class="p">,</span> <span class="s1">&#39;N0_1&#39;</span><span class="p">,</span> <span class="s1">&#39;N0_2&#39;</span><span class="p">,</span> <span class="s1">&#39;N0_3&#39;</span><span class="p">,</span> <span class="s1">&#39;N0_4&#39;</span><span class="p">,</span> <span class="s1">&#39;N0_5&#39;</span><span class="p">,</span> <span class="s1">&#39;N0_6&#39;</span><span class="p">,</span> <span class="s1">&#39;N0_7&#39;</span><span class="p">,</span> <span class="s1">&#39;N0_8&#39;</span><span class="p">,</span> <span class="s1">&#39;N0_9&#39;</span><span class="p">,</span> <span class="s1">&#39;N0_11&#39;</span><span class="p">]</span>
+<span class="n">unique</span> <span class="n">labels</span> <span class="n">of</span> <span class="n">columns</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;N1_4&#39;</span> <span class="s1">&#39;N1_3&#39;</span> <span class="s1">&#39;N1_2&#39;</span> <span class="s1">&#39;N1_0&#39;</span> <span class="s1">&#39;N1_7&#39;</span> <span class="s1">&#39;N1_6&#39;</span> <span class="s1">&#39;N1_5&#39;</span> <span class="s1">&#39;N1_8&#39;</span> <span class="s1">&#39;N1_1&#39;</span> <span class="s1">&#39;N1_9&#39;</span>
+ <span class="s1">&#39;N1_10&#39;</span><span class="p">]</span>
+<span class="n">grouping</span> <span class="n">elements</span> <span class="p">(</span><span class="n">edges</span><span class="p">)</span>
+<span class="n">shape</span> <span class="n">of</span> <span class="n">the</span> <span class="n">one</span><span class="o">-</span><span class="n">hot</span><span class="o">-</span><span class="n">labels</span><span class="p">:</span> <span class="p">(</span><span class="mi">4992</span><span class="p">,</span> <span class="mi">11</span><span class="p">)</span> <span class="p">(</span><span class="mi">4399</span><span class="p">,</span> <span class="mi">11</span><span class="p">)</span>
+
+<span class="n">connecting</span> <span class="n">stage</span> <span class="n">N1</span> <span class="ow">and</span> <span class="n">N3</span>
+<span class="o">---&gt;</span> <span class="n">aggregating</span> <span class="n">edges</span><span class="o">...</span>
+<span class="n">unique</span> <span class="n">labels</span> <span class="n">of</span> <span class="n">rows</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;N1_0&#39;</span><span class="p">,</span> <span class="s1">&#39;N1_1&#39;</span><span class="p">,</span> <span class="s1">&#39;N1_2&#39;</span><span class="p">,</span> <span class="s1">&#39;N1_3&#39;</span><span class="p">,</span> <span class="s1">&#39;N1_4&#39;</span><span class="p">,</span> <span class="s1">&#39;N1_5&#39;</span><span class="p">,</span> <span class="s1">&#39;N1_6&#39;</span><span class="p">,</span> <span class="s1">&#39;N1_7&#39;</span><span class="p">,</span> <span class="s1">&#39;N1_8&#39;</span><span class="p">,</span> <span class="s1">&#39;N1_9&#39;</span><span class="p">,</span> <span class="s1">&#39;N1_10&#39;</span><span class="p">]</span>
+<span class="n">unique</span> <span class="n">labels</span> <span class="n">of</span> <span class="n">columns</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;N3_0&#39;</span> <span class="s1">&#39;N3_6&#39;</span> <span class="s1">&#39;N3_2&#39;</span> <span class="s1">&#39;N3_8&#39;</span> <span class="s1">&#39;N3_4&#39;</span> <span class="s1">&#39;N3_10&#39;</span> <span class="s1">&#39;N3_9&#39;</span> <span class="s1">&#39;N3_1&#39;</span> <span class="s1">&#39;N3_13&#39;</span> <span class="s1">&#39;N3_3&#39;</span>
+ <span class="s1">&#39;N3_7&#39;</span> <span class="s1">&#39;N3_5&#39;</span> <span class="s1">&#39;N3_11&#39;</span> <span class="s1">&#39;N3_12&#39;</span><span class="p">]</span>
+<span class="n">grouping</span> <span class="n">elements</span> <span class="p">(</span><span class="n">edges</span><span class="p">)</span>
+<span class="n">shape</span> <span class="n">of</span> <span class="n">the</span> <span class="n">one</span><span class="o">-</span><span class="n">hot</span><span class="o">-</span><span class="n">labels</span><span class="p">:</span> <span class="p">(</span><span class="mi">4399</span><span class="p">,</span> <span class="mi">11</span><span class="p">)</span> <span class="p">(</span><span class="mi">4448</span><span class="p">,</span> <span class="mi">14</span><span class="p">)</span>
+<span class="n">parent</span> <span class="n">nodes</span> <span class="n">that</span> <span class="n">had</span> <span class="n">no</span> <span class="n">descendent</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;N1_3&#39;</span><span class="p">,</span> <span class="s1">&#39;N1_9&#39;</span><span class="p">,</span> <span class="s1">&#39;N1_10&#39;</span><span class="p">]</span>
+<span class="n">Taking</span> <span class="n">descendant</span><span class="o">-</span><span class="n">points</span> <span class="kn">from</span> <span class="nn">other</span> <span class="n">nodes</span> <span class="p">(</span><span class="n">groups</span><span class="p">)</span>
+<span class="n">pasting</span> <span class="n">stage</span> <span class="n">labels</span>
+<span class="o">---&gt;</span> <span class="n">aggregating</span> <span class="n">edges</span><span class="o">...</span>
+<span class="n">unique</span> <span class="n">labels</span> <span class="n">of</span> <span class="n">rows</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;N1_0&#39;</span><span class="p">,</span> <span class="s1">&#39;N1_1&#39;</span><span class="p">,</span> <span class="s1">&#39;N1_2&#39;</span><span class="p">,</span> <span class="s1">&#39;N1_3&#39;</span><span class="p">,</span> <span class="s1">&#39;N1_4&#39;</span><span class="p">,</span> <span class="s1">&#39;N1_5&#39;</span><span class="p">,</span> <span class="s1">&#39;N1_6&#39;</span><span class="p">,</span> <span class="s1">&#39;N1_7&#39;</span><span class="p">,</span> <span class="s1">&#39;N1_8&#39;</span><span class="p">,</span> <span class="s1">&#39;N1_9&#39;</span><span class="p">,</span> <span class="s1">&#39;N1_10&#39;</span><span class="p">]</span>
+<span class="n">unique</span> <span class="n">labels</span> <span class="n">of</span> <span class="n">columns</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;N3_0&#39;</span> <span class="s1">&#39;N3_6&#39;</span> <span class="s1">&#39;N3_2&#39;</span> <span class="s1">&#39;N3_8&#39;</span> <span class="s1">&#39;N3_4&#39;</span> <span class="s1">&#39;N3_10&#39;</span> <span class="s1">&#39;N3_9&#39;</span> <span class="s1">&#39;N3_1&#39;</span> <span class="s1">&#39;N3_13&#39;</span> <span class="s1">&#39;N3_3&#39;</span>
+ <span class="s1">&#39;N3_7&#39;</span> <span class="s1">&#39;N3_5&#39;</span> <span class="s1">&#39;N3_11&#39;</span> <span class="s1">&#39;N3_12&#39;</span> <span class="s1">&#39;N3_15&#39;</span> <span class="s1">&#39;N3_14&#39;</span><span class="p">]</span>
+<span class="n">grouping</span> <span class="n">elements</span> <span class="p">(</span><span class="n">edges</span><span class="p">)</span>
+<span class="n">shape</span> <span class="n">of</span> <span class="n">the</span> <span class="n">one</span><span class="o">-</span><span class="n">hot</span><span class="o">-</span><span class="n">labels</span><span class="p">:</span> <span class="p">(</span><span class="mi">4399</span><span class="p">,</span> <span class="mi">11</span><span class="p">)</span> <span class="p">(</span><span class="mi">4448</span><span class="p">,</span> <span class="mi">16</span><span class="p">)</span>
+
+<span class="n">connecting</span> <span class="n">stage</span> <span class="n">N3</span> <span class="ow">and</span> <span class="n">L0</span>
+<span class="o">---&gt;</span> <span class="n">aggregating</span> <span class="n">edges</span><span class="o">...</span>
+<span class="n">unique</span> <span class="n">labels</span> <span class="n">of</span> <span class="n">rows</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;N3_0&#39;</span><span class="p">,</span> <span class="s1">&#39;N3_1&#39;</span><span class="p">,</span> <span class="s1">&#39;N3_2&#39;</span><span class="p">,</span> <span class="s1">&#39;N3_3&#39;</span><span class="p">,</span> <span class="s1">&#39;N3_4&#39;</span><span class="p">,</span> <span class="s1">&#39;N3_5&#39;</span><span class="p">,</span> <span class="s1">&#39;N3_6&#39;</span><span class="p">,</span> <span class="s1">&#39;N3_7&#39;</span><span class="p">,</span> <span class="s1">&#39;N3_8&#39;</span><span class="p">,</span> <span class="s1">&#39;N3_9&#39;</span><span class="p">,</span> <span class="s1">&#39;N3_10&#39;</span><span class="p">,</span> <span class="s1">&#39;N3_11&#39;</span><span class="p">,</span> <span class="s1">&#39;N3_12&#39;</span><span class="p">,</span> <span class="s1">&#39;N3_13&#39;</span><span class="p">,</span> <span class="s1">&#39;N3_14&#39;</span><span class="p">,</span> <span class="s1">&#39;N3_15&#39;</span><span class="p">]</span>
+<span class="n">unique</span> <span class="n">labels</span> <span class="n">of</span> <span class="n">columns</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;L0_4&#39;</span> <span class="s1">&#39;L0_1&#39;</span> <span class="s1">&#39;L0_0&#39;</span> <span class="s1">&#39;L0_14&#39;</span> <span class="s1">&#39;L0_6&#39;</span> <span class="s1">&#39;L0_7&#39;</span> <span class="s1">&#39;L0_12&#39;</span> <span class="s1">&#39;L0_10&#39;</span> <span class="s1">&#39;L0_11&#39;</span> <span class="s1">&#39;L0_5&#39;</span>
+ <span class="s1">&#39;L0_8&#39;</span> <span class="s1">&#39;L0_2&#39;</span> <span class="s1">&#39;L0_9&#39;</span> <span class="s1">&#39;L0_16&#39;</span> <span class="s1">&#39;L0_3&#39;</span> <span class="s1">&#39;L0_15&#39;</span> <span class="s1">&#39;L0_13&#39;</span><span class="p">]</span>
+<span class="n">grouping</span> <span class="n">elements</span> <span class="p">(</span><span class="n">edges</span><span class="p">)</span>
+<span class="n">shape</span> <span class="n">of</span> <span class="n">the</span> <span class="n">one</span><span class="o">-</span><span class="n">hot</span><span class="o">-</span><span class="n">labels</span><span class="p">:</span> <span class="p">(</span><span class="mi">4448</span><span class="p">,</span> <span class="mi">16</span><span class="p">)</span> <span class="p">(</span><span class="mi">2164</span><span class="p">,</span> <span class="mi">17</span><span class="p">)</span>
+<span class="n">parent</span> <span class="n">nodes</span> <span class="n">that</span> <span class="n">had</span> <span class="n">no</span> <span class="n">descendent</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;N3_5&#39;</span><span class="p">,</span> <span class="s1">&#39;N3_9&#39;</span><span class="p">,</span> <span class="s1">&#39;N3_11&#39;</span><span class="p">,</span> <span class="s1">&#39;N3_14&#39;</span><span class="p">,</span> <span class="s1">&#39;N3_15&#39;</span><span class="p">]</span>
+<span class="n">Taking</span> <span class="n">descendant</span><span class="o">-</span><span class="n">points</span> <span class="kn">from</span> <span class="nn">other</span> <span class="n">nodes</span> <span class="p">(</span><span class="n">groups</span><span class="p">)</span>
+<span class="n">pasting</span> <span class="n">stage</span> <span class="n">labels</span>
+<span class="o">---&gt;</span> <span class="n">aggregating</span> <span class="n">edges</span><span class="o">...</span>
+<span class="n">unique</span> <span class="n">labels</span> <span class="n">of</span> <span class="n">rows</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;N3_0&#39;</span><span class="p">,</span> <span class="s1">&#39;N3_1&#39;</span><span class="p">,</span> <span class="s1">&#39;N3_2&#39;</span><span class="p">,</span> <span class="s1">&#39;N3_3&#39;</span><span class="p">,</span> <span class="s1">&#39;N3_4&#39;</span><span class="p">,</span> <span class="s1">&#39;N3_5&#39;</span><span class="p">,</span> <span class="s1">&#39;N3_6&#39;</span><span class="p">,</span> <span class="s1">&#39;N3_7&#39;</span><span class="p">,</span> <span class="s1">&#39;N3_8&#39;</span><span class="p">,</span> <span class="s1">&#39;N3_9&#39;</span><span class="p">,</span> <span class="s1">&#39;N3_10&#39;</span><span class="p">,</span> <span class="s1">&#39;N3_11&#39;</span><span class="p">,</span> <span class="s1">&#39;N3_12&#39;</span><span class="p">,</span> <span class="s1">&#39;N3_13&#39;</span><span class="p">,</span> <span class="s1">&#39;N3_14&#39;</span><span class="p">,</span> <span class="s1">&#39;N3_15&#39;</span><span class="p">]</span>
+<span class="n">unique</span> <span class="n">labels</span> <span class="n">of</span> <span class="n">columns</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;L0_4&#39;</span> <span class="s1">&#39;L0_1&#39;</span> <span class="s1">&#39;L0_0&#39;</span> <span class="s1">&#39;L0_14&#39;</span> <span class="s1">&#39;L0_6&#39;</span> <span class="s1">&#39;L0_7&#39;</span> <span class="s1">&#39;L0_12&#39;</span> <span class="s1">&#39;L0_10&#39;</span> <span class="s1">&#39;L0_11&#39;</span> <span class="s1">&#39;L0_5&#39;</span>
+ <span class="s1">&#39;L0_8&#39;</span> <span class="s1">&#39;L0_2&#39;</span> <span class="s1">&#39;L0_9&#39;</span> <span class="s1">&#39;L0_16&#39;</span> <span class="s1">&#39;L0_3&#39;</span> <span class="s1">&#39;L0_15&#39;</span> <span class="s1">&#39;L0_19&#39;</span> <span class="s1">&#39;L0_13&#39;</span> <span class="s1">&#39;L0_17&#39;</span>
+ <span class="s1">&#39;L0_20&#39;</span> <span class="s1">&#39;L0_18&#39;</span> <span class="s1">&#39;L0_21&#39;</span><span class="p">]</span>
+<span class="n">grouping</span> <span class="n">elements</span> <span class="p">(</span><span class="n">edges</span><span class="p">)</span>
+<span class="n">shape</span> <span class="n">of</span> <span class="n">the</span> <span class="n">one</span><span class="o">-</span><span class="n">hot</span><span class="o">-</span><span class="n">labels</span><span class="p">:</span> <span class="p">(</span><span class="mi">4448</span><span class="p">,</span> <span class="mi">16</span><span class="p">)</span> <span class="p">(</span><span class="mi">2164</span><span class="p">,</span> <span class="mi">22</span><span class="p">)</span>
+
+<span class="n">Binarized</span><span class="o">...</span><span class="n">the</span> <span class="n">results</span> <span class="n">will</span> <span class="n">be</span> <span class="n">the</span> <span class="n">expression</span> <span class="n">proportions</span><span class="o">.</span>
+<span class="n">Calculating</span> <span class="n">feature</span> <span class="n">averages</span> <span class="k">for</span> <span class="mi">99</span> <span class="n">groups</span>
+<span class="p">[</span><span class="s1">&#39;B_0&#39;</span> <span class="s1">&#39;B_1&#39;</span> <span class="s1">&#39;B_2&#39;</span> <span class="s1">&#39;G3_0&#39;</span> <span class="s1">&#39;G3_1&#39;</span> <span class="s1">&#39;G3_2&#39;</span> <span class="s1">&#39;G3_3&#39;</span> <span class="s1">&#39;G3_4&#39;</span> <span class="s1">&#39;G3_5&#39;</span> <span class="s1">&#39;G3_6&#39;</span> <span class="s1">&#39;G4_0&#39;</span>
+ <span class="s1">&#39;G4_1&#39;</span> <span class="s1">&#39;G4_2&#39;</span> <span class="s1">&#39;G4_3&#39;</span> <span class="s1">&#39;G4_4&#39;</span> <span class="s1">&#39;G4_5&#39;</span> <span class="s1">&#39;G4_6&#39;</span> <span class="s1">&#39;G5_0&#39;</span> <span class="s1">&#39;G5_1&#39;</span> <span class="s1">&#39;G5_10&#39;</span> <span class="s1">&#39;G5_2&#39;</span>
+ <span class="s1">&#39;G5_3&#39;</span> <span class="s1">&#39;G5_4&#39;</span> <span class="s1">&#39;G5_5&#39;</span> <span class="s1">&#39;G5_6&#39;</span> <span class="s1">&#39;G5_7&#39;</span> <span class="s1">&#39;G5_8&#39;</span> <span class="s1">&#39;G5_9&#39;</span> <span class="s1">&#39;G6_0&#39;</span> <span class="s1">&#39;G6_1&#39;</span> <span class="s1">&#39;G6_10&#39;</span>
+ <span class="s1">&#39;G6_2&#39;</span> <span class="s1">&#39;G6_3&#39;</span> <span class="s1">&#39;G6_4&#39;</span> <span class="s1">&#39;G6_5&#39;</span> <span class="s1">&#39;G6_6&#39;</span> <span class="s1">&#39;G6_7&#39;</span> <span class="s1">&#39;G6_8&#39;</span> <span class="s1">&#39;G6_9&#39;</span> <span class="s1">&#39;L0_0&#39;</span> <span class="s1">&#39;L0_1&#39;</span>
+ <span class="s1">&#39;L0_10&#39;</span> <span class="s1">&#39;L0_11&#39;</span> <span class="s1">&#39;L0_12&#39;</span> <span class="s1">&#39;L0_13&#39;</span> <span class="s1">&#39;L0_14&#39;</span> <span class="s1">&#39;L0_15&#39;</span> <span class="s1">&#39;L0_16&#39;</span> <span class="s1">&#39;L0_17&#39;</span> <span class="s1">&#39;L0_18&#39;</span>
+ <span class="s1">&#39;L0_19&#39;</span> <span class="s1">&#39;L0_2&#39;</span> <span class="s1">&#39;L0_20&#39;</span> <span class="s1">&#39;L0_21&#39;</span> <span class="s1">&#39;L0_3&#39;</span> <span class="s1">&#39;L0_4&#39;</span> <span class="s1">&#39;L0_5&#39;</span> <span class="s1">&#39;L0_6&#39;</span> <span class="s1">&#39;L0_7&#39;</span> <span class="s1">&#39;L0_8&#39;</span>
+ <span class="s1">&#39;L0_9&#39;</span> <span class="s1">&#39;N0_0&#39;</span> <span class="s1">&#39;N0_1&#39;</span> <span class="s1">&#39;N0_11&#39;</span> <span class="s1">&#39;N0_2&#39;</span> <span class="s1">&#39;N0_3&#39;</span> <span class="s1">&#39;N0_4&#39;</span> <span class="s1">&#39;N0_5&#39;</span> <span class="s1">&#39;N0_6&#39;</span> <span class="s1">&#39;N0_7&#39;</span>
+ <span class="s1">&#39;N0_8&#39;</span> <span class="s1">&#39;N0_9&#39;</span> <span class="s1">&#39;N1_0&#39;</span> <span class="s1">&#39;N1_1&#39;</span> <span class="s1">&#39;N1_10&#39;</span> <span class="s1">&#39;N1_2&#39;</span> <span class="s1">&#39;N1_3&#39;</span> <span class="s1">&#39;N1_4&#39;</span> <span class="s1">&#39;N1_5&#39;</span> <span class="s1">&#39;N1_6&#39;</span>
+ <span class="s1">&#39;N1_7&#39;</span> <span class="s1">&#39;N1_8&#39;</span> <span class="s1">&#39;N1_9&#39;</span> <span class="s1">&#39;N3_0&#39;</span> <span class="s1">&#39;N3_1&#39;</span> <span class="s1">&#39;N3_10&#39;</span> <span class="s1">&#39;N3_11&#39;</span> <span class="s1">&#39;N3_12&#39;</span> <span class="s1">&#39;N3_13&#39;</span>
+ <span class="s1">&#39;N3_14&#39;</span> <span class="s1">&#39;N3_15&#39;</span> <span class="s1">&#39;N3_2&#39;</span> <span class="s1">&#39;N3_3&#39;</span> <span class="s1">&#39;N3_4&#39;</span> <span class="s1">&#39;N3_5&#39;</span> <span class="s1">&#39;N3_6&#39;</span> <span class="s1">&#39;N3_7&#39;</span> <span class="s1">&#39;N3_8&#39;</span> <span class="s1">&#39;N3_9&#39;</span><span class="p">]</span>
+<span class="n">Calculating</span> <span class="n">feature</span> <span class="n">averages</span> <span class="k">for</span> <span class="mi">99</span> <span class="n">groups</span>
+<span class="p">[</span><span class="s1">&#39;B_0&#39;</span> <span class="s1">&#39;B_1&#39;</span> <span class="s1">&#39;B_2&#39;</span> <span class="s1">&#39;G3_0&#39;</span> <span class="s1">&#39;G3_1&#39;</span> <span class="s1">&#39;G3_2&#39;</span> <span class="s1">&#39;G3_3&#39;</span> <span class="s1">&#39;G3_4&#39;</span> <span class="s1">&#39;G3_5&#39;</span> <span class="s1">&#39;G3_6&#39;</span> <span class="s1">&#39;G4_0&#39;</span>
+ <span class="s1">&#39;G4_1&#39;</span> <span class="s1">&#39;G4_2&#39;</span> <span class="s1">&#39;G4_3&#39;</span> <span class="s1">&#39;G4_4&#39;</span> <span class="s1">&#39;G4_5&#39;</span> <span class="s1">&#39;G4_6&#39;</span> <span class="s1">&#39;G5_0&#39;</span> <span class="s1">&#39;G5_1&#39;</span> <span class="s1">&#39;G5_10&#39;</span> <span class="s1">&#39;G5_2&#39;</span>
+ <span class="s1">&#39;G5_3&#39;</span> <span class="s1">&#39;G5_4&#39;</span> <span class="s1">&#39;G5_5&#39;</span> <span class="s1">&#39;G5_6&#39;</span> <span class="s1">&#39;G5_7&#39;</span> <span class="s1">&#39;G5_8&#39;</span> <span class="s1">&#39;G5_9&#39;</span> <span class="s1">&#39;G6_0&#39;</span> <span class="s1">&#39;G6_1&#39;</span> <span class="s1">&#39;G6_10&#39;</span>
+ <span class="s1">&#39;G6_2&#39;</span> <span class="s1">&#39;G6_3&#39;</span> <span class="s1">&#39;G6_4&#39;</span> <span class="s1">&#39;G6_5&#39;</span> <span class="s1">&#39;G6_6&#39;</span> <span class="s1">&#39;G6_7&#39;</span> <span class="s1">&#39;G6_8&#39;</span> <span class="s1">&#39;G6_9&#39;</span> <span class="s1">&#39;L0_0&#39;</span> <span class="s1">&#39;L0_1&#39;</span>
+ <span class="s1">&#39;L0_10&#39;</span> <span class="s1">&#39;L0_11&#39;</span> <span class="s1">&#39;L0_12&#39;</span> <span class="s1">&#39;L0_13&#39;</span> <span class="s1">&#39;L0_14&#39;</span> <span class="s1">&#39;L0_15&#39;</span> <span class="s1">&#39;L0_16&#39;</span> <span class="s1">&#39;L0_17&#39;</span> <span class="s1">&#39;L0_18&#39;</span>
+ <span class="s1">&#39;L0_19&#39;</span> <span class="s1">&#39;L0_2&#39;</span> <span class="s1">&#39;L0_20&#39;</span> <span class="s1">&#39;L0_21&#39;</span> <span class="s1">&#39;L0_3&#39;</span> <span class="s1">&#39;L0_4&#39;</span> <span class="s1">&#39;L0_5&#39;</span> <span class="s1">&#39;L0_6&#39;</span> <span class="s1">&#39;L0_7&#39;</span> <span class="s1">&#39;L0_8&#39;</span>
+ <span class="s1">&#39;L0_9&#39;</span> <span class="s1">&#39;N0_0&#39;</span> <span class="s1">&#39;N0_1&#39;</span> <span class="s1">&#39;N0_11&#39;</span> <span class="s1">&#39;N0_2&#39;</span> <span class="s1">&#39;N0_3&#39;</span> <span class="s1">&#39;N0_4&#39;</span> <span class="s1">&#39;N0_5&#39;</span> <span class="s1">&#39;N0_6&#39;</span> <span class="s1">&#39;N0_7&#39;</span>
+ <span class="s1">&#39;N0_8&#39;</span> <span class="s1">&#39;N0_9&#39;</span> <span class="s1">&#39;N1_0&#39;</span> <span class="s1">&#39;N1_1&#39;</span> <span class="s1">&#39;N1_10&#39;</span> <span class="s1">&#39;N1_2&#39;</span> <span class="s1">&#39;N1_3&#39;</span> <span class="s1">&#39;N1_4&#39;</span> <span class="s1">&#39;N1_5&#39;</span> <span class="s1">&#39;N1_6&#39;</span>
+ <span class="s1">&#39;N1_7&#39;</span> <span class="s1">&#39;N1_8&#39;</span> <span class="s1">&#39;N1_9&#39;</span> <span class="s1">&#39;N3_0&#39;</span> <span class="s1">&#39;N3_1&#39;</span> <span class="s1">&#39;N3_10&#39;</span> <span class="s1">&#39;N3_11&#39;</span> <span class="s1">&#39;N3_12&#39;</span> <span class="s1">&#39;N3_13&#39;</span>
+ <span class="s1">&#39;N3_14&#39;</span> <span class="s1">&#39;N3_15&#39;</span> <span class="s1">&#39;N3_2&#39;</span> <span class="s1">&#39;N3_3&#39;</span> <span class="s1">&#39;N3_4&#39;</span> <span class="s1">&#39;N3_5&#39;</span> <span class="s1">&#39;N3_6&#39;</span> <span class="s1">&#39;N3_7&#39;</span> <span class="s1">&#39;N3_8&#39;</span> <span class="s1">&#39;N3_9&#39;</span><span class="p">]</span>
+</pre></div>
+</div>
+<img alt="../_images/output_6_1.png" src="../_images/output_6_1.png" />
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># props_all.to_csv(resdir / f&#39;expr_prop_all.csv&#39;, index=True, header=True)</span>
+<span class="c1"># means_all.to_csv(resdir / f&#39;avg_expr_all.csv&#39;, index=True, header=True)</span>
+</pre></div>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+        <a href="../api.html" class="btn btn-neutral float-right" title="API" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="../tutorials.html" class="btn btn-neutral float-left" title="Tutorials" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &#169; Copyright 2021, Xingyan Liu.
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>
