@@ -20,10 +20,11 @@ sys.path.insert(0, os.path.abspath(f'{os.path.dirname(__file__)}/../..'))
 # -- Project information -----------------------------------------------------
 
 project = 'stagewiseNN'
-_copyright = 'Academy of Mathematics and Systems Science, CAS'
-copyright = f'{datetime.now():%Y}, {_copyright}.'
-
 author = 'Xingyan Liu'
+# _copyright = 'Academy of Mathematics and Systems Science, CAS'
+_copyright = author
+copyright = f'{datetime.now():%Y}, {_copyright}'
+
 
 # The full version, including alpha/beta/rc tags
 release = '0.1'
