@@ -6,26 +6,38 @@ API
 ===
 
 
-Import stagewiseNN as::
+Import stagewiseNN as:
 
-    import swnn
+.. code:: ipython3
 
+   import swnn
 
-Preprocessing
--------------
 
 .. py:currentmodule:: swnn
 
-Preprocessing functions
-~~~~~~~~~~~~~~~~~~~~~~~
+Object for Management
+---------------------
+
+.. autosummary::
+   :toctree: generated/
+   :recursive:
+
+   Builder
+
+
+Data Processing
+---------------
 
 .. autosummary::
    :toctree: generated/
 
-   describe_dataframe
+   quick_preprocess_raw
+   normalize_default
    set_adata_hvgs
    change_names
+   group_mean
    group_mean_adata
+   wrapper_scale
 
 
 Make Graph
@@ -36,4 +48,15 @@ Make Graph
 
    stagewise_knn
    adaptive_tree
+
+Others
+------
+
+.. autosummary::
+   :toctree: generated/
+
+   check_dirs
+   set_precomputed_neighbors
+   describe_dataframe
+
 
