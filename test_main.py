@@ -82,13 +82,13 @@ def main(resdir: Union[str, Path] = '_temp'):
     X = adata.X
     stage_lbs = adata.obs['stage_name']
     stage_order = ("B", "G3", "G4", "G5", "G6", "N0", "N1", "N3", "L0")
-    ks = [10] * 7 + [5] + [3]
+    ks = [20] + [10] * 6 + [5] + [3]
     n_pcs = [30] * 5 + [50] * 4
 
     distmat, connect = swnn.stagewise_knn(
         X, stage_lbs, stage_order,
         k=ks,
-        leaf_size=1, # 1 for brute-force KNN
+        leaf_size=1,  # 1 for brute-force KNN
         pca_base_on='stacked',
         n_pcs=n_pcs,
         binary_edge=False,
