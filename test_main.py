@@ -23,7 +23,8 @@ DATADIR = ROOT / 'sample_data'
 
 
 def get_adata(datadir=DATADIR, ):
-    path = datadir / 'merged_B-L0-0.2.h5ad'
+    # path = datadir / 'merged_B-L0-0.2.h5ad'
+    path = datadir / 'subsampled_B-L0-0.2.h5ad'
     adata = sc.read_h5ad(path)
     return adata
 
@@ -138,7 +139,7 @@ def main(resdir: Union[str, Path] = '_temp'):
 def __test__():
     # TODO: additional markers of prior knowledge
     filename_log = None
-    filename_log = 'sample_data/data_description-formed.txt'
+    # filename_log = 'sample_data/data_description-formed.txt'
     save_path = DATADIR / 'subsampled_B-L0-0.2.h5ad'
     if isinstance(filename_log, str):
         with open(filename_log, 'w') as f:

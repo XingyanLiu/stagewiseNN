@@ -12,6 +12,6 @@ from .graph2tree import (
     make_children_dict,
     find_children,
 )
-
+from .builder import Builder
 
 

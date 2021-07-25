@@ -67,7 +67,7 @@ def describe_series(
 
 def make_binary(mat):
     mat_bin = mat.copy()
-    mat_bin[mat_bin > 0] = 1
+    mat_bin[mat_bin > 0] = 1.
     return mat_bin
 
 

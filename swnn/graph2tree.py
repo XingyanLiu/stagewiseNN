@@ -7,7 +7,7 @@
 import os
 import sys
 from pathlib import Path
-from typing import Sequence, Mapping, Optional, Union, Callable, Any
+from typing import Sequence, List, Mapping, Optional, Union, Callable, Any
 import logging
 import pandas as pd
 import numpy as np
@@ -20,10 +20,11 @@ def adaptive_tree(adj_max: sparse.spmatrix,
                   group_lbs: Sequence,
                   stage_lbs: Optional[Sequence] = None,
                   stage_ord: Optional[Sequence] = None,
-                  ignore_pa: Sequence = (),
+                  ignore_pa: Union[List, set] = (),
                   ext_sep: str = '_',
                   ):
     """
+    Adaptatively build the developmental tree from the stagewise-KNN graph.
 
     Parameters
     ----------
@@ -42,22 +43,23 @@ def adaptive_tree(adj_max: sparse.spmatrix,
         np.array, shape = (n_stages,)
         order of stages, better provided by user; if None, it will be decided
         automatically.
-    ignore_pa:
+    ignore_pa: list or set
         parent nodes to be ignored; empty tuple by default.
-    ext_sep:
+    ext_sep: str
         parse string for automatically extract the stage-labels from `group_lbs`
+
     Returns
     -------
-    edgedf:
+    edgedf: pd.DataFrame
         a DataFrame with each row representing an edge, columns are
         ['node', 'parent', 'prop'], where 'prop' is the proportion of nodes
-        that vote for the current parent.
+        that have voted for the current parent.
     group_lbs:
-        refined group-labels
+        refined group-labels for each sample (e.g. single-cell)
 
     Examples
     --------
-    >>> edgedf, group_lbs = adaptiveTree(adj_max, group_lbs, stage_ord=stages)
+    >>> edgedf, group_lbs = adaptive_tree(adj_max, group_lbs, stage_ord=stages)
 
     """
     group_lbs = np.asarray(group_lbs).copy()

@@ -18,9 +18,9 @@ from sklearn.neighbors import NearestNeighbors, KDTree
 
 
 def stagewise_knn(X: np.ndarray,
-                  stage_lbs,
-                  stage_order,
-                  leaf_size=None,
+                  stage_lbs: Sequence,
+                  stage_order: Sequence,
+                  leaf_size: Optional[int] = 5,
                   n_pcs: Union[Sequence[int], int] = 30,
                   k: Union[Sequence[int], int] = 30,
                   pca_base_on: Optional[str] = 'stack',
@@ -28,6 +28,43 @@ def stagewise_knn(X: np.ndarray,
                   norm_dists=False,
                   **kwargs
                   ):
+    """
+        Build multipartite KNN-graph stage-by-stage.
+
+        Parameters
+        ----------
+        X: np.ndarray or sparse matrix
+            data matrix, of shape (n_samples, n_features)
+        stage_lbs: Sequence
+            stage labels for each sample (nodes in `build_graph`)
+        stage_order: Sequence
+            stage order
+        binary_edge: bool (default=True)
+            whether to use the binarized edges. Set as True may cause some
+            information loss but a more robust result.
+        k:
+            the number of nearest neighbors to be calculated.
+        n_pcs:
+            The number of principal components after PCA reduction.
+            If `pca_base_on` is None, this will be ignored.
+        pca_base_on: str {'x1', 'x2', 'stacked', None} (default='stacked')
+            if None, perform KNN on the original data space.
+        leaf_size: int (default=5)
+            Leaf size passed to BallTree or KDTree, for adjusting the
+            approximation level. The higher the faster, while of
+            less promises to find the exact nearest neighbors.
+            Setting as 1 for brute-force (exact) KNN.
+        norm_dists: bool
+            whether to normalize the distance for each pair of adjacent-stages.
+
+        Returns
+        -------
+        distmat: sparse.csr_matrix
+            the distance matrix, of shape (n_samples, n_samples)
+        connect: sparse.csr_matrix
+            the connectivities matrix, of shape (n_samples, n_samples)
+
+    """
     # setting parameters
     n_pcs = [n_pcs] * len(stage_order) if isinstance(n_pcs, int) else n_pcs
     k = [k] * len(stage_order) if isinstance(k, int) else k
@@ -141,6 +178,9 @@ def pca_transform(
         base_on: str = 'stacked',
         **kwargs
 ):
+    """
+    base_on: {'x1', 'x2', 'stacked'}
+    """
     pca = PCA(n_components=n_pcs, **kwargs)
     if X2 is None:
         logging.debug(f'base_on=X1, and X2=None')
