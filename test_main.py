@@ -58,9 +58,9 @@ def formulate_adata(adata, save_path=None):
     return adata
 
 
-def _inspect_data(log_file=None):
+def _inspect_data(log_file=None, save_path=None):
     adata = get_adata()
-    adata = formulate_adata(adata)
+    adata = formulate_adata(adata, save_path=save_path)
     print(adata, file=log_file)
     describe_dataframe(adata.obs, file=log_file)
     # TODO: additional markers of prior knowledge
@@ -138,10 +138,11 @@ def main(resdir: Union[str, Path] = '_temp'):
 def __test__():
     # TODO: additional markers of prior knowledge
     filename_log = None
-    # filename_log = 'data_description-formed.txt'
+    filename_log = 'sample_data/data_description-formed.txt'
+    save_path = DATADIR / 'subsampled_B-L0-0.2.h5ad'
     if isinstance(filename_log, str):
         with open(filename_log, 'w') as f:
-            _inspect_data(log_file=f)
+            _inspect_data(log_file=f, save_path=save_path)
     else:
         main()
 
