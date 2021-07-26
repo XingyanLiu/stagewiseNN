@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
-  <title>stagewiseNN - Building developmental tree from scRNA-seq data &mdash; stagewiseNN 0.1 documentation</title>
+  <title>stagewiseNN - Building developmental tree from scRNA-seq &mdash; stagewiseNN 0.1 documentation</title>
   
 
   
@@ -140,7 +140,7 @@
     
       <li><a href="#" class="icon icon-home"></a> &raquo;</li>
         
-      <li>stagewiseNN - Building developmental tree from scRNA-seq data</li>
+      <li>stagewiseNN - Building developmental tree from scRNA-seq</li>
     
     
       <li class="wy-breadcrumbs-aside">
@@ -159,8 +159,49 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <div class="section" id="stagewisenn-building-developmental-tree-from-scrna-seq-data">
-<h1>stagewiseNN - Building developmental tree from scRNA-seq data<a class="headerlink" href="#stagewisenn-building-developmental-tree-from-scrna-seq-data" title="Permalink to this headline">¶</a></h1>
+  <div class="section" id="stagewisenn-building-developmental-tree-from-scrna-seq">
+<h1>stagewiseNN - Building developmental tree from scRNA-seq<a class="headerlink" href="#stagewisenn-building-developmental-tree-from-scrna-seq" title="Permalink to this headline">¶</a></h1>
+<p><strong>stagewiseNN</strong> is a computational tool for constructing
+developmental tree from Multi-staged single-cell RNA-seq data.</p>
+<p>Install from source code:</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>git clone https://github.com/XingyanLiu/stagewiseNN.git
+<span class="nb">cd</span> stagewiseNN
+python setup.py install
+</pre></div>
+</div>
+<p>It is easy to use:</p>
+<div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">swnn</span>
+
+<span class="c1"># ====== Inputs ======</span>
+<span class="c1"># data_matrix = ..</span>
+<span class="c1"># stage_labels = ..</span>
+<span class="c1"># group_labels = ..</span>
+<span class="c1"># stage_order = [f&#39;stage_{i}&#39; for i in range(5)]</span>
+
+<span class="n">builder</span> <span class="o">=</span> <span class="n">swnn</span><span class="o">.</span><span class="n">Builder</span><span class="p">(</span><span class="n">stage_order</span><span class="o">=</span><span class="n">stage_order</span><span class="p">)</span>
+<span class="c1"># step1: building (stage-wise) single-cell graph</span>
+<span class="n">distmat</span><span class="p">,</span> <span class="n">connect</span> <span class="o">=</span> <span class="n">builder</span><span class="o">.</span><span class="n">build_graph</span><span class="p">(</span>
+        <span class="n">X</span><span class="o">=</span><span class="n">data_matrix</span><span class="p">,</span> <span class="n">stage_lbs</span><span class="o">=</span><span class="n">stage_labels</span><span class="p">,</span>
+    <span class="p">)</span>
+<span class="c1"># step2: build developmental tree from single-cell graph</span>
+<span class="n">builder</span><span class="o">.</span><span class="n">build_tree</span><span class="p">(</span><span class="n">group_labels</span><span class="p">,</span> <span class="n">stage_labels</span><span class="p">,)</span>
+</pre></div>
+</div>
+<div class="section" id="contribute">
+<h2>Contribute<a class="headerlink" href="#contribute" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p>Issue Tracker: <a class="reference external" href="https://github.com/XingyanLiu/stagewiseNN/issues">https://github.com/XingyanLiu/stagewiseNN/issues</a></p></li>
+<li><p>Source Code: <a class="reference external" href="https://github.com/XingyanLiu/stagewiseNN">https://github.com/XingyanLiu/stagewiseNN</a></p></li>
+</ul>
+</div>
+<div class="section" id="support">
+<h2>Support<a class="headerlink" href="#support" title="Permalink to this headline">¶</a></h2>
+<p>If you are having issues, please let us know.
+We have a mailing list located at:</p>
+<ul class="simple">
+<li><p><a class="reference external" href="mailto:xingyan&#37;&#52;&#48;amss&#46;ac&#46;cn">xingyan<span>&#64;</span>amss<span>&#46;</span>ac<span>&#46;</span>cn</a></p></li>
+<li><p><a class="reference external" href="mailto:544568643&#37;&#52;&#48;qq&#46;com">544568643<span>&#64;</span>qq<span>&#46;</span>com</a></p></li>
+</ul>
 <div class="toctree-wrapper compound">
 <p class="caption" role="heading"><span class="caption-text">Contents</span></p>
 <ul>
@@ -169,6 +210,7 @@
 <li class="toctree-l1"><a class="reference internal" href="api.html">API</a></li>
 <li class="toctree-l1"><a class="reference internal" href="citation.html">Citation</a></li>
 </ul>
+</div>
 </div>
 </div>
 <div class="section" id="indices-and-tables">
