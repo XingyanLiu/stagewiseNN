@@ -31,7 +31,7 @@ release = '0.1'
 
 
 # -- General configuration ---------------------------------------------------
-pygments_style = 'sphinx'
+pygments_style = 'sphinx'  # coloring code blocks
 
 # Add any Sphinx extension module names here, as strings. They can be
 # extensions coming with Sphinx (named 'sphinx.ext.*') or your custom
