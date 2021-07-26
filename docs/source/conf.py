@@ -31,6 +31,7 @@ release = '0.1'
 
 
 # -- General configuration ---------------------------------------------------
+pygments_style = 'sphinx'
 
 # Add any Sphinx extension module names here, as strings. They can be
 # extensions coming with Sphinx (named 'sphinx.ext.*') or your custom
@@ -46,7 +47,8 @@ extensions = [
     'sphinx.ext.todo',
     'sphinx.ext.coverage',
     'sphinx.ext.mathjax',
-    'sphinx.ext.githubpages'  # enable github-pages
+    'sphinx.ext.githubpages',  # enable github-pages
+    'sphinx_autodoc_typehints',  # needs to be after napoleon
 ]
 
 autosummary_generate = True
