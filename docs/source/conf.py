@@ -40,6 +40,7 @@ extensions = [
     'sphinx.ext.autosummary',
     'sphinx.ext.napoleon',  # different doc-styles (Google, Numpy)
     # 'myst_parser',  # use Markdown using MyST
+    "nbsphinx",
     'sphinx.ext.doctest',
     'sphinx.ext.intersphinx',
     'sphinx.ext.todo',
