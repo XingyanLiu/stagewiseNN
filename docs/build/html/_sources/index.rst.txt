@@ -31,11 +31,13 @@ It is easy to use:
    # stage_order = [f'stage_{i}' for i in range(5)]
 
    builder = swnn.Builder(stage_order=stage_order)
-   # step1: building (stage-wise) single-cell graph
+   # step1:
+   # building (stage-wise) single-cell graph
    distmat, connect = builder.build_graph(
            X=data_matrix, stage_lbs=stage_labels,
        )
-   # step2: build developmental tree from single-cell graph
+   # step2:
+   # build developmental tree from single-cell graph
    builder.build_tree(group_labels, stage_labels,)
 
 

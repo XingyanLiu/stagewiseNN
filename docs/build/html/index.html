@@ -179,11 +179,13 @@ python setup.py install
 <span class="c1"># stage_order = [f&#39;stage_{i}&#39; for i in range(5)]</span>
 
 <span class="n">builder</span> <span class="o">=</span> <span class="n">swnn</span><span class="o">.</span><span class="n">Builder</span><span class="p">(</span><span class="n">stage_order</span><span class="o">=</span><span class="n">stage_order</span><span class="p">)</span>
-<span class="c1"># step1: building (stage-wise) single-cell graph</span>
+<span class="c1"># step1:</span>
+<span class="c1"># building (stage-wise) single-cell graph</span>
 <span class="n">distmat</span><span class="p">,</span> <span class="n">connect</span> <span class="o">=</span> <span class="n">builder</span><span class="o">.</span><span class="n">build_graph</span><span class="p">(</span>
         <span class="n">X</span><span class="o">=</span><span class="n">data_matrix</span><span class="p">,</span> <span class="n">stage_lbs</span><span class="o">=</span><span class="n">stage_labels</span><span class="p">,</span>
     <span class="p">)</span>
-<span class="c1"># step2: build developmental tree from single-cell graph</span>
+<span class="c1"># step2:</span>
+<span class="c1"># build developmental tree from single-cell graph</span>
 <span class="n">builder</span><span class="o">.</span><span class="n">build_tree</span><span class="p">(</span><span class="n">group_labels</span><span class="p">,</span> <span class="n">stage_labels</span><span class="p">,)</span>
 </pre></div>
 </div>
