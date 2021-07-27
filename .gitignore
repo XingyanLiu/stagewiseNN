@@ -6,6 +6,7 @@ __pycache__
 *.pyc
 
 /sample_data/merged_adults-19624.rar
+/sample_data/merged_B-L0-raw.rar
 *.h5ad
 
 /_temp/
