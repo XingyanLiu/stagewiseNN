@@ -20,6 +20,6 @@ Or fetch from GitHub and manually install:
 
     git clone https://github.com/XingyanLiu/stagewiseNN.git
     cd stagewiseNN
-    python setup.py
+    python setup.py install
 
 END
