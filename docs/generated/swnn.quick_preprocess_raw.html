@@ -98,8 +98,6 @@
 <li class="toctree-l3 current"><a class="current reference internal" href="#">swnn.quick_preprocess_raw</a></li>
 <li class="toctree-l3"><a class="reference internal" href="swnn.normalize_default.html">swnn.normalize_default</a></li>
 <li class="toctree-l3"><a class="reference internal" href="swnn.set_adata_hvgs.html">swnn.set_adata_hvgs</a></li>
-<li class="toctree-l3"><a class="reference internal" href="swnn.change_names.html">swnn.change_names</a></li>
-<li class="toctree-l3"><a class="reference internal" href="swnn.group_mean.html">swnn.group_mean</a></li>
 <li class="toctree-l3"><a class="reference internal" href="swnn.group_mean_adata.html">swnn.group_mean_adata</a></li>
 <li class="toctree-l3"><a class="reference internal" href="swnn.wrapper_scale.html">swnn.wrapper_scale</a></li>
 </ul>
@@ -207,9 +205,32 @@
 <dl class="py function">
 <dt class="sig sig-object py" id="swnn.quick_preprocess_raw">
 <span class="sig-prename descclassname"><span class="pre">swnn.</span></span><span class="sig-name descname"><span class="pre">quick_preprocess_raw</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">adata</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">target_sum</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">hvgs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">batch_key</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">copy</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">log_first</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">hvg_kwds</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#swnn.quick_preprocess_raw" title="Permalink to this definition">¶</a></dt>
-<dd><dl class="field-list simple">
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">AnnData</span></code></p>
+<dd><p>go through the data-analysis pipeline
+:type adata: <code class="xref py py-class docutils literal notranslate"><span class="pre">AnnData</span></code>
+:param adata: the <code class="docutils literal notranslate"><span class="pre">Anndata</span></code> object
+:type target_sum: <code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code>]
+:param target_sum: the target total counts after normalization.</p>
+<blockquote>
+<div><p>If <cite>None</cite>, after normalization, each observation (cell) has a total
+count equal to the median of total counts for observations (cells)
+before normalization.</p>
+</div></blockquote>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>hvgs</strong> (<code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">Sequence</span></code>]) – highly variable genes to be used for dimensionality reduction
+(centering and PCA)</p></li>
+<li><p><strong>batch_key</strong> – a column name in <code class="docutils literal notranslate"><span class="pre">adata.obs</span></code> specifying the batch labels</p></li>
+<li><p><strong>copy</strong> – whether to make a co[y of the input data. if <cite>False</cite>, the data object
+will be change inplace.</p></li>
+<li><p><strong>log_first</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code>) – for some data distributions, perform log(x+1) before total-count
+normalization might give a better result (e.g. clustering results
+may be less affected by the sequencing depths)</p></li>
+<li><p><strong>hvg_kwds</strong> – other key-word parameters for <code class="docutils literal notranslate"><span class="pre">sc.pp.highly_variable_genes</span></code></p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">AnnData</span></code></p>
 </dd>
 </dl>
 </dd></dl>

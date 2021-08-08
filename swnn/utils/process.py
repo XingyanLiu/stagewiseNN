@@ -113,6 +113,25 @@ def normalize_default(
         adata, target_sum=None,
         copy=False, log_only=False,
 ):
+    """Normalizing datasets with default settings (total-counts normalization
+    followed by log(x+1) transform).
+
+    Parameters
+    ----------
+    adata
+        ``AnnData`` object
+    target_sum
+        scale factor of total-count normalization
+    copy
+        whether to copy the dataset
+    log_only
+        whether to skip the "total-counts normalization" and only perform
+        log(x+1) transform
+
+    Returns
+    -------
+    ``AnnData`` or None
+    """
     if copy:
         adata = adata.copy()
         logging.info('A copy of AnnData made!')
@@ -198,6 +217,36 @@ def quick_preprocess_raw(
         log_first: bool = False,
         **hvg_kwds
 ) -> sc.AnnData:
+    """
+    go through the data-analysis pipeline
+    Parameters
+    ----------
+    adata
+        the ``Anndata`` object
+    target_sum
+        the target total counts after normalization.
+        If `None`, after normalization, each observation (cell) has a total
+        count equal to the median of total counts for observations (cells)
+        before normalization.
+    hvgs
+        highly variable genes to be used for dimensionality reduction
+        (centering and PCA)
+    batch_key
+        a column name in ``adata.obs`` specifying the batch labels
+    copy
+        whether to make a co[y of the input data. if `False`, the data object
+        will be change inplace.
+    log_first
+        for some data distributions, perform log(x+1) before total-count
+        normalization might give a better result (e.g. clustering results
+        may be less affected by the sequencing depths)
+    hvg_kwds
+        other key-word parameters for ``sc.pp.highly_variable_genes``
+
+    Returns
+    -------
+
+    """
     if copy:
         _adata = adata.copy()
         logging.info('A copy of AnnData made!')
@@ -303,12 +352,24 @@ def group_median_dense(
 
 def group_mean_adata(adata: sc.AnnData,
                      groupby: str,
-                     features=None, binary=False, use_raw=False):
+                     features=None,
+                     binary=False,
+                     use_raw=False):
     """
+    Compute averaged feature-values for each group
+
     Parameters
     ----------
-    groupby: a column name in adata.obs
-    features: a subset of names in adata.var_names (or adata.raw.var_names)
+    adata: AnnData
+    groupby: str
+        a column name in adata.obs
+    features:
+        a subset of names in adata.var_names (or adata.raw.var_names)
+    binary: bool
+        if True, the results will turn to be the non-zeor proportions for
+        all (or the given) features
+    use_raw: bool
+        whether to access adata.raw to compute the averages.
 
     Returns
     -------

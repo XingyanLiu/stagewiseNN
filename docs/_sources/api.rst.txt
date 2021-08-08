@@ -36,8 +36,6 @@ Data Processing
    quick_preprocess_raw
    normalize_default
    set_adata_hvgs
-   change_names
-   group_mean
    group_mean_adata
    wrapper_scale
 

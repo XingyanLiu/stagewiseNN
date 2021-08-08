@@ -237,7 +237,26 @@ if slim is True and adata.raw is None, raw data will be backup.</p>
 <dl class="py function">
 <dt class="sig sig-object py" id="swnn.utils.process.normalize_default">
 <span class="sig-prename descclassname"><span class="pre">swnn.utils.process.</span></span><span class="sig-name descname"><span class="pre">normalize_default</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">adata</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">target_sum</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">copy</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">log_only</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#swnn.utils.process.normalize_default" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Normalizing datasets with default settings (total-counts normalization
+followed by log(x+1) transform).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>adata</strong> – <code class="docutils literal notranslate"><span class="pre">AnnData</span></code> object</p></li>
+<li><p><strong>target_sum</strong> – scale factor of total-count normalization</p></li>
+<li><p><strong>copy</strong> – whether to copy the dataset</p></li>
+<li><p><strong>log_only</strong> – whether to skip the “total-counts normalization” and only perform
+log(x+1) transform</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p></p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><code class="docutils literal notranslate"><span class="pre">AnnData</span></code> or None</p>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="swnn.utils.process.normalize_log_then_total">
@@ -255,9 +274,32 @@ confounded by different total-counts ).</p>
 <dl class="py function">
 <dt class="sig sig-object py" id="swnn.utils.process.quick_preprocess_raw">
 <span class="sig-prename descclassname"><span class="pre">swnn.utils.process.</span></span><span class="sig-name descname"><span class="pre">quick_preprocess_raw</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">adata</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">target_sum</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">hvgs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">batch_key</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">copy</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">log_first</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">hvg_kwds</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#swnn.utils.process.quick_preprocess_raw" title="Permalink to this definition">¶</a></dt>
-<dd><dl class="field-list simple">
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">AnnData</span></code></p>
+<dd><p>go through the data-analysis pipeline
+:type adata: <code class="xref py py-class docutils literal notranslate"><span class="pre">AnnData</span></code>
+:param adata: the <code class="docutils literal notranslate"><span class="pre">Anndata</span></code> object
+:type target_sum: <code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code>]
+:param target_sum: the target total counts after normalization.</p>
+<blockquote>
+<div><p>If <cite>None</cite>, after normalization, each observation (cell) has a total
+count equal to the median of total counts for observations (cells)
+before normalization.</p>
+</div></blockquote>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>hvgs</strong> (<code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">Sequence</span></code>]) – highly variable genes to be used for dimensionality reduction
+(centering and PCA)</p></li>
+<li><p><strong>batch_key</strong> – a column name in <code class="docutils literal notranslate"><span class="pre">adata.obs</span></code> specifying the batch labels</p></li>
+<li><p><strong>copy</strong> – whether to make a co[y of the input data. if <cite>False</cite>, the data object
+will be change inplace.</p></li>
+<li><p><strong>log_first</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code>) – for some data distributions, perform log(x+1) before total-count
+normalization might give a better result (e.g. clustering results
+may be less affected by the sequencing depths)</p></li>
+<li><p><strong>hvg_kwds</strong> – other key-word parameters for <code class="docutils literal notranslate"><span class="pre">sc.pp.highly_variable_genes</span></code></p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">AnnData</span></code></p>
 </dd>
 </dl>
 </dd></dl>
@@ -298,11 +340,16 @@ when handling sparse matrix.</p>
 <dl class="py function">
 <dt class="sig sig-object py" id="swnn.utils.process.group_mean_adata">
 <span class="sig-prename descclassname"><span class="pre">swnn.utils.process.</span></span><span class="sig-name descname"><span class="pre">group_mean_adata</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">adata</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">groupby</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">features</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">binary</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">use_raw</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#swnn.utils.process.group_mean_adata" title="Permalink to this definition">¶</a></dt>
-<dd><dl class="field-list simple">
+<dd><p>Compute averaged feature-values for each group</p>
+<dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>groupby</strong> (<em>a column name in adata.obs</em>) – </p></li>
-<li><p><strong>features</strong> (<em>a subset of names in adata.var_names</em><em> (or </em><em>adata.raw.var_names</em><em>)</em>) – </p></li>
+<li><p><strong>adata</strong> (<em>AnnData</em>) – </p></li>
+<li><p><strong>groupby</strong> (<em>str</em>) – a column name in adata.obs</p></li>
+<li><p><strong>features</strong> – a subset of names in adata.var_names (or adata.raw.var_names)</p></li>
+<li><p><strong>binary</strong> (<em>bool</em>) – if True, the results will turn to be the non-zeor proportions for
+all (or the given) features</p></li>
+<li><p><strong>use_raw</strong> (<em>bool</em>) – whether to access adata.raw to compute the averages.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
