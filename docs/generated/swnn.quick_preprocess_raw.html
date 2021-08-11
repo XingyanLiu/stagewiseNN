@@ -97,6 +97,7 @@
 <li class="toctree-l2 current"><a class="reference internal" href="../api.html#data-processing">Data Processing</a><ul class="current">
 <li class="toctree-l3 current"><a class="current reference internal" href="#">swnn.quick_preprocess_raw</a></li>
 <li class="toctree-l3"><a class="reference internal" href="swnn.normalize_default.html">swnn.normalize_default</a></li>
+<li class="toctree-l3"><a class="reference internal" href="swnn.groupwise_hvgs_freq.html">swnn.groupwise_hvgs_freq</a></li>
 <li class="toctree-l3"><a class="reference internal" href="swnn.set_adata_hvgs.html">swnn.set_adata_hvgs</a></li>
 <li class="toctree-l3"><a class="reference internal" href="swnn.group_mean_adata.html">swnn.group_mean_adata</a></li>
 <li class="toctree-l3"><a class="reference internal" href="swnn.wrapper_scale.html">swnn.wrapper_scale</a></li>
@@ -205,19 +206,16 @@
 <dl class="py function">
 <dt class="sig sig-object py" id="swnn.quick_preprocess_raw">
 <span class="sig-prename descclassname"><span class="pre">swnn.</span></span><span class="sig-name descname"><span class="pre">quick_preprocess_raw</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">adata</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">target_sum</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">hvgs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">batch_key</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">copy</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">log_first</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">hvg_kwds</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#swnn.quick_preprocess_raw" title="Permalink to this definition">¶</a></dt>
-<dd><p>go through the data-analysis pipeline
-:type adata: <code class="xref py py-class docutils literal notranslate"><span class="pre">AnnData</span></code>
-:param adata: the <code class="docutils literal notranslate"><span class="pre">Anndata</span></code> object
-:type target_sum: <code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code>]
-:param target_sum: the target total counts after normalization.</p>
-<blockquote>
-<div><p>If <cite>None</cite>, after normalization, each observation (cell) has a total
-count equal to the median of total counts for observations (cells)
-before normalization.</p>
-</div></blockquote>
+<dd><p>Go through the data-analysis pipeline, including normalization, HVG
+selection, and z-scoring (centering and scaling)</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
+<li><p><strong>adata</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">AnnData</span></code>) – the <code class="docutils literal notranslate"><span class="pre">Anndata</span></code> object</p></li>
+<li><p><strong>target_sum</strong> (<code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code>]) – the target total counts after normalization.
+If <cite>None</cite>, after normalization, each observation (cell) has a total
+count equal to the median of total counts for observations (cells)
+before normalization.</p></li>
 <li><p><strong>hvgs</strong> (<code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">Sequence</span></code>]) – highly variable genes to be used for dimensionality reduction
 (centering and PCA)</p></li>
 <li><p><strong>batch_key</strong> – a column name in <code class="docutils literal notranslate"><span class="pre">adata.obs</span></code> specifying the batch labels</p></li>

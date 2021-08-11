@@ -83,12 +83,14 @@ def stagewise_knn(X: np.ndarray,
             inds_earlier = inds_later = stage_lbs == stg1
             X_earlier = X[inds_earlier, :]
             X_later = None
+            print(f'perform KNN searching: {stg1} in {stg1}')
         else:
             stg0 = stage_order[i - 1]
             inds_earlier = stage_lbs == stg0
             inds_later = stage_lbs == stg1
             X_earlier = X[inds_earlier, :]
             X_later = X[inds_later, :]
+            print(f'perform KNN searching: {stg1} in {stg0}')
 
         if pca_base_on is not None:
             X_earlier, X_later = pca_transform(

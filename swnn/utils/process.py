@@ -164,6 +164,57 @@ def normalize_log_then_total(
     return adata
 
 
+def groupwise_hvgs_freq(
+        adata,
+        groupby='batch',
+        return_hvgs: bool = True,
+        **hvg_kwds,
+):
+    """ Separately compute highly variable genes (HVGs) for each group, and
+    count the frequencies of genes being selected as HVGs among those groups.
+
+    Parameters
+    ----------
+    adata
+        the ``AnnData`` object
+    groupby
+        a column name in ``adata.obs`` specifying batches or groups that you
+        would like to independently compute HVGs.
+    return_hvgs
+        whether to return the computed dict of HVG-lists for each group
+    hvg_kwds
+        Other Parameters for ``sc.pp.highly_variable_genes``
+    Returns
+    -------
+    hvg_freq: dict
+        the HVG frequencies
+    hvg_dict: dict
+        returned only if ``return_hvgs`` is True
+    """
+    from collections import Counter
+    hvg_dict = {}
+    hvg_freq = Counter()
+    group_labels = adata.obs[groupby]
+    for g in group_labels.unique():
+        _adt = adata[group_labels == g].copy()
+        sc.pp.highly_variable_genes(_adt, **hvg_kwds)
+        _hvgs = _adt.var[_adt.var['highly_variable']].index
+        hvg_freq += Counter(_hvgs)
+        if return_hvgs:
+            hvg_dict[g] = list(_hvgs)
+
+    hvg_freq = dict(hvg_freq)
+    if return_hvgs:
+        return hvg_freq, hvg_dict
+    return hvg_freq
+
+
+def take_high_freq_elements(
+        freq: Mapping,
+        min_freq: int = 3):
+    return list(filter(lambda x: freq[x] >= min_freq, freq.keys()))
+
+
 def set_precomputed_neighbors(
         adata,
         distances,
@@ -218,7 +269,9 @@ def quick_preprocess_raw(
         **hvg_kwds
 ) -> sc.AnnData:
     """
-    go through the data-analysis pipeline
+    Go through the data-analysis pipeline, including normalization, HVG
+    selection, and z-scoring (centering and scaling)
+
     Parameters
     ----------
     adata

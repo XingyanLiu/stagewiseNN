@@ -1,0 +1,6 @@
+scanpy
+scikit_learn
+scipy
+
+[downstream analysis]
+scanpy

@@ -1,0 +1,16 @@
+LICENSE
+README.md
+setup.py
+swnn/__init__.py
+swnn/builder.py
+swnn/graph2tree.py
+swnn/multipartite_graph.py
+swnn.egg-info/PKG-INFO
+swnn.egg-info/SOURCES.txt
+swnn.egg-info/dependency_links.txt
+swnn.egg-info/requires.txt
+swnn.egg-info/top_level.txt
+swnn/utils/__init__.py
+swnn/utils/_scale.py
+swnn/utils/plot.py
+swnn/utils/process.py

@@ -3,9 +3,9 @@ Tutorials
 
 To be completed!
 
-see :doc:`tutorial/step_by_step_tutorial`
+see :doc:`tutorial/tutorial_builder_based`
 
 .. toctree::
    :maxdepth: 1
 
-   tutorial/step_by_step_tutorial
+   tutorial/tutorial_builder_based

@@ -101,7 +101,7 @@ class Builder(object):
             X, stage_lbs,
             binary_edge: bool = True,
             ks: Union[Sequence[int], int] = 10,
-            n_pcs: Union[Sequence[int], int] = 10,
+            n_pcs: Union[Sequence[int], int] = 50,
             pca_base_on: Optional[str] = 'stacked',
             leaf_size: int = 5,
             **kwargs

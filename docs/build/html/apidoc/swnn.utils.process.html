@@ -267,6 +267,36 @@ confounded by different total-counts ).</p>
 </dd></dl>
 
 <dl class="py function">
+<dt class="sig sig-object py" id="swnn.utils.process.groupwise_hvgs_freq">
+<span class="sig-prename descclassname"><span class="pre">swnn.utils.process.</span></span><span class="sig-name descname"><span class="pre">groupwise_hvgs_freq</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">adata</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">groupby</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'batch'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">return_hvgs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">hvg_kwds</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#swnn.utils.process.groupwise_hvgs_freq" title="Permalink to this definition">¶</a></dt>
+<dd><p>Separately compute highly variable genes (HVGs) for each group, and
+count the frequencies of genes being selected as HVGs among those groups.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>adata</strong> – the <code class="docutils literal notranslate"><span class="pre">AnnData</span></code> object</p></li>
+<li><p><strong>groupby</strong> – a column name in <code class="docutils literal notranslate"><span class="pre">adata.obs</span></code> specifying batches or groups that you
+would like to independently compute HVGs.</p></li>
+<li><p><strong>return_hvgs</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code>) – whether to return the computed dict of HVG-lists for each group</p></li>
+<li><p><strong>hvg_kwds</strong> – Other Parameters for <code class="docutils literal notranslate"><span class="pre">sc.pp.highly_variable_genes</span></code></p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><ul class="simple">
+<li><p><strong>hvg_freq</strong> (<em>dict</em>) – the HVG frequencies</p></li>
+<li><p><strong>hvg_dict</strong> (<em>dict</em>) – returned only if <code class="docutils literal notranslate"><span class="pre">return_hvgs</span></code> is True</p></li>
+</ul>
+</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="swnn.utils.process.take_high_freq_elements">
+<span class="sig-prename descclassname"><span class="pre">swnn.utils.process.</span></span><span class="sig-name descname"><span class="pre">take_high_freq_elements</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">freq</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">min_freq</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">3</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#swnn.utils.process.take_high_freq_elements" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
 <dt class="sig sig-object py" id="swnn.utils.process.set_precomputed_neighbors">
 <span class="sig-prename descclassname"><span class="pre">swnn.utils.process.</span></span><span class="sig-name descname"><span class="pre">set_precomputed_neighbors</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">adata</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">distances</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">connectivities</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_neighbors</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">15</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">metric</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'cosine'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">method</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'umap'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">metric_kwds</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">use_rep</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_pcs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">key_added</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#swnn.utils.process.set_precomputed_neighbors" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
@@ -274,19 +304,16 @@ confounded by different total-counts ).</p>
 <dl class="py function">
 <dt class="sig sig-object py" id="swnn.utils.process.quick_preprocess_raw">
 <span class="sig-prename descclassname"><span class="pre">swnn.utils.process.</span></span><span class="sig-name descname"><span class="pre">quick_preprocess_raw</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">adata</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">target_sum</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">hvgs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">batch_key</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">copy</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">log_first</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">hvg_kwds</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#swnn.utils.process.quick_preprocess_raw" title="Permalink to this definition">¶</a></dt>
-<dd><p>go through the data-analysis pipeline
-:type adata: <code class="xref py py-class docutils literal notranslate"><span class="pre">AnnData</span></code>
-:param adata: the <code class="docutils literal notranslate"><span class="pre">Anndata</span></code> object
-:type target_sum: <code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code>]
-:param target_sum: the target total counts after normalization.</p>
-<blockquote>
-<div><p>If <cite>None</cite>, after normalization, each observation (cell) has a total
-count equal to the median of total counts for observations (cells)
-before normalization.</p>
-</div></blockquote>
+<dd><p>Go through the data-analysis pipeline, including normalization, HVG
+selection, and z-scoring (centering and scaling)</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
+<li><p><strong>adata</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">AnnData</span></code>) – the <code class="docutils literal notranslate"><span class="pre">Anndata</span></code> object</p></li>
+<li><p><strong>target_sum</strong> (<code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code>]) – the target total counts after normalization.
+If <cite>None</cite>, after normalization, each observation (cell) has a total
+count equal to the median of total counts for observations (cells)
+before normalization.</p></li>
 <li><p><strong>hvgs</strong> (<code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">Sequence</span></code>]) – highly variable genes to be used for dimensionality reduction
 (centering and PCA)</p></li>
 <li><p><strong>batch_key</strong> – a column name in <code class="docutils literal notranslate"><span class="pre">adata.obs</span></code> specifying the batch labels</p></li>
