@@ -6,6 +6,8 @@ To be completed!
 **stagewiseNN** is a computational tool for constructing
 developmental tree from Multi-staged single-cell RNA-seq data.
 
+(see [documentation](https://xingyanliu.github.io/stagewiseNN/index.html) for detailed guides)
+
 It is easy to use:
 
 ```python
