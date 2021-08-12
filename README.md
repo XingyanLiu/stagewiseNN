@@ -8,6 +8,12 @@ developmental tree from Multi-staged single-cell RNA-seq data.
 
 (see [documentation](https://xingyanliu.github.io/stagewiseNN/index.html) for detailed guides)
 
+It starts from building a single-cell graph by connecting each cell to its
+k-nearest neighbors in the parent stage, followed by voting-based tree-construction
+and adaptive cluster refinement.
+
+![StagewiseNN](docs/source/_figs/stagewisenn.png)
+
 It is easy to use:
 
 ```python

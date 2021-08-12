@@ -10,12 +10,17 @@ stagewiseNN - Building developmental tree from scRNA-seq
 developmental (lineage) tree from Multi-staged single-cell RNA-seq data.
 
 It starts from building a single-cell graph by connecting each cell to its
-k-nearest neighbors in the parent stage, followed by
+k-nearest neighbors in the parent stage, followed by voting-based tree-construction
+and adaptive cluster refinement.
 
 .. image:: _figs/stagewisenn.png
    :height: 250px
 
 The single-cell graph can be further visualized using graph embedding methods, e.g. UMAP, SPRING.
+
+We have used it to build the developmental tree from Amphioxus embryonic cells, across
+nine developmental stages ("B", "G3", "G4", "G5", "G6", "N0", "N1", "N3", "L0").
+And seven major lineages were recognized.
 
 .. image:: _figs/umap_stage.png
    :height: 200px
@@ -23,6 +28,8 @@ The single-cell graph can be further visualized using graph embedding methods, e
 .. image:: _figs/umap_lineage.png
    :height: 200px
 
+Installation
+------------
 
 Requirements:
 
@@ -40,7 +47,10 @@ Install from source code:
    python setup.py install
 
 
-It is easy to use:
+Usage
+-----
+
+See :doc:`tutorial/tutorial_builder_based` for detailed guide.
 
 .. code:: python3
 
@@ -61,9 +71,6 @@ It is easy to use:
    # step2:
    # build developmental tree from single-cell graph
    edgedf, refined_group_lbs = builder.build_tree(group_labels, stage_labels,)
-
-
-see :doc:`tutorial/tutorial_builder_based` for detailed user guide.
 
 
 Contribute
