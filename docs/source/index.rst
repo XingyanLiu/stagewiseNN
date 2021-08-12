@@ -9,6 +9,14 @@ stagewiseNN - Building developmental tree from scRNA-seq
 **stagewiseNN** is a computational tool for constructing
 developmental tree from Multi-staged single-cell RNA-seq data.
 
+.. image:: _figs/umap_stage.png
+   :width: 200px
+
+
+.. image:: _figs/umap_lineage.png
+   :width: 200px
+
+
 Install from source code:
 
 .. code:: shell
