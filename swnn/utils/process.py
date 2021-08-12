@@ -218,7 +218,7 @@ def take_high_freq_elements(
 def set_precomputed_neighbors(
         adata,
         distances,
-        connectivities=None,
+        connectivities,
         n_neighbors=15,
         metric='cosine',  # pretended parameter
         method='umap',  # pretended parameter

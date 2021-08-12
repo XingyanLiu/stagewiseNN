@@ -7,14 +7,28 @@ stagewiseNN - Building developmental tree from scRNA-seq
 ========================================================
 
 **stagewiseNN** is a computational tool for constructing
-developmental tree from Multi-staged single-cell RNA-seq data.
+developmental (lineage) tree from Multi-staged single-cell RNA-seq data.
+
+It starts from building a single-cell graph by connecting each cell to its
+k-nearest neighbors in the parent stage, followed by
+
+.. image:: _figs/stagewisenn.png
+   :height: 250px
+
+The single-cell graph can be further visualized using graph embedding methods, e.g. UMAP, SPRING.
 
 .. image:: _figs/umap_stage.png
-   :width: 200px
-
+   :height: 200px
 
 .. image:: _figs/umap_lineage.png
-   :width: 200px
+   :height: 200px
+
+
+Requirements:
+
+- python >= 3.6
+- scanpy: https://pypi.org/project/scanpy/
+- scikit_learn: https://pypi.org/project/scikit-learn/
 
 
 Install from source code:
@@ -46,7 +60,10 @@ It is easy to use:
        )
    # step2:
    # build developmental tree from single-cell graph
-   builder.build_tree(group_labels, stage_labels,)
+   edgedf, refined_group_lbs = builder.build_tree(group_labels, stage_labels,)
+
+
+see :doc:`tutorial/tutorial_builder_based` for detailed user guide.
 
 
 Contribute

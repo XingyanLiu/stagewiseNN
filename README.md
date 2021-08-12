@@ -34,6 +34,13 @@ builder.build_tree(group_labels, stage_labels,)
 Installation
 ------------
 
+Requirements:
+
+- python >= 3.6
+- [scanpy](https://pypi.org/project/scanpy/)
+- [scikit_learn](https://pypi.org/project/scikit-learn/)
+
+
 Install stagewiseNN by running (in the command line):
 
 ```shell
