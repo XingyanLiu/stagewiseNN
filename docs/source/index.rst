@@ -34,7 +34,7 @@ Installation
 Requirements:
 
 - python >= 3.6
-- scanpy: https://pypi.org/project/scanpy/
+- scanpy: https://scanpy.readthedocs.io/en/stable/installation.html
 - scikit-learn: https://pypi.org/project/scikit-learn/
 
 
@@ -78,6 +78,7 @@ Contribute
 
 - Issue Tracker: https://github.com/XingyanLiu/stagewiseNN/issues
 - Source Code:
+
   - https://github.com/zhanglabtools/stagewiseNN
   - https://github.com/XingyanLiu/stagewiseNN (the developmental version)
 
