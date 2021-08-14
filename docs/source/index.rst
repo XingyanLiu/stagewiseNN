@@ -35,14 +35,14 @@ Requirements:
 
 - python >= 3.6
 - scanpy: https://pypi.org/project/scanpy/
-- scikit_learn: https://pypi.org/project/scikit-learn/
+- scikit-learn: https://pypi.org/project/scikit-learn/
 
 
 Install from source code:
 
 .. code:: shell
 
-   git clone https://github.com/XingyanLiu/stagewiseNN.git
+   git clone https://github.com/zhanglabtools/stagewiseNN.git
    cd stagewiseNN
    python setup.py install
 
@@ -77,7 +77,9 @@ Contribute
 ----------
 
 - Issue Tracker: https://github.com/XingyanLiu/stagewiseNN/issues
-- Source Code: https://github.com/XingyanLiu/stagewiseNN
+- Source Code:
+  - https://github.com/zhanglabtools/stagewiseNN
+  - https://github.com/XingyanLiu/stagewiseNN (the developmental version)
 
 Support
 -------
