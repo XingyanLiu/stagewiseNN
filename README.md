@@ -1,12 +1,10 @@
 stagewiseNN
 ===========
 
-To be completed!
-
 **stagewiseNN** is a computational tool for constructing
 developmental tree from Multi-staged single-cell RNA-seq data.
 
-(see [documentation](https://xingyanliu.github.io/stagewiseNN/index.html) for detailed guides)
+(see [StagewiseNN Documentation ](https://xingyanliu.github.io/stagewiseNN/index.html) for detailed guides)
 
 It starts from building a single-cell graph by connecting each cell to its
 k-nearest neighbors in the parent stage, followed by voting-based tree-construction
@@ -44,7 +42,7 @@ Requirements:
 
 - python >= 3.6
 - [scanpy](https://pypi.org/project/scanpy/)
-- [scikit_learn](https://pypi.org/project/scikit-learn/)
+- [scikit-learn](https://pypi.org/project/scikit-learn/)
 
 
 Install stagewiseNN by running (in the command line):
@@ -56,7 +54,7 @@ pip install swnn
 or install from source code:
 
 ```shell
-git clone https://github.com/XingyanLiu/stagewiseNN.git
+git clone https://github.com/zhanglabtools/stagewiseNN.git
 cd stagewiseNN
 python setup.py install
 ```
@@ -65,7 +63,9 @@ Contribute
 ----------
 
 - Issue Tracker: https://github.com/XingyanLiu/stagewiseNN/issues
-- Source Code: https://github.com/XingyanLiu/stagewiseNN
+- Source Code: 
+  - https://github.com/zhanglabtools/stagewiseNN
+  - https://github.com/XingyanLiu/stagewiseNN (the developmental version)
 
 Support
 -------
