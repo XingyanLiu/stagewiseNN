@@ -6,7 +6,6 @@
 @Project: stagewiseNN
 """
 
-from .plot import *
 from .process import *
 
 
