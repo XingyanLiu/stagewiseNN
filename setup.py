@@ -103,6 +103,10 @@ setup(
     python_requires=REQUIRES_PYTHON,
     url=URL,
     packages=find_packages(exclude=["tests", "*.tests", "*.tests.*", "tests.*"]),
+    # package_data={"": [os.path.join(here, "sample_data/subsampled_B-L0-0.2.h5ad.rar"),
+    #                    os.path.join(here, "sample_data/hvg_frequencies.csv"),
+    #                    os.path.join(here, "sample_data/lineage_colors.csv")]},
+    # additional package data
     install_requires=REQUIRED,
     extras_require=EXTRAS,
     include_package_data=True,
@@ -123,3 +127,8 @@ setup(
     },
 )
 
+# ===== MANIFEST.in =====
+# include ./sample_data/subsampled_B-L0-0.2.h5ad.rar
+# include ./sample_data/hvg_frequencies.csv
+# include ./sample_data/lineage_colors.csv
+# include README.md
