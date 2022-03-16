@@ -37,8 +37,14 @@ Requirements:
 - scanpy: https://scanpy.readthedocs.io/en/stable/installation.html
 - scikit-learn: https://pypi.org/project/scikit-learn/
 
+Install stagewiseNN with PyPI, run:
 
-Install from source code:
+.. code-block:: PowerShell
+
+   pip install swnn
+
+
+Alternatively, install from source code:
 
 .. code:: shell
 

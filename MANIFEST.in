@@ -1,0 +1,4 @@
+include ./sample_data/subsampled_B-L0-0.2.h5ad.rar
+include ./sample_data/hvg_frequencies.csv
+include ./sample_data/lineage_colors.csv
+include README.md

@@ -14,4 +14,4 @@ from .graph2tree import (
 )
 from .builder import Builder
 
-
+__version__ = '0.1.0'

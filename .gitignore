@@ -16,6 +16,6 @@ __pycache__
 
 _tmp*
 
-#dist/
-#build/
-#*.egg-info
+dist/
+build/
+*.egg-info
