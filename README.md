@@ -18,8 +18,8 @@ and adaptive cluster refinement.
 
 The single-cell graph can be further visualized using graph embedding methods, e.g. UMAP, SPRING.
 
-We have used it to build the developmental tree from Amphioxus embryonic cells, across
-nine developmental stages ("B", "G3", "G4", "G5", "G6", "N0", "N1", "N3", "L0"),
+We have used it to build the developmental tree from the **snRNA-seq** of amphioxus embryonic cells, 
+across nine developmental stages ("B", "G3", "G4", "G5", "G6", "N0", "N1", "N3", "L0"),
 where seven major lineages were recognized.
 
 <img src="docs/source/_figs/umap_rna.png" height="220"/>
