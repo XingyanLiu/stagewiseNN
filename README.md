@@ -1,6 +1,9 @@
 stagewiseNN
 ===========
 
+[//]: # (https://zenodo.org/badge/386473402.svg)
+[![DOI](https://zenodo.org/badge/386473402.svg)](https://zenodo.org/badge/latestdoi/386473402)
+
 **stagewiseNN** is a computational tool for constructing
 developmental tree from Multi-staged single-cell RNA-seq data.
 
@@ -10,7 +13,9 @@ It starts from building a single-cell graph by connecting each cell to its
 k-nearest neighbors in the parent stage, followed by voting-based tree-construction
 and adaptive cluster refinement.
 
-![StagewiseNN](docs/source/_figs/stagewisenn.png)
+![StagewiseNN](docs/source/_figs/swnn_overview.png)
+
+[//]: # (![StagewiseNN]&#40;docs/source/_figs/stagewisenn.png&#41;)
 
 It is easy to use:
 
