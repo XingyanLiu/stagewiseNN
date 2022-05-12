@@ -13,7 +13,9 @@ It starts from building a single-cell graph by connecting each cell to its
 k-nearest neighbors in the parent stage, followed by voting-based tree-construction
 and adaptive cluster refinement.
 
-![StagewiseNN](docs/source/_figs/swnn_overview.png)
+[//]: # (![StagewiseNN]&#40;docs/source/_figs/swnn_overview.png&#41;)
+<img src="docs/source/_figs/swnn_overview.png" height="250"/>
+
 
 [//]: # (![StagewiseNN]&#40;docs/source/_figs/stagewisenn.png&#41;)
 
@@ -23,12 +25,12 @@ We have used it to build the developmental tree from Amphioxus embryonic cells, 
 nine developmental stages ("B", "G3", "G4", "G5", "G6", "N0", "N1", "N3", "L0"),
 where seven major lineages were recognized.
 
-<img src="docs/source/_figs/umap_rna.png" height="180"/>
+<img src="docs/source/_figs/umap_rna.png" height="250"/>
 
 StagewiseNN can also be applied on **scATAC-seq** data sampled at multiple timepoints,
 once the peak-by-cell matrix is transformed into the gene activities (i.e., a gene-by-cell matrix).
 
-<img src="docs/source/_figs/umap_atac.png" height="180"/>
+<img src="docs/source/_figs/umap_atac.png" height="250"/>
 
 It is easy to use:
 
