@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
-  <title>stagewiseNN - Building developmental tree from scRNA-seq &mdash; stagewiseNN 0.1 documentation</title>
+  <title>StagewiseNN - Building developmental tree from single-cell data &mdash; stagewiseNN 0.1 documentation</title>
   
 
   
@@ -141,7 +141,7 @@
     
       <li><a href="#" class="icon icon-home"></a> &raquo;</li>
         
-      <li>stagewiseNN - Building developmental tree from scRNA-seq</li>
+      <li>StagewiseNN - Building developmental tree from single-cell data</li>
     
     
       <li class="wy-breadcrumbs-aside">
@@ -184,20 +184,23 @@
     text-align: unset;
 }
 </style>
-<div class="section" id="stagewisenn-building-developmental-tree-from-scrna-seq">
-<h1>stagewiseNN - Building developmental tree from scRNA-seq<a class="headerlink" href="#stagewisenn-building-developmental-tree-from-scrna-seq" title="Permalink to this headline">¶</a></h1>
-<p><strong>stagewiseNN</strong> is a computational tool for constructing
+<div class="section" id="stagewisenn-building-developmental-tree-from-single-cell-data">
+<h1>StagewiseNN - Building developmental tree from single-cell data<a class="headerlink" href="#stagewisenn-building-developmental-tree-from-single-cell-data" title="Permalink to this headline">¶</a></h1>
+<p><strong>StagewiseNN</strong> is a computational tool for constructing
 developmental (lineage) tree from Multi-staged single-cell RNA-seq data.</p>
 <p>It starts from building a single-cell graph by connecting each cell to its
 k-nearest neighbors in the parent stage, followed by voting-based tree-construction
 and adaptive cluster refinement.</p>
-<a class="reference internal image-reference" href="_images/stagewisenn.png"><img alt="_images/stagewisenn.png" src="_images/stagewisenn.png" style="height: 250px;" /></a>
+<a class="reference internal image-reference" href="_images/swnn_overview.png"><img alt="_images/swnn_overview.png" src="_images/swnn_overview.png" style="height: 250px;" /></a>
 <p>The single-cell graph can be further visualized using graph embedding methods, e.g. UMAP, SPRING.</p>
 <p>We have used it to build the developmental tree from Amphioxus embryonic cells, across
-nine developmental stages (“B”, “G3”, “G4”, “G5”, “G6”, “N0”, “N1”, “N3”, “L0”).
-And seven major lineages were recognized.</p>
+nine developmental stages (“B”, “G3”, “G4”, “G5”, “G6”, “N0”, “N1”, “N3”, “L0”),
+where seven major lineages were recognized.</p>
 <a class="reference internal image-reference" href="_images/umap_stage.png"><img alt="_images/umap_stage.png" src="_images/umap_stage.png" style="height: 200px;" /></a>
 <a class="reference internal image-reference" href="_images/umap_lineage.png"><img alt="_images/umap_lineage.png" src="_images/umap_lineage.png" style="height: 200px;" /></a>
+<p>StagewiseNN can also be applied on <strong>scATAC-seq</strong> data sampled at multiple timepoints,
+once the peak-by-cell matrix is transformed into the gene activities (i.e., a gene-by-cell matrix).</p>
+<a class="reference internal image-reference" href="_images/umap_atac.png"><img alt="_images/umap_atac.png" src="_images/umap_atac.png" style="height: 200px;" /></a>
 <div class="section" id="installation">
 <h2>Installation<a class="headerlink" href="#installation" title="Permalink to this headline">¶</a></h2>
 <p>Requirements:</p>
@@ -229,13 +232,12 @@ python setup.py install
 <span class="c1"># stage_order = [f&#39;stage_{i}&#39; for i in range(5)]</span>
 
 <span class="n">builder</span> <span class="o">=</span> <span class="n">swnn</span><span class="o">.</span><span class="n">Builder</span><span class="p">(</span><span class="n">stage_order</span><span class="o">=</span><span class="n">stage_order</span><span class="p">)</span>
-<span class="c1"># step1:</span>
-<span class="c1"># building (stage-wise) single-cell graph</span>
+
+<span class="c1"># step1: building a (stage-preserved) single-cell graph</span>
 <span class="n">distmat</span><span class="p">,</span> <span class="n">connect</span> <span class="o">=</span> <span class="n">builder</span><span class="o">.</span><span class="n">build_graph</span><span class="p">(</span>
         <span class="n">X</span><span class="o">=</span><span class="n">data_matrix</span><span class="p">,</span> <span class="n">stage_lbs</span><span class="o">=</span><span class="n">stage_labels</span><span class="p">,</span>
     <span class="p">)</span>
-<span class="c1"># step2:</span>
-<span class="c1"># build developmental tree from single-cell graph</span>
+<span class="c1"># step2: build a developmental tree from the single-cell graph</span>
 <span class="n">edgedf</span><span class="p">,</span> <span class="n">refined_group_lbs</span> <span class="o">=</span> <span class="n">builder</span><span class="o">.</span><span class="n">build_tree</span><span class="p">(</span><span class="n">group_labels</span><span class="p">,</span> <span class="n">stage_labels</span><span class="p">,)</span>
 </pre></div>
 </div>
@@ -260,13 +262,6 @@ We have a mailing list located at:</p>
 <li><p><a class="reference external" href="mailto:xingyan&#37;&#52;&#48;amss&#46;ac&#46;cn">xingyan<span>&#64;</span>amss<span>&#46;</span>ac<span>&#46;</span>cn</a></p></li>
 <li><p><a class="reference external" href="mailto:544568643&#37;&#52;&#48;qq&#46;com">544568643<span>&#64;</span>qq<span>&#46;</span>com</a></p></li>
 </ul>
-</div>
-<div class="section" id="citation">
-<h2>Citation<a class="headerlink" href="#citation" title="Permalink to this headline">¶</a></h2>
-<p>If you find StagewiseNN helps, Please cite:</p>
-<blockquote>
-<div><p>Pengcheng Ma, Xingyan Liu, Zaoxu Xu et al. <strong>Joint profiling of gene expression and chromatin accessibility of amphioxus development at single cell resolution</strong>, 18 May 2021, PREPRINT (Version 1) available at Research Square [<a class="reference external" href="https://doi.org/10.21203/rs.3.rs-504113/v1">https://doi.org/10.21203/rs.3.rs-504113/v1</a>]</p>
-</div></blockquote>
 <div class="toctree-wrapper compound">
 <p class="caption" role="heading"><span class="caption-text">Contents</span></p>
 <ul>
@@ -278,11 +273,10 @@ We have a mailing list located at:</p>
 </div>
 </div>
 </div>
-<div class="section" id="indices-and-tables">
-<h1>Indices and tables<a class="headerlink" href="#indices-and-tables" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="indices">
+<h1>Indices<a class="headerlink" href="#indices" title="Permalink to this headline">¶</a></h1>
 <ul class="simple">
 <li><p><a class="reference internal" href="genindex.html"><span class="std std-ref">Index</span></a></p></li>
-<li><p><a class="reference internal" href="search.html"><span class="std std-ref">Search Page</span></a></p></li>
 </ul>
 </div>
 

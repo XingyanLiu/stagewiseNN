@@ -103,9 +103,9 @@
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="#2-The-main-process">2 The main process</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#2.0-Setting-inputs-and-parameters">2.0 Setting inputs and parameters</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#2.1-Building-(stage-wise)-single-cell-graph">2.1 Building (stage-wise) single-cell graph</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#2.2-Build-developmental-tree-from-single-cell-graph">2.2 Build developmental tree from single-cell graph</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#2.0-Setting-inputs-and-the-parameters">2.0 Setting inputs and the parameters</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#2.1-Building-a-(stage-wise)-single-cell-graph">2.1 Building a (stage-wise) single-cell graph</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#2.2-Build-a-developmental-tree-from-the-single-cell-graph">2.2 Build a developmental tree from the single-cell graph</a></li>
 </ul>
 </li>
 </ul>
@@ -482,6 +482,7 @@ div.rendered_html tbody tr:hover {
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
 <span></span><span class="n">ROOT</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="s1">&#39;../&#39;</span><span class="p">)</span>
 <span class="n">sys</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">ROOT</span><span class="p">))</span>
+
 <span class="kn">import</span> <span class="nn">swnn</span>
 <span class="kn">from</span> <span class="nn">swnn</span> <span class="kn">import</span> <span class="n">describe_dataframe</span><span class="p">,</span> <span class="n">set_adata_hvgs</span><span class="p">,</span> <span class="n">change_names</span>
 </pre></div>
@@ -494,11 +495,8 @@ div.rendered_html tbody tr:hover {
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="n">DATADIR</span> <span class="o">=</span> <span class="n">ROOT</span> <span class="o">/</span> <span class="s1">&#39;sample_data&#39;</span>
-<span class="n">resdir</span> <span class="o">=</span> <span class="n">ROOT</span> <span class="o">/</span> <span class="s1">&#39;_temp&#39;</span>
+<span></span><span class="n">resdir</span> <span class="o">=</span> <span class="n">ROOT</span> <span class="o">/</span> <span class="s1">&#39;_temp&#39;</span>  <span class="c1"># The result directory, reset by user!</span>
 <span class="n">swnn</span><span class="o">.</span><span class="n">check_dirs</span><span class="p">(</span><span class="n">resdir</span><span class="p">)</span>
-
-<span class="n">path_adata</span> <span class="o">=</span> <span class="n">DATADIR</span> <span class="o">/</span> <span class="s1">&#39;subsampled_B-L0-0.2.h5ad&#39;</span>
 </pre></div>
 </div>
 </div>
@@ -511,13 +509,16 @@ already exists:
         ../_temp
 </pre></div></div>
 </div>
-<p>Load sample data (an <code class="docutils literal notranslate"><span class="pre">AnnData</span></code> object)</p>
+<p>Load the sample data (as an <code class="docutils literal notranslate"><span class="pre">AnnData</span></code> object)</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="n">adata_raw</span> <span class="o">=</span> <span class="n">sc</span><span class="o">.</span><span class="n">read_h5ad</span><span class="p">(</span><span class="n">path_adata</span><span class="p">)</span>
+<span></span><span class="n">DATADIR</span> <span class="o">=</span> <span class="n">ROOT</span> <span class="o">/</span> <span class="s1">&#39;sample_data&#39;</span>                     <span class="c1"># reset by user!</span>
+<span class="n">path_adata</span> <span class="o">=</span> <span class="n">DATADIR</span> <span class="o">/</span> <span class="s1">&#39;subsampled_B-L0-0.2.h5ad&#39;</span>  <span class="c1"># reset by user!</span>
+
+<span class="n">adata_raw</span> <span class="o">=</span> <span class="n">sc</span><span class="o">.</span><span class="n">read_h5ad</span><span class="p">(</span><span class="n">path_adata</span><span class="p">)</span>
 <span class="n">adata_raw</span>
 </pre></div>
 </div>
@@ -553,7 +554,7 @@ AnnData object with n_obs × n_vars = 29775 × 24410
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="c1"># way 1, most commonly adopted</span>
+<span></span><span class="c1"># way 1, the most commonly adopted</span>
 <span class="n">adata_norm</span> <span class="o">=</span> <span class="n">swnn</span><span class="o">.</span><span class="n">normalize_default</span><span class="p">(</span><span class="n">adata_raw</span><span class="p">,</span> <span class="n">target_sum</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">copy</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="p">)</span>
 </pre></div>
 </div>
@@ -582,12 +583,13 @@ AnnData object with n_obs × n_vars = 29775 × 24410
 </pre></div>
 </div>
 </div>
+<p>Take the HVGs that are detected on more that 3 stages:</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="n">hvgs</span> <span class="o">=</span> <span class="n">swnn</span><span class="o">.</span><span class="n">take_high_freq_elements</span><span class="p">(</span><span class="n">hvg_freq</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
+<span></span><span class="n">hvgs</span> <span class="o">=</span> <span class="n">swnn</span><span class="o">.</span><span class="n">take_high_freq_elements</span><span class="p">(</span><span class="n">hvg_freq</span><span class="p">,</span> <span class="n">min_freq</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Total of </span><span class="si">%d</span><span class="s1"> HVGs are used.&#39;</span> <span class="o">%</span> <span class="nb">len</span><span class="p">(</span><span class="n">hvgs</span><span class="p">))</span>
 </pre></div>
 </div>
@@ -601,7 +603,9 @@ Total of 4613 HVGs are used.
 </pre></div></div>
 </div>
 <p><strong>NOTE</strong></p>
-<p>If you have already computed the HVG frequencies, you can directly load them, and take ones with high-frequencies.</p>
+<ul class="simple">
+<li><p>If you have already computed the HVG frequencies, you can directly load them, and take ones with high-frequencies.</p></li>
+</ul>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">hvg_freq</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">path_hvg_freq</span><span class="p">,</span> <span class="n">index_col</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">header</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span><span class="o">.</span><span class="n">iloc</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">to_dict</span><span class="p">()</span>
 <span class="n">hvgs</span> <span class="o">=</span> <span class="n">swnn</span><span class="o">.</span><span class="n">take_high_freq_elements</span><span class="p">(</span><span class="n">hvg_freq</span><span class="p">,</span> <span class="n">min_freq</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
 </pre></div>
@@ -652,8 +656,8 @@ Total of 4613 HVGs are used.
 </div>
 <div class="section" id="2-The-main-process">
 <h2>2 The main process<a class="headerlink" href="#2-The-main-process" title="Permalink to this headline">¶</a></h2>
-<div class="section" id="2.0-Setting-inputs-and-parameters">
-<h3>2.0 Setting inputs and parameters<a class="headerlink" href="#2.0-Setting-inputs-and-parameters" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="2.0-Setting-inputs-and-the-parameters">
+<h3>2.0 Setting inputs and the parameters<a class="headerlink" href="#2.0-Setting-inputs-and-the-parameters" title="Permalink to this headline">¶</a></h3>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[12]:
 </pre></div>
@@ -686,8 +690,8 @@ Total of 4613 HVGs are used.
 </div>
 </div>
 </div>
-<div class="section" id="2.1-Building-(stage-wise)-single-cell-graph">
-<h3>2.1 Building (stage-wise) single-cell graph<a class="headerlink" href="#2.1-Building-(stage-wise)-single-cell-graph" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="2.1-Building-a-(stage-wise)-single-cell-graph">
+<h3>2.1 Building a (stage-wise) single-cell graph<a class="headerlink" href="#2.1-Building-a-(stage-wise)-single-cell-graph" title="Permalink to this headline">¶</a></h3>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[14]:
 </pre></div>
@@ -764,7 +768,7 @@ WARNING: saving figure to file ../_temp/umap_lineage.pdf
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/tutorial_tutorial_builder_based_27_1.png" src="../_images/tutorial_tutorial_builder_based_27_1.png" />
+<img alt="../_images/tutorial_tutorial_builder_based_28_1.png" src="../_images/tutorial_tutorial_builder_based_28_1.png" />
 </div>
 </div>
 <div class="nboutput docutils container">
@@ -779,13 +783,14 @@ WARNING: saving figure to file ../_temp/umap_stage.pdf
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/tutorial_tutorial_builder_based_27_3.png" src="../_images/tutorial_tutorial_builder_based_27_3.png" />
+<img alt="../_images/tutorial_tutorial_builder_based_28_3.png" src="../_images/tutorial_tutorial_builder_based_28_3.png" />
 </div>
 </div>
+<p>We can see that the UMAP-plot computed from the 20%-subsample is similar to that built from the full data.</p>
 </div>
 </div>
-<div class="section" id="2.2-Build-developmental-tree-from-single-cell-graph">
-<h3>2.2 Build developmental tree from single-cell graph<a class="headerlink" href="#2.2-Build-developmental-tree-from-single-cell-graph" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="2.2-Build-a-developmental-tree-from-the-single-cell-graph">
+<h3>2.2 Build a developmental tree from the single-cell graph<a class="headerlink" href="#2.2-Build-a-developmental-tree-from-the-single-cell-graph" title="Permalink to this headline">¶</a></h3>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[17]:
 </pre></div>
@@ -1002,12 +1007,17 @@ shape of the one-hot-labels: (4448, 17) (2164, 23)
 </table>
 </div></div>
 </div>
+<p>The values in ‘prop’ column of <code class="docutils literal notranslate"><span class="pre">edgedf</span></code> is the voting proportions from ‘node’ to the most likely ‘parent’.</p>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span>
+<span></span><span class="c1"># save the results</span>
+<span class="n">edgedf</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="n">resdir</span> <span class="o">/</span> <span class="s1">&#39;edgedf.csv&#39;</span><span class="p">)</span>
+
+<span class="c1"># set the refined labels</span>
+<span class="n">adata</span><span class="o">.</span><span class="n">obs</span><span class="p">[</span><span class="s1">&#39;refined_group&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">refined_group_lbs</span>
 </pre></div>
 </div>
 </div>

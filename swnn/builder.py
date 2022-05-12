@@ -1,10 +1,10 @@
 # -*- coding: UTF-8 -*-
-"""
-@CreateDate: 2021/07/25
-@Author: Xingyan Liu
-@File: builder.py
-@Project: stagewiseNN
-"""
+# """
+# @CreateDate: 2021/07/25
+# @Author: Xingyan Liu
+# @File: builder.py
+# @Project: stagewiseNN
+# """
 import os
 import sys
 from pathlib import Path
@@ -20,40 +20,27 @@ from .multipartite_graph import stagewise_knn
 from .graph2tree import max_connection, adaptive_tree
 
 
-class BuilderParams:
-
-    def __init__(self, **kwargs):
-
-        self._dict = {}
-        self.update(**kwargs)
-
-    def update(self, **kwargs):
-        self._dict.update(**kwargs)
-        return self
-
-    @property
-    def keys(self):
-        return self._dict.keys()
-
-    def __getattr__(self, key):
-        return self._dict[key]
-
-
 class Builder(object):
+    """ The wrapper object for conveniently building both
+    the single-cell graph and the coarse-grained tree.
+
+    Parameters
+    ----------
+    stage_order: Sequence
+        the order of stages
+
+    See Also
+    --------
+    stagewise_knn, adaptive_tree
+    """
 
     def __init__(
             self,
             stage_order: Sequence,
-            **build_params
+            # **build_params
     ):
-        """
-        Parameters
-        ----------
-        stage_order: Sequence
-            the order of stages
-        """
         self.stage_order = stage_order
-        self._params = BuilderParams(**build_params)
+        self._params = _BuilderParams()
         self._distmat = None
         self._connect = None
         self._stage_lbs = None
@@ -63,10 +50,12 @@ class Builder(object):
 
     @property
     def stage_lbs(self):
+        """The original stage labels"""
         return self._stage_lbs
 
     @property
     def group_lbs(self):
+        """The original group labels"""
         return self._group_lbs
 
     # @group_lbs.setter
@@ -74,26 +63,30 @@ class Builder(object):
     #     pass
 
     @property
-    def distmat(self):
+    def distmat(self) -> sparse.spmatrix:
+        """The single-cell distance graph"""
         return self._distmat
 
     @property
-    def connect(self):
+    def connect(self) -> sparse.spmatrix:
+        """The single-cell graph (connectivities)"""
         return self._connect
 
     @property
-    def connect_bin(self):
-        """ binarized edges """
+    def connect_bin(self) -> sparse.spmatrix:
+        """The single-cell graph (connectivities) with binary edges"""
         if self._connect is not None:
             return make_binary(self._connect)
         return None
 
     @property
-    def edgedf(self):
+    def edgedf(self) -> Union[None, pd.DataFrame]:
+        """the voting tree in a node-parent-proportion format"""
         return self._edgedf
 
     @property
     def refined_group_lbs(self):
+        """The refined group labels"""
         return self._refined_group_lbs
 
     def build_graph(
@@ -139,6 +132,10 @@ class Builder(object):
             the distance matrix, of shape (n_samples, n_samples)
         connect: sparse.csr_matrix
             the connectivities matrix, of shape (n_samples, n_samples)
+
+        See Also
+        --------
+        ``stagewise_knn``
         """
         self._stage_lbs = stage_lbs
         distmat, connect = stagewise_knn(
@@ -171,7 +168,7 @@ class Builder(object):
             self,
             group_lbs: Sequence,
             stage_lbs: Optional[Sequence] = None,
-            ignore_pa=(),
+            ignore_pa=[],
             ext_sep: str = '_',
     ):
         """
@@ -198,6 +195,10 @@ class Builder(object):
             the current parent.
         refined_group_lbs:
             refined group labels for each sample (e.g. single-cell)
+
+        See Also
+        --------
+        ``adaptive_tree``
         """
         # connect-matrix NOT calculated by StagewiseNN may cause un-expected
         # result by using `sparse.triu()`.
@@ -227,6 +228,25 @@ class Builder(object):
         )
 
         return edgedf, refined_group_lbs
+
+
+class _BuilderParams:
+
+    def __init__(self, **kwargs):
+
+        self._dict = {}
+        self.update(**kwargs)
+
+    def update(self, **kwargs):
+        self._dict.update(**kwargs)
+        return self
+
+    @property
+    def keys(self):
+        return self._dict.keys()
+
+    def __getattr__(self, key):
+        return self._dict[key]
 
 
 def __test__():

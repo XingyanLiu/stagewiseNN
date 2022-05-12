@@ -185,65 +185,82 @@
 </style>
 <div class="section" id="module-swnn.builder">
 <span id="swnn-builder-module"></span><h1>swnn.builder module<a class="headerlink" href="#module-swnn.builder" title="Permalink to this headline">¶</a></h1>
-<p>&#64;CreateDate: 2021/07/25
-&#64;Author: Xingyan Liu
-&#64;File: builder.py
-&#64;Project: stagewiseNN</p>
-<dl class="py class">
-<dt class="sig sig-object py" id="swnn.builder.BuilderParams">
-<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">swnn.builder.</span></span><span class="sig-name descname"><span class="pre">BuilderParams</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#swnn.builder.BuilderParams" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
-<dl class="py method">
-<dt class="sig sig-object py" id="swnn.builder.BuilderParams.update">
-<span class="sig-name descname"><span class="pre">update</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#swnn.builder.BuilderParams.update" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py property">
-<dt class="sig sig-object py" id="swnn.builder.BuilderParams.keys">
-<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">keys</span></span><a class="headerlink" href="#swnn.builder.BuilderParams.keys" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-</dd></dl>
-
 <dl class="py class">
 <dt class="sig sig-object py" id="swnn.builder.Builder">
-<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">swnn.builder.</span></span><span class="sig-name descname"><span class="pre">Builder</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">stage_order</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">build_params</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#swnn.builder.Builder" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">swnn.builder.</span></span><span class="sig-name descname"><span class="pre">Builder</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">stage_order</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#swnn.builder.Builder" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>The wrapper object for conveniently building both
+the single-cell graph and the coarse-grained tree.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>stage_order</strong> (<em>Sequence</em>) – the order of stages</p>
+</dd>
+</dl>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p><code class="xref py py-obj docutils literal notranslate"><span class="pre">stagewise_knn</span></code>, <code class="xref py py-obj docutils literal notranslate"><span class="pre">adaptive_tree</span></code></p>
+</div>
 <dl class="py property">
 <dt class="sig sig-object py" id="swnn.builder.Builder.stage_lbs">
 <em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">stage_lbs</span></span><a class="headerlink" href="#swnn.builder.Builder.stage_lbs" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>The original stage labels</p>
+</dd></dl>
 
 <dl class="py property">
 <dt class="sig sig-object py" id="swnn.builder.Builder.group_lbs">
 <em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">group_lbs</span></span><a class="headerlink" href="#swnn.builder.Builder.group_lbs" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>The original group labels</p>
+</dd></dl>
 
 <dl class="py property">
 <dt class="sig sig-object py" id="swnn.builder.Builder.distmat">
-<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">distmat</span></span><a class="headerlink" href="#swnn.builder.Builder.distmat" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">distmat</span></span><em class="property"><span class="pre">:</span> <span class="pre">scipy.sparse.base.spmatrix</span></em><a class="headerlink" href="#swnn.builder.Builder.distmat" title="Permalink to this definition">¶</a></dt>
+<dd><p>The single-cell distance graph</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">spmatrix</span></code></p>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py property">
 <dt class="sig sig-object py" id="swnn.builder.Builder.connect">
-<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">connect</span></span><a class="headerlink" href="#swnn.builder.Builder.connect" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">connect</span></span><em class="property"><span class="pre">:</span> <span class="pre">scipy.sparse.base.spmatrix</span></em><a class="headerlink" href="#swnn.builder.Builder.connect" title="Permalink to this definition">¶</a></dt>
+<dd><p>The single-cell graph (connectivities)</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">spmatrix</span></code></p>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py property">
 <dt class="sig sig-object py" id="swnn.builder.Builder.connect_bin">
-<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">connect_bin</span></span><a class="headerlink" href="#swnn.builder.Builder.connect_bin" title="Permalink to this definition">¶</a></dt>
-<dd><p>binarized edges</p>
+<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">connect_bin</span></span><em class="property"><span class="pre">:</span> <span class="pre">scipy.sparse.base.spmatrix</span></em><a class="headerlink" href="#swnn.builder.Builder.connect_bin" title="Permalink to this definition">¶</a></dt>
+<dd><p>The single-cell graph (connectivities) with binary edges</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">spmatrix</span></code></p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py property">
 <dt class="sig sig-object py" id="swnn.builder.Builder.edgedf">
-<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">edgedf</span></span><a class="headerlink" href="#swnn.builder.Builder.edgedf" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">edgedf</span></span><em class="property"><span class="pre">:</span> <span class="pre">Union[None,</span> <span class="pre">pandas.core.frame.DataFrame]</span></em><a class="headerlink" href="#swnn.builder.Builder.edgedf" title="Permalink to this definition">¶</a></dt>
+<dd><p>the voting tree in a node-parent-proportion format</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">DataFrame</span></code>]</p>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py property">
 <dt class="sig sig-object py" id="swnn.builder.Builder.refined_group_lbs">
 <em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">refined_group_lbs</span></span><a class="headerlink" href="#swnn.builder.Builder.refined_group_lbs" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>The refined group labels</p>
+</dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="swnn.builder.Builder.build_graph">
@@ -275,11 +292,15 @@ Setting as 1 for brute-force (exact) KNN.</p></li>
 </p>
 </dd>
 </dl>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p><code class="docutils literal notranslate"><span class="pre">stagewise_knn</span></code></p>
+</div>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="swnn.builder.Builder.build_tree">
-<span class="sig-name descname"><span class="pre">build_tree</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">group_lbs</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">stage_lbs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ignore_pa</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">()</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ext_sep</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'_'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#swnn.builder.Builder.build_tree" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">build_tree</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">group_lbs</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">stage_lbs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ignore_pa</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ext_sep</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'_'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#swnn.builder.Builder.build_tree" title="Permalink to this definition">¶</a></dt>
 <dd><p>Adaptatively build the developmental tree from the stagewise-KNN graph.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -302,6 +323,10 @@ the current parent.</p></li>
 </p>
 </dd>
 </dl>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p><code class="docutils literal notranslate"><span class="pre">adaptive_tree</span></code></p>
+</div>
 </dd></dl>
 
 </dd></dl>

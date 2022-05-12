@@ -1,10 +1,10 @@
-stagewiseNN
+StagewiseNN
 ===========
 
 [//]: # (https://zenodo.org/badge/386473402.svg)
 [![DOI](https://zenodo.org/badge/386473402.svg)](https://zenodo.org/badge/latestdoi/386473402)
 
-**stagewiseNN** is a computational tool for constructing
+**StagewiseNN** is a computational tool for constructing
 developmental tree from Multi-staged single-cell RNA-seq data.
 
 (see [StagewiseNN Documentation ](https://xingyanliu.github.io/stagewiseNN/index.html) for detailed guides)
@@ -16,6 +16,19 @@ and adaptive cluster refinement.
 ![StagewiseNN](docs/source/_figs/swnn_overview.png)
 
 [//]: # (![StagewiseNN]&#40;docs/source/_figs/stagewisenn.png&#41;)
+
+The single-cell graph can be further visualized using graph embedding methods, e.g. UMAP, SPRING.
+
+We have used it to build the developmental tree from Amphioxus embryonic cells, across
+nine developmental stages ("B", "G3", "G4", "G5", "G6", "N0", "N1", "N3", "L0"),
+where seven major lineages were recognized.
+
+<img src="docs/source/_figs/umap_rna.png" height="180"/>
+
+StagewiseNN can also be applied on **scATAC-seq** data sampled at multiple timepoints,
+once the peak-by-cell matrix is transformed into the gene activities (i.e., a gene-by-cell matrix).
+
+<img src="docs/source/_figs/umap_atac.png" height="180"/>
 
 It is easy to use:
 
@@ -29,14 +42,14 @@ import swnn
 # stage_order = [f'stage_{i}' for i in range(5)]
 
 builder = swnn.Builder(stage_order=stage_order)
-# step 1:
-# building (stage-wise) single-cell graph
+
+# step1: building a (stage-preserved) single-cell graph
 distmat, connect = builder.build_graph(
-        X=data_matrix, stage_lbs=stage_labels,
-    )
-# step 2:
-# build developmental tree from single-cell graph
-builder.build_tree(group_labels, stage_labels,)
+       X=data_matrix, stage_lbs=stage_labels,
+   )
+# step2: build a developmental tree from the single-cell graph
+edgedf, refined_group_lbs = builder.build_tree(group_labels, stage_labels,)
+
 ```
 
 
