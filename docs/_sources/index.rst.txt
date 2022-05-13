@@ -14,7 +14,7 @@ k-nearest neighbors in the parent stage, followed by voting-based tree-construct
 and adaptive cluster refinement.
 
 .. image:: _figs/swnn_overview.png
-   :height: 250px
+   :height: 300px
 
 The single-cell graph can be further visualized using graph embedding methods, e.g. UMAP, SPRING.
 
@@ -22,17 +22,14 @@ We have used it to build the developmental tree from the **snRNA-seq** of amphio
 nine developmental stages ("B", "G3", "G4", "G5", "G6", "N0", "N1", "N3", "L0"),
 where seven major lineages were recognized.
 
-.. image:: _figs/umap_stage.png
-   :height: 200px
-
-.. image:: _figs/umap_lineage.png
-   :height: 200px
+.. image:: _figs/umap_rna1.png
+   :height: 220px
 
 StagewiseNN can also be applied on **scATAC-seq** data sampled at multiple timepoints,
 once the peak-by-cell matrix is transformed into the gene activities (i.e., a gene-by-cell matrix).
 
 .. image:: _figs/umap_atac.png
-   :height: 200px
+   :height: 217px
 
 Installation
 ------------

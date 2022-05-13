@@ -191,16 +191,15 @@ developmental (lineage) tree from Multi-staged single-cell RNA-seq data.</p>
 <p>It starts from building a single-cell graph by connecting each cell to its
 k-nearest neighbors in the parent stage, followed by voting-based tree-construction
 and adaptive cluster refinement.</p>
-<a class="reference internal image-reference" href="_images/swnn_overview.png"><img alt="_images/swnn_overview.png" src="_images/swnn_overview.png" style="height: 250px;" /></a>
+<a class="reference internal image-reference" href="_images/swnn_overview.png"><img alt="_images/swnn_overview.png" src="_images/swnn_overview.png" style="height: 300px;" /></a>
 <p>The single-cell graph can be further visualized using graph embedding methods, e.g. UMAP, SPRING.</p>
 <p>We have used it to build the developmental tree from the <strong>snRNA-seq</strong> of amphioxus embryonic cells, across
 nine developmental stages (“B”, “G3”, “G4”, “G5”, “G6”, “N0”, “N1”, “N3”, “L0”),
 where seven major lineages were recognized.</p>
-<a class="reference internal image-reference" href="_images/umap_stage.png"><img alt="_images/umap_stage.png" src="_images/umap_stage.png" style="height: 200px;" /></a>
-<a class="reference internal image-reference" href="_images/umap_lineage.png"><img alt="_images/umap_lineage.png" src="_images/umap_lineage.png" style="height: 200px;" /></a>
+<a class="reference internal image-reference" href="_images/umap_rna1.png"><img alt="_images/umap_rna1.png" src="_images/umap_rna1.png" style="height: 220px;" /></a>
 <p>StagewiseNN can also be applied on <strong>scATAC-seq</strong> data sampled at multiple timepoints,
 once the peak-by-cell matrix is transformed into the gene activities (i.e., a gene-by-cell matrix).</p>
-<a class="reference internal image-reference" href="_images/umap_atac.png"><img alt="_images/umap_atac.png" src="_images/umap_atac.png" style="height: 200px;" /></a>
+<a class="reference internal image-reference" href="_images/umap_atac.png"><img alt="_images/umap_atac.png" src="_images/umap_atac.png" style="height: 217px;" /></a>
 <div class="section" id="installation">
 <h2>Installation<a class="headerlink" href="#installation" title="Permalink to this headline">¶</a></h2>
 <p>Requirements:</p>
