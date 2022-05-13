@@ -26,7 +26,7 @@ where seven major lineages were recognized.
    :height: 220px
 
 StagewiseNN can also be applied on **scATAC-seq** data sampled at multiple timepoints,
-once the peak-by-cell matrix is transformed into the gene activities (i.e., a gene-by-cell matrix).
+once the peak-by-cell matrix is transformed into a gene-by-cell matrix (i.e., the gene activities).
 
 .. image:: _figs/umap_atac.png
    :height: 217px
