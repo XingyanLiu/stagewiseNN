@@ -7,11 +7,11 @@ StagewiseNN - Building developmental tree from single-cell data
 ===============================================================
 
 **StagewiseNN** is a computational tool for constructing
-developmental (lineage) tree from Multi-staged single-cell RNA-seq data.
+developmental (lineage) tree from multi-staged single-cell RNA-seq data.
 
 It starts from building a single-cell graph by connecting each cell to its
-k-nearest neighbors in the parent stage, followed by voting-based tree-construction
-and adaptive cluster refinement.
+k-nearest neighbors in the parent stage, followed by the voting-based tree-construction
+and an adaptive cluster refinement.
 
 .. image:: _figs/swnn_overview.png
    :height: 300px

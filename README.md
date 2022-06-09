@@ -97,8 +97,11 @@ We have a mailing list located at:
 
 Citation
 --------
-If you find StagewiseNN helps, Please cite:
+If you find StagewiseNN helps, please cite:
 
-> Pengcheng Ma, Xingyan Liu, Zaoxu Xu et al. 
+> Pengcheng Ma, Xingyan Liu, Zaoxu Xu et al.,
 > **Joint profiling of gene expression and chromatin accessibility of amphioxus 
-> development at single cell resolution**, 18 May 2021, PREPRINT (Version 1) available at Research Square [https://doi.org/10.21203/rs.3.rs-504113/v1]
+> development at single-cell resolution**,
+> _Cell Reports_ (2022), https://doi.org/10.1016/j.celrep.2022.110979
+
+<img src="docs/source/_figs/graphic_summ.png" height="400"/>
